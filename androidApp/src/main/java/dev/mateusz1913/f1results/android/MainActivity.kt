@@ -3,7 +3,10 @@ package dev.mateusz1913.f1results.android
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import dev.mateusz1913.f1results.Greeting
-import android.widget.TextView
+import androidx.activity.compose.setContent
+import androidx.compose.material.Text
+import dev.mateusz1913.f1results.android.theme.F1ResultsColor
+import dev.mateusz1913.f1results.android.theme.F1ResultsTheme
 
 fun greet(): String {
     return Greeting().greeting()
@@ -12,9 +15,10 @@ fun greet(): String {
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-
-        val tv: TextView = findViewById(R.id.text_view)
-        tv.text = greet()
+        setContent {
+            F1ResultsTheme {
+                Text(text = greet(), color = F1ResultsColor.Primary)
+            }
+        }
     }
 }
