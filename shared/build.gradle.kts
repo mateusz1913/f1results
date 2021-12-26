@@ -11,11 +11,14 @@ kotlin {
     iosX64()
     iosArm64()
     //iosSimulatorArm64() sure all ios dependencies support this target
+    jvm()
+    macosX64("macOS")
 
     cocoapods {
         summary = "Some description for the Shared Module"
         homepage = "Link to the Shared Module homepage"
         ios.deploymentTarget = "14.1"
+        osx.deploymentTarget = "10.14"
         podfile = project.file("../iosApp/Podfile")
         framework {
             baseName = "shared"
@@ -55,6 +58,8 @@ kotlin {
             iosArm64Test.dependsOn(this)
             //iosSimulatorArm64Test.dependsOn(this)
         }
+        val jvmMain by getting
+        val macOSMain by getting
     }
 }
 

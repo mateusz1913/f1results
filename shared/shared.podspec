@@ -12,6 +12,7 @@ Pod::Spec.new do |spec|
     spec.module_name              = "#{spec.name}_umbrella"
 
     spec.ios.deployment_target = '14.1'
+    spec.osx.deployment_target = '10.14'
 
                 
 
