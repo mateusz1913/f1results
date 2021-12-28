@@ -8,4 +8,6 @@ pluginManagement {
 }
 
 rootProject.name = "f1results"
-include(":androidApp", ":desktop", ":shared")
+include(":shared")
+include(":androidApp")
+include(":desktop")
