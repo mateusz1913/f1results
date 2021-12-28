@@ -2,6 +2,8 @@ package dev.mateusz1913.f1results.repository.services
 
 import dev.mateusz1913.f1results.createKtorClient
 import dev.mateusz1913.f1results.repository.models.race_schedule.RaceScheduleResponse
+import dev.mateusz1913.f1results.repository.models.race_schedule.RaceScheduleData
+import dev.mateusz1913.f1results.repository.models.race_schedule.RaceType
 import io.ktor.client.*
 import io.ktor.client.request.*
 
@@ -11,13 +13,18 @@ class RaceScheduleApi(
 ) {
     suspend fun getSpecificRaceSchedule(
         season: String,
-        round: String?
-    ): RaceScheduleResponse {
-        var paramString = "/$season"
-        if (round != null) {
-            paramString += "/$round"
+        round: Int,
+    ): RaceType? {
+        val paramString = "/$season/$round"
+        try {
+            val response = client.get<RaceScheduleResponse>("$baseUrl$paramString.json")
+            if (response.data.raceTable.races.isEmpty()) {
+                return null
+            }
+            return response.data.raceTable.races[0]
+        } catch (e: Exception) {
+            return null
         }
-        return client.get("$baseUrl$paramString.json")
     }
 
     suspend fun getRaceSchedules(
@@ -26,12 +33,12 @@ class RaceScheduleApi(
         season: String?,
         circuitId: String?,
         constructorId: String?,
-        driverId: Int?,
+        driverId: String?,
         grid: Int?,
         fastest: Int?,
         results: Int?,
         statusId: String?,
-    ): RaceScheduleResponse {
+    ): RaceScheduleData? {
         val queryString = "?limit=${limit ?: 30}&offset=${offset ?: 0}"
         var paramString = ""
         if (season != null) {
@@ -58,6 +65,11 @@ class RaceScheduleApi(
         if (statusId != null) {
             paramString += "/status/$statusId"
         }
-        return client.get("$baseUrl$paramString/races.json$queryString")
+        return try {
+            val response = client.get<RaceScheduleResponse>("$baseUrl$paramString/races.json$queryString")
+            response.data
+        } catch (e: Exception) {
+            return null
+        }
     }
 }

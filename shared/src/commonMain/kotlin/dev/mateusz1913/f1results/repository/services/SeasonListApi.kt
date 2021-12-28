@@ -2,6 +2,7 @@ package dev.mateusz1913.f1results.repository.services
 
 import dev.mateusz1913.f1results.createKtorClient
 import dev.mateusz1913.f1results.repository.models.season_list.SeasonListResponse
+import dev.mateusz1913.f1results.repository.models.season_list.SeasonListData
 import io.ktor.client.*
 import io.ktor.client.request.*
 
@@ -14,15 +15,15 @@ class SeasonListApi(
         offset: Int?,
         circuitId: String?,
         constructorId: String?,
-        constructorStandings: String?,
-        driverId: Int?,
+        constructorStandings: Int?,
+        driverId: String?,
         driverStandings: Int?,
         grid: Int?,
         fastest: Int?,
         results: Int?,
         statusId: String?,
         order: String?,
-    ): SeasonListResponse {
+    ): SeasonListData? {
         val queryString = "?limit=${limit ?: 30}&offset=${offset ?: 0}"
         var paramString = ""
         if (circuitId != null) {
@@ -52,10 +53,14 @@ class SeasonListApi(
         if (statusId != null) {
             paramString += "/status/$statusId"
         }
-        val response = client.get<SeasonListResponse>("$baseUrl$paramString/seasons.json$queryString")
-        if (order == "desc") {
-            response.MRData.SeasonTable.Seasons.reverse()
+        return try {
+            val response = client.get<SeasonListResponse>("$baseUrl$paramString/seasons.json$queryString")
+            if (order == "desc") {
+                response.data.seasonTable.seasons.reverse()
+            }
+            response.data
+        } catch (e: Exception) {
+            null
         }
-        return response
     }
 }

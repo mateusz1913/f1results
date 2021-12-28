@@ -2,6 +2,8 @@ package dev.mateusz1913.f1results.repository.services
 
 import dev.mateusz1913.f1results.createKtorClient
 import dev.mateusz1913.f1results.repository.models.race_results.RaceResultsResponse
+import dev.mateusz1913.f1results.repository.models.race_results.RaceResultsData
+import dev.mateusz1913.f1results.repository.models.race_results.RaceWithResultsType
 import io.ktor.client.*
 import io.ktor.client.request.*
 
@@ -11,18 +13,23 @@ class RaceResultsApi(
 ) {
     suspend fun getSpecificRaceResult(
         season: String,
-        round: String?,
+        round: Int,
         position: Int?
-    ): RaceResultsResponse {
-        var paramString = "/$season"
-        if (round != null) {
-            paramString += "/$round"
-        }
+    ): RaceWithResultsType? {
+        val paramString = "/$season/$round"
         var positionString = ""
         if (position != null) {
             positionString += "/$position"
         }
-        return client.get("$baseUrl$paramString/results$positionString.json")
+        try {
+            val response = client.get<RaceResultsResponse>("$baseUrl$paramString/results$positionString.json")
+            if (response.data.raceTable.races.isEmpty()) {
+                return null
+            }
+            return response.data.raceTable.races[0]
+        } catch (e: Exception) {
+            return null
+        }
     }
 
     suspend fun getRaceResults(
@@ -31,12 +38,12 @@ class RaceResultsApi(
         season: String?,
         circuitId: String?,
         constructorId: String?,
-        driverId: Int?,
+        driverId: String?,
         grid: Int?,
         fastest: Int?,
         statusId: String?,
         position: Int?
-    ): RaceResultsResponse {
+    ): RaceResultsData? {
         val queryString = "?limit=${limit ?: 30}&offset=${offset ?: 0}"
         var paramString = ""
         if (season != null) {
@@ -64,6 +71,11 @@ class RaceResultsApi(
         if (position != null) {
             positionString += "/$position"
         }
-        return client.get("$baseUrl$paramString/results$positionString.json$queryString")
+        return try {
+            val response = client.get<RaceResultsResponse>("$baseUrl$paramString/results$positionString.json$queryString")
+            response.data
+        } catch (e: Exception) {
+            return null
+        }
     }
 }

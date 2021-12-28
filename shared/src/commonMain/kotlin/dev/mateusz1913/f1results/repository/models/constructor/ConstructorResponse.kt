@@ -1,4 +1,4 @@
-package dev.mateusz1913.f1results.repository.models.season_list
+package dev.mateusz1913.f1results.repository.models.constructor
 
 import dev.mateusz1913.f1results.repository.models.base.BaseResponse
 import dev.mateusz1913.f1results.repository.models.base.BaseData
@@ -6,36 +6,40 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class SeasonType(
-    @SerialName("season")
-    val season: String,
+data class ConstructorType(
+    @SerialName("constructorId")
+    val constructorId: String,
     @SerialName("url")
-    val url: String
+    val url: String?,
+    @SerialName("name")
+    val name: String,
+    @SerialName("nationality")
+    val nationality: String,
 )
 
 @Serializable
-data class SeasonTableType(
-    @SerialName("Seasons")
-    val seasons: Array<SeasonType>
+data class ConstructorTableType(
+    @SerialName("Constructors")
+    val constructors: Array<ConstructorType>
 ) {
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (other == null || this::class != other::class) return false
 
-        other as SeasonTableType
+        other as ConstructorTableType
 
-        if (!seasons.contentEquals(other.seasons)) return false
+        if (!constructors.contentEquals(other.constructors)) return false
 
         return true
     }
 
     override fun hashCode(): Int {
-        return seasons.contentHashCode()
+        return constructors.contentHashCode()
     }
 }
 
 @Serializable
-data class SeasonListData(
+data class ConstructorInfoData(
     @SerialName("series")
     override val series: String?,
     @SerialName("url")
@@ -46,12 +50,12 @@ data class SeasonListData(
     override val offset: Int?,
     @SerialName("total")
     override val total: Int?,
-    @SerialName("SeasonTable")
-    val seasonTable: SeasonTableType
+    @SerialName("ConstructorTable")
+    val constructorTable: ConstructorTableType
 ): BaseData
 
 @Serializable
-data class SeasonListResponse(
+data class ConstructorResponse(
     @SerialName("MRData")
-    override val data: SeasonListData
+    override val data: ConstructorInfoData
 ): BaseResponse

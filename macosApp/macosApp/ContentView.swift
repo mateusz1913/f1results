@@ -17,12 +17,9 @@ struct ContentView: View {
         }
         .frame(minWidth: 200, idealWidth: 700, maxWidth: 1200, minHeight: 200, idealHeight: 700, maxHeight: 1200, alignment: .center)
         .onAppear {
-            api.driversApi.getSpecificDriver(driverId: "alonso") { response, error in
-                if let response = response {
-                    if response.MRData.DriverTable.Drivers.size > 0 {
-                        let driver = response.MRData.DriverTable.Drivers.get(index: 0)
-                        driverState = driver
-                    }
+            api.driversApi.getSpecificDriver(driverId: "kubica") { response, error in
+                if let driver = response {
+                    driverState = driver
                 }
             }
         }

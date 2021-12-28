@@ -1,7 +1,7 @@
 package dev.mateusz1913.f1results.repository.services
 
 import dev.mateusz1913.f1results.createKtorClient
-import dev.mateusz1913.f1results.repository.models.standings.StandingsResponse
+import dev.mateusz1913.f1results.repository.models.standings.*
 import io.ktor.client.*
 import io.ktor.client.request.*
 
@@ -11,34 +11,38 @@ class StandingsApi(
 ) {
     suspend fun getSpecificDriverStandings(
         season: String,
-        round: String?,
+        round: Int,
         position: Int?
-    ): StandingsResponse {
-        var paramString = "/$season"
-        if (round != null) {
-            paramString = "/$round"
-        }
+    ): Array<DriverStandingsType>? {
+        val paramString = "/$season/$round"
         var positionString = ""
         if (position != null) {
             positionString += "/$position"
         }
-        return client.get("$baseUrl$paramString/driverStandings$positionString.json")
+        return try {
+            val response = client.get<DriverStandingsResponse>("$baseUrl$paramString/driverStandings$positionString.json")
+            response.data.standingsTable.standingsLists
+        } catch (e: Exception) {
+            null
+        }
     }
 
     suspend fun getSpecificConstructorStandings(
         season: String,
-        round: String?,
+        round: Int,
         position: Int?
-    ): StandingsResponse {
-        var paramString = "/$season"
-        if (round != null) {
-            paramString = "/$round"
-        }
+    ): Array<ConstructorStandingsType>? {
+        val paramString = "/$season/$round"
         var positionString = ""
         if (position != null) {
             positionString += "/$position"
         }
-        return client.get("$baseUrl$paramString/constructorStandings$positionString.json")
+        return try {
+            val response = client.get<ConstructorStandingsResponse>("$baseUrl$paramString/constructorStandings$positionString.json")
+            response.data.standingsTable.standingsLists
+        } catch (e: Exception) {
+            null
+        }
     }
 
     suspend fun getDriverStandings(
@@ -47,7 +51,7 @@ class StandingsApi(
         season: String?,
         driverId: String?,
         position: String?,
-    ): StandingsResponse {
+    ): DriverStandingsData? {
         val queryString = "?limit=${limit ?: 30}&offset=${offset ?: 0}"
         var paramString = ""
         if (season != null) {
@@ -60,7 +64,12 @@ class StandingsApi(
         if (position != null) {
             positionString += "/$position"
         }
-        return client.get("$baseUrl$paramString/driverStandings$positionString.json$queryString")
+        return try {
+            val response = client.get<DriverStandingsResponse>("$baseUrl$paramString/driverStandings$positionString.json$queryString")
+            response.data
+        } catch (e: Exception) {
+            null
+        }
     }
 
     suspend fun getConstructorStandings(
@@ -69,7 +78,7 @@ class StandingsApi(
         season: String?,
         constructorId: String?,
         position: String?,
-    ): StandingsResponse {
+    ): ConstructorStandingsData? {
         val queryString = "?limit=${limit ?: 30}&offset=${offset ?: 0}"
         var paramString = ""
         if (season != null) {
@@ -82,6 +91,11 @@ class StandingsApi(
         if (position != null) {
             positionString += "/$position"
         }
-        return client.get("$baseUrl$paramString/constructorStandings$positionString.json$queryString")
+        return try {
+            val response = client.get<ConstructorStandingsResponse>("$baseUrl$paramString/constructorStandings$positionString.json$queryString")
+            response.data
+        } catch (e: Exception) {
+            null
+        }
     }
 }

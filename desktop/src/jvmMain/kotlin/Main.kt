@@ -21,9 +21,8 @@ fun greet(): String {
 fun Screen() {
     var driverState by remember { mutableStateOf<DriverType?>(null) }
     LaunchedEffect(key1 = null, block = {
-        val driverInfoResponse = F1Repository.api.driversApi.getSpecificDriver("alonso")
-        if (driverInfoResponse.MRData.DriverTable.Drivers.isNotEmpty()) {
-            val driver = driverInfoResponse.MRData.DriverTable.Drivers[0]
+        val driver = F1Repository.api.driversApi.getSpecificDriver("alonso")
+        if (driver != null) {
             driverState = driver
         }
     })

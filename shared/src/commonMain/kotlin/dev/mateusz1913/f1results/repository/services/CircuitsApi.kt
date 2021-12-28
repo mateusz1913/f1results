@@ -1,7 +1,9 @@
 package dev.mateusz1913.f1results.repository.services
 
 import dev.mateusz1913.f1results.createKtorClient
-import dev.mateusz1913.f1results.repository.models.circuit.CircuitInfoResponse
+import dev.mateusz1913.f1results.repository.models.circuit.CircuitInfoData
+import dev.mateusz1913.f1results.repository.models.circuit.CircuitResponse
+import dev.mateusz1913.f1results.repository.models.circuit.CircuitType
 import io.ktor.client.*
 import io.ktor.client.request.*
 
@@ -9,8 +11,17 @@ class CircuitsApi(
     private val client: HttpClient = createKtorClient(),
     private val baseUrl: String = "https://ergast.com/api/f1"
 ) {
-    suspend fun getSpecificCircuit(circuitId: String): CircuitInfoResponse =
-        client.get("$baseUrl/circuits/$circuitId.json")
+    suspend fun getSpecificCircuit(circuitId: String): CircuitType? {
+        try {
+            val response = client.get<CircuitResponse>("$baseUrl/circuits/$circuitId.json")
+            if (response.data.circuitTable.circuits.isEmpty()) {
+                return null
+            }
+            return response.data.circuitTable.circuits[0]
+        } catch (e: Exception) {
+            return null
+        }
+    }
 
     suspend fun getCircuits(
         limit: Int?,
@@ -23,7 +34,7 @@ class CircuitsApi(
         results: Int?,
         fastest: Int?,
         statusId: String?,
-    ): CircuitInfoResponse {
+    ): CircuitInfoData? {
         val queryString = "?limit=${limit ?: 30}&offset=${offset ?: 0}"
         var paramString = ""
         if (season != null) {
@@ -50,6 +61,11 @@ class CircuitsApi(
         if (statusId != null) {
             paramString += "/status/$statusId"
         }
-        return client.get("$baseUrl$paramString/circuits.json$queryString")
+        return try {
+            val response = client.get<CircuitResponse>("$baseUrl$paramString/circuits.json$queryString")
+            response.data
+        } catch (e: Exception) {
+            null
+        }
     }
 }

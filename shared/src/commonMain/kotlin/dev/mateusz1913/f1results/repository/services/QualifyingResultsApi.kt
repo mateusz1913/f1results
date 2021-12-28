@@ -2,6 +2,8 @@ package dev.mateusz1913.f1results.repository.services
 
 import dev.mateusz1913.f1results.createKtorClient
 import dev.mateusz1913.f1results.repository.models.qualifying_results.QualifyingResultsResponse
+import dev.mateusz1913.f1results.repository.models.qualifying_results.QualifyingResultsData
+import dev.mateusz1913.f1results.repository.models.qualifying_results.RaceWithQualifyingResultsType
 import io.ktor.client.*
 import io.ktor.client.request.*
 
@@ -11,18 +13,23 @@ class QualifyingResultsApi(
 ) {
     suspend fun getSpecificQualifyingResult(
         season: String,
-        round: String?,
+        round: Int,
         position: Int?
-    ): QualifyingResultsResponse {
-        var paramString = "/$season"
-        if (round != null) {
-            paramString += "/$round"
-        }
+    ): RaceWithQualifyingResultsType? {
+        val paramString = "/$season/$round"
         var positionString = ""
         if (position != null) {
             positionString += "/$position"
         }
-        return client.get("$baseUrl$paramString/qualifying$positionString.json")
+        try {
+            val response = client.get<QualifyingResultsResponse>("$baseUrl$paramString/qualifying$positionString.json")
+            if (response.data.raceTable.races.isNotEmpty()) {
+                return null
+            }
+            return response.data.raceTable.races[0]
+        } catch (e: Exception) {
+            return null
+        }
     }
 
     suspend fun getQualifyingResult(
@@ -31,13 +38,13 @@ class QualifyingResultsApi(
         season: String?,
         circuitId: String?,
         constructorId: String?,
-        driverId: Int?,
+        driverId: String?,
         grid: Int?,
         results: Int?,
         fastest: Int?,
         statusId: String?,
         position: Int?
-    ): QualifyingResultsResponse {
+    ): QualifyingResultsData? {
         val queryString = "?limit=${limit ?: 30}&offset=${offset ?: 0}"
         var paramString = ""
         if (season != null) {
@@ -68,6 +75,11 @@ class QualifyingResultsApi(
         if (position != null) {
             positionString += "/$position"
         }
-        return client.get("$baseUrl$paramString/qualifying$positionString.json$queryString")
+        return try {
+            val response = client.get<QualifyingResultsResponse>("$baseUrl$paramString/qualifying$positionString.json$queryString")
+            response.data
+        } catch (e: Exception) {
+            return null
+        }
     }
 }

@@ -1,71 +1,51 @@
-package dev.mateusz1913.f1results.repository.models.race_results
+package dev.mateusz1913.f1results.repository.models.lap_times
 
 import dev.mateusz1913.f1results.repository.models.base.BaseResponse
 import dev.mateusz1913.f1results.repository.models.base.race.BaseRaceData
 import dev.mateusz1913.f1results.repository.models.base.race.BaseRaceTableType
 import dev.mateusz1913.f1results.repository.models.base.race.BaseRaceType
 import dev.mateusz1913.f1results.repository.models.circuit.CircuitType
-import dev.mateusz1913.f1results.repository.models.constructor.ConstructorType
-import dev.mateusz1913.f1results.repository.models.driver.DriverType
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class DurationType(
-    @SerialName("millis")
-    val millis: String?,
+data class TimingType(
+    @SerialName("driverId")
+    val driverId: String,
+    @SerialName("position")
+    val position: String,
     @SerialName("time")
     val time: String,
 )
 
 @Serializable
-data class AverageSpeedType(
-    @SerialName("speed")
-    val speed: String,
-    @SerialName("units")
-    val units: String?
-)
-
-@Serializable
-data class FastestLapType(
-    @SerialName("rank")
-    val rank: String,
-    @SerialName("lap")
-    val lap: String,
-    @SerialName("time")
-    val time: DurationType,
-    @SerialName("AverageSpeed")
-    val averageSpeed: AverageSpeedType
-)
-
-@Serializable
-data class ResultType(
+data class LapTimeType(
     @SerialName("number")
-    val number: String?,
-    @SerialName("position")
-    val position: String,
-    @SerialName("positionText")
-    val positionText: String,
-    @SerialName("points")
-    val points: String?,
-    @SerialName("Driver")
-    val driver: DriverType,
-    @SerialName("Constructor")
-    val constructor: ConstructorType,
-    @SerialName("grid")
-    val grid: String,
-    @SerialName("laps")
-    val laps: String,
-    @SerialName("status")
-    val status: String,
-    @SerialName("Time")
-    val time: DurationType?,
-    @SerialName("FastestLap")
-    val fastestLap: FastestLapType?
-)
+    val number: String,
+    @SerialName("Timings")
+    val timings: Array<TimingType>
+) {
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (other == null || this::class != other::class) return false
+
+        other as LapTimeType
+
+        if (number != other.number) return false
+        if (!timings.contentEquals(other.timings)) return false
+
+        return true
+    }
+
+    override fun hashCode(): Int {
+        var result = number.hashCode()
+        result = 31 * result + timings.contentHashCode()
+        return result
+    }
+}
 
 @Serializable
-data class RaceWithResultsType(
+data class RaceWithLapTimesType(
     @SerialName("season")
     override val season: String,
     @SerialName("round")
@@ -80,14 +60,14 @@ data class RaceWithResultsType(
     override val date: String,
     @SerialName("time")
     override val time: String,
-    @SerialName("Results")
-    val results: Array<ResultType>
+    @SerialName("Laps")
+    val lapTimes: Array<LapTimeType>
 ): BaseRaceType {
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (other == null || this::class != other::class) return false
 
-        other as RaceWithResultsType
+        other as RaceWithLapTimesType
 
         if (season != other.season) return false
         if (round != other.round) return false
@@ -96,7 +76,7 @@ data class RaceWithResultsType(
         if (circuit != other.circuit) return false
         if (date != other.date) return false
         if (time != other.time) return false
-        if (!results.contentEquals(other.results)) return false
+        if (!lapTimes.contentEquals(other.lapTimes)) return false
 
         return true
     }
@@ -109,21 +89,21 @@ data class RaceWithResultsType(
         result = 31 * result + circuit.hashCode()
         result = 31 * result + date.hashCode()
         result = 31 * result + time.hashCode()
-        result = 31 * result + results.contentHashCode()
+        result = 31 * result + lapTimes.contentHashCode()
         return result
     }
 }
 
 @Serializable
-data class RacesWithResultsTableType(
+data class RacesWithLapTimesTableType(
     @SerialName("Races")
-    override val races: Array<RaceWithResultsType>
-): BaseRaceTableType<RaceWithResultsType> {
+    override val races: Array<RaceWithLapTimesType>
+): BaseRaceTableType<RaceWithLapTimesType> {
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (other == null || this::class != other::class) return false
 
-        other as RacesWithResultsTableType
+        other as RacesWithLapTimesTableType
 
         if (!races.contentEquals(other.races)) return false
 
@@ -136,7 +116,7 @@ data class RacesWithResultsTableType(
 }
 
 @Serializable
-data class RaceResultsData(
+data class LapTimesData(
     @SerialName("series")
     override val series: String?,
     @SerialName("url")
@@ -148,11 +128,11 @@ data class RaceResultsData(
     @SerialName("total")
     override val total: Int?,
     @SerialName("RaceTable")
-    override val raceTable: RacesWithResultsTableType
-): BaseRaceData<RaceWithResultsType>
+    override val raceTable: RacesWithLapTimesTableType
+): BaseRaceData<RaceWithLapTimesType>
 
 @Serializable
-data class RaceResultsResponse(
+data class LapTimesResponse(
     @SerialName("MRData")
-    override val data: RaceResultsData
+    override val data: LapTimesData
 ): BaseResponse

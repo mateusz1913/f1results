@@ -16,12 +16,9 @@ struct ContentView: View {
             }
         }
         .onAppear {
-            api.driversApi.getSpecificDriver(driverId: "alonso") { response, error in
-                if let response = response {
-                    if response.MRData.DriverTable.Drivers.size > 0 {
-                        let driver = response.MRData.DriverTable.Drivers.get(index: 0)
-                        driverState = driver
-                    }
+            api.driversApi.getSpecificDriver(driverId: "sainz") { response, error in
+                if let driver = response {
+                    driverState = driver
                 }
             }
         }

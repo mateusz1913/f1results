@@ -1,28 +1,46 @@
 package dev.mateusz1913.f1results.repository.models.pitstops
 
+import dev.mateusz1913.f1results.repository.models.base.BaseResponse
+import dev.mateusz1913.f1results.repository.models.base.race.BaseRaceData
+import dev.mateusz1913.f1results.repository.models.base.race.BaseRaceTableType
+import dev.mateusz1913.f1results.repository.models.base.race.BaseRaceType
 import dev.mateusz1913.f1results.repository.models.circuit.CircuitType
+import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
 data class PitStopType(
+    @SerialName("driverId")
     val driverId: String,
+    @SerialName("stop")
     val stop: String,
+    @SerialName("lap")
     val lap: String,
+    @SerialName("time")
     val time: String?,
+    @SerialName("duration")
     val duration: String?
 )
 
 @Serializable
 data class RaceWithPitStopsType(
-    val season: String,
-    val round: String,
-    val url: String,
-    val raceName: String,
-    val Circuit: CircuitType,
-    val date: String,
-    val time: String,
-    val PitStops: Array<PitStopType>,
-) {
+    @SerialName("season")
+    override val season: String,
+    @SerialName("round")
+    override val round: String,
+    @SerialName("url")
+    override val url: String,
+    @SerialName("raceName")
+    override val raceName: String,
+    @SerialName("Circuit")
+    override val circuit: CircuitType,
+    @SerialName("date")
+    override val date: String,
+    @SerialName("time")
+    override val time: String,
+    @SerialName("PitStops")
+    val pitStops: Array<PitStopType>,
+): BaseRaceType {
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (other == null || this::class != other::class) return false
@@ -33,10 +51,10 @@ data class RaceWithPitStopsType(
         if (round != other.round) return false
         if (url != other.url) return false
         if (raceName != other.raceName) return false
-        if (Circuit != other.Circuit) return false
+        if (circuit != other.circuit) return false
         if (date != other.date) return false
         if (time != other.time) return false
-        if (!PitStops.contentEquals(other.PitStops)) return false
+        if (!pitStops.contentEquals(other.pitStops)) return false
 
         return true
     }
@@ -46,45 +64,53 @@ data class RaceWithPitStopsType(
         result = 31 * result + round.hashCode()
         result = 31 * result + url.hashCode()
         result = 31 * result + raceName.hashCode()
-        result = 31 * result + Circuit.hashCode()
+        result = 31 * result + circuit.hashCode()
         result = 31 * result + date.hashCode()
         result = 31 * result + time.hashCode()
-        result = 31 * result + PitStops.contentHashCode()
+        result = 31 * result + pitStops.contentHashCode()
         return result
     }
 }
 
 @Serializable
 data class RacesWithPitStopsTableType(
-    val Races: Array<RaceWithPitStopsType>
-) {
+    @SerialName("Races")
+    override val races: Array<RaceWithPitStopsType>
+): BaseRaceTableType<RaceWithPitStopsType> {
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (other == null || this::class != other::class) return false
 
         other as RacesWithPitStopsTableType
 
-        if (!Races.contentEquals(other.Races)) return false
+        if (!races.contentEquals(other.races)) return false
 
         return true
     }
 
     override fun hashCode(): Int {
-        return Races.contentHashCode()
+        return races.contentHashCode()
     }
 }
 
 @Serializable
-data class MRDataLapsType(
-    val series: String?,
-    val url: String?,
-    val limit: Int?,
-    val offset: Int?,
-    val total: Int?,
-    val RaceTable: RacesWithPitStopsTableType
-)
+data class PitStopsData(
+    @SerialName("series")
+    override val series: String?,
+    @SerialName("url")
+    override val url: String?,
+    @SerialName("limit")
+    override val limit: Int?,
+    @SerialName("offset")
+    override val offset: Int?,
+    @SerialName("total")
+    override val total: Int?,
+    @SerialName("RaceTable")
+    override val raceTable: RacesWithPitStopsTableType
+): BaseRaceData<RaceWithPitStopsType>
 
 @Serializable
 data class PitStopsResponse(
-    val MRData: MRDataLapsType
-)
+    @SerialName("MRData")
+    override val data: PitStopsData
+): BaseResponse

@@ -1,6 +1,7 @@
 package dev.mateusz1913.f1results.repository.services
 
 import dev.mateusz1913.f1results.createKtorClient
+import dev.mateusz1913.f1results.repository.models.finishing_status.FinishingStatusData
 import dev.mateusz1913.f1results.repository.models.finishing_status.FinishingStatusResponse
 import io.ktor.client.*
 import io.ktor.client.request.*
@@ -16,12 +17,12 @@ class FinishingStatusApi(
         round: Int?,
         circuitId: String?,
         constructorId: String?,
-        driverId: Int?,
+        driverId: String?,
         grid: Int?,
         results: Int?,
         fastest: Int?,
         statusId: String?,
-    ): FinishingStatusResponse {
+    ): FinishingStatusData? {
         val queryString = "?limit=${limit ?: 30}&offset=${offset ?: 0}"
         var paramString = ""
         if (season != null) {
@@ -51,6 +52,11 @@ class FinishingStatusApi(
         if (statusId != null) {
             paramString += "/status/$statusId"
         }
-        return client.get("$baseUrl$paramString/drivers.json$queryString")
+        return try {
+            val response = client.get<FinishingStatusResponse>("$baseUrl$paramString/drivers.json$queryString")
+            response.data
+        } catch (e: Exception) {
+            return null
+        }
     }
 }
