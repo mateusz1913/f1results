@@ -3,9 +3,28 @@ import shared
 
 struct ContentView: View {
 	let greet = Greeting().greeting()
+    let api = F1Repository.shared.api
+    @State private var driverState: DriverType? = nil
 
 	var body: some View {
-		Text(greet)
+        VStack {
+            Text(greet)
+                .foregroundColor(.primary)
+            if let driver = driverState {
+                Text("\(driver.givenName) \(driver.familyName)")
+                    .foregroundColor(.secondary)
+            }
+        }
+        .onAppear {
+            api.driversApi.getSpecificDriver(driverId: "alonso") { response, error in
+                if let response = response {
+                    if response.MRData.DriverTable.Drivers.size > 0 {
+                        let driver = response.MRData.DriverTable.Drivers.get(index: 0)
+                        driverState = driver
+                    }
+                }
+            }
+        }
 	}
 }
 
