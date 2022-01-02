@@ -1,6 +1,6 @@
 package dev.mateusz1913.f1results.di
 
-import dev.mateusz1913.f1results.createKtorClient
+import dev.mateusz1913.f1results.datasource.remote.createKtorClient
 import dev.mateusz1913.f1results.datasource.remote.circuit.CircuitsApi
 import dev.mateusz1913.f1results.datasource.remote.circuit.CircuitsApiImpl
 import dev.mateusz1913.f1results.datasource.remote.constructor.ConstructorsApi

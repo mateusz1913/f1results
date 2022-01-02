@@ -7,11 +7,6 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import dev.mateusz1913.f1results.Greeting
-
-fun greet(): String {
-    return Greeting().greeting()
-}
 
 @Composable
 fun Screen() {
@@ -21,7 +16,7 @@ fun Screen() {
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center,
         ) {
-            Text(text = greet(), color = MaterialTheme.colors.primary)
+            Text(text = "Hello World!", color = MaterialTheme.colors.primary)
         }
     }
 }

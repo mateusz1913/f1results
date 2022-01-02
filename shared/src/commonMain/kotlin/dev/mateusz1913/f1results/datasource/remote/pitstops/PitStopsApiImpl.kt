@@ -1,6 +1,6 @@
 package dev.mateusz1913.f1results.datasource.remote.pitstops
 
-import dev.mateusz1913.f1results.createKtorClient
+import dev.mateusz1913.f1results.datasource.remote.createKtorClient
 import dev.mateusz1913.f1results.datasource.data.pitstops.PitStopsResponse
 import dev.mateusz1913.f1results.datasource.data.pitstops.RaceWithPitStopsType
 import io.ktor.client.*

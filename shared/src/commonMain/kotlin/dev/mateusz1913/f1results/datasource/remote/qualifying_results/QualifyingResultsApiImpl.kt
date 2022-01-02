@@ -1,10 +1,9 @@
 package dev.mateusz1913.f1results.datasource.remote.qualifying_results
 
-import dev.mateusz1913.f1results.createKtorClient
+import dev.mateusz1913.f1results.datasource.remote.createKtorClient
 import dev.mateusz1913.f1results.datasource.data.qualifying_results.QualifyingResultsResponse
 import dev.mateusz1913.f1results.datasource.data.qualifying_results.QualifyingResultsData
 import dev.mateusz1913.f1results.datasource.data.qualifying_results.RaceWithQualifyingResultsType
-import io.github.aakira.napier.Napier
 import io.ktor.client.*
 import io.ktor.client.request.*
 

@@ -1,6 +1,6 @@
 package dev.mateusz1913.f1results.datasource.remote.lap_times
 
-import dev.mateusz1913.f1results.createKtorClient
+import dev.mateusz1913.f1results.datasource.remote.createKtorClient
 import dev.mateusz1913.f1results.datasource.data.lap_times.LapTimesResponse
 import dev.mateusz1913.f1results.datasource.data.lap_times.RaceWithLapTimesType
 import io.ktor.client.*

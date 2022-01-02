@@ -1,6 +1,6 @@
 package dev.mateusz1913.f1results.datasource.remote.season_list
 
-import dev.mateusz1913.f1results.createKtorClient
+import dev.mateusz1913.f1results.datasource.remote.createKtorClient
 import dev.mateusz1913.f1results.datasource.data.season_list.SeasonListResponse
 import dev.mateusz1913.f1results.datasource.data.season_list.SeasonListData
 import io.ktor.client.*

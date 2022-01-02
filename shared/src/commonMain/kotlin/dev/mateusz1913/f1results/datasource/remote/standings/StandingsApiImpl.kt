@@ -1,6 +1,6 @@
 package dev.mateusz1913.f1results.datasource.remote.standings
 
-import dev.mateusz1913.f1results.createKtorClient
+import dev.mateusz1913.f1results.datasource.remote.createKtorClient
 import dev.mateusz1913.f1results.datasource.data.standings.*
 import io.ktor.client.*
 import io.ktor.client.request.*

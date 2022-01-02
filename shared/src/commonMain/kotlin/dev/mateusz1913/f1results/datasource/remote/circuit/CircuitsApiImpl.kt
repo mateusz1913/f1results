@@ -1,6 +1,6 @@
 package dev.mateusz1913.f1results.datasource.remote.circuit
 
-import dev.mateusz1913.f1results.createKtorClient
+import dev.mateusz1913.f1results.datasource.remote.createKtorClient
 import dev.mateusz1913.f1results.datasource.data.circuit.CircuitInfoData
 import dev.mateusz1913.f1results.datasource.data.circuit.CircuitResponse
 import dev.mateusz1913.f1results.datasource.data.circuit.CircuitType

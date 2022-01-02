@@ -1,6 +1,6 @@
 package dev.mateusz1913.f1results.datasource.remote.constructor
 
-import dev.mateusz1913.f1results.createKtorClient
+import dev.mateusz1913.f1results.datasource.remote.createKtorClient
 import dev.mateusz1913.f1results.datasource.data.constructor.ConstructorInfoData
 import dev.mateusz1913.f1results.datasource.data.constructor.ConstructorResponse
 import dev.mateusz1913.f1results.datasource.data.constructor.ConstructorType

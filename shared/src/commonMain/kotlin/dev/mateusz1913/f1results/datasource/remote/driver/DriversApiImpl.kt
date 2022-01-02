@@ -1,6 +1,6 @@
 package dev.mateusz1913.f1results.datasource.remote.driver
 
-import dev.mateusz1913.f1results.createKtorClient
+import dev.mateusz1913.f1results.datasource.remote.createKtorClient
 import dev.mateusz1913.f1results.datasource.data.driver.DriverInfoData
 import dev.mateusz1913.f1results.datasource.data.driver.DriverResponse
 import dev.mateusz1913.f1results.datasource.data.driver.DriverType

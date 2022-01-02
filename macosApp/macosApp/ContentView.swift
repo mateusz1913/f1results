@@ -2,13 +2,12 @@ import SwiftUI
 import shared
 
 struct ContentView: View {
-    let greet = Greeting().greeting()
     let api = F1Repository.shared.api
     @State private var driverState: DriverType? = nil
 
     var body: some View {
         VStack {
-            Text(greet)
+            Text("Hello World!")
                 .foregroundColor(.primary)
             if let driver = driverState {
                 Text("\(driver.givenName) \(driver.familyName)")

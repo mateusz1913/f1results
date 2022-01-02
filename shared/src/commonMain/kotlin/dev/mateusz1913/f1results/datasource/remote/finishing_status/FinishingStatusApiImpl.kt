@@ -1,6 +1,6 @@
 package dev.mateusz1913.f1results.datasource.remote.finishing_status
 
-import dev.mateusz1913.f1results.createKtorClient
+import dev.mateusz1913.f1results.datasource.remote.createKtorClient
 import dev.mateusz1913.f1results.datasource.data.finishing_status.FinishingStatusData
 import dev.mateusz1913.f1results.datasource.data.finishing_status.FinishingStatusResponse
 import io.ktor.client.*

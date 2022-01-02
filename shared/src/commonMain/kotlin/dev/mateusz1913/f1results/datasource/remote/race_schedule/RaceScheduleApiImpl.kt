@@ -1,6 +1,6 @@
 package dev.mateusz1913.f1results.datasource.remote.race_schedule
 
-import dev.mateusz1913.f1results.createKtorClient
+import dev.mateusz1913.f1results.datasource.remote.createKtorClient
 import dev.mateusz1913.f1results.datasource.data.race_schedule.RaceScheduleResponse
 import dev.mateusz1913.f1results.datasource.data.race_schedule.RaceScheduleData
 import dev.mateusz1913.f1results.datasource.data.race_schedule.RaceType
