@@ -33,6 +33,9 @@ android {
 }
 
 val composeVersion = "1.1.0-rc01"
+val koinVersion = "3.1.4"
+val accompanistVersion = "0.20.3"
+val napierVersion = "2.3.0"
 
 dependencies {
     implementation(project(":shared"))
@@ -50,4 +53,14 @@ dependencies {
     implementation("androidx.activity:activity-compose:1.4.0")
     implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.4.0")
     implementation("androidx.navigation:navigation-compose:2.4.0-rc01")
+    // Koin
+    implementation("io.insert-koin:koin-core:$koinVersion")
+    implementation("io.insert-koin:koin-android:$koinVersion")
+    implementation("io.insert-koin:koin-androidx-compose:$koinVersion")
+    // Accompanist
+    implementation("com.google.accompanist:accompanist-swiperefresh:$accompanistVersion")
+    implementation("com.google.accompanist:accompanist-pager:$accompanistVersion")
+    implementation("com.google.accompanist:accompanist-systemuicontroller:$accompanistVersion")
+    // Napier
+    implementation("io.github.aakira:napier:$napierVersion")
 }

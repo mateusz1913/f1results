@@ -9,6 +9,8 @@ plugins {
 group = "me.mateuszmedrek"
 version = "1.0"
 
+val koinVersion = "3.1.4"
+
 kotlin {
     jvm {
         compilations.all {
@@ -21,6 +23,8 @@ kotlin {
             dependencies {
                 implementation(project(":shared"))
                 implementation(compose.desktop.currentOs)
+                // TODO: Get back to JVM desktop implementation, when it will mature
+//                implementation("io.insert-koin:koin-core:$koinVersion")
             }
         }
         val jvmTest by getting

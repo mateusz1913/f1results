@@ -11,6 +11,18 @@
 		058557D9273AAEEB004C7B11 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 058557D8273AAEEB004C7B11 /* Preview Assets.xcassets */; };
 		2152FB042600AC8F00CF470E /* iOSApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2152FB032600AC8F00CF470E /* iOSApp.swift */; };
 		7555FF83242A565900829871 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7555FF82242A565900829871 /* ContentView.swift */; };
+		8372942A2781E67C00AD958A /* CurrentCalendarScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 837294292781E67C00AD958A /* CurrentCalendarScreen.swift */; };
+		8372942D2781EDEC00AD958A /* DriverStandings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8372942C2781EDEC00AD958A /* DriverStandings.swift */; };
+		8372942F2781EE2200AD958A /* ConstructorStandings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8372942E2781EE2200AD958A /* ConstructorStandings.swift */; };
+		837294312781F3BD00AD958A /* CurrentStandingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 837294302781F3BD00AD958A /* CurrentStandingsViewModel.swift */; };
+		837294342781FFA500AD958A /* RaceResults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 837294332781FFA500AD958A /* RaceResults.swift */; };
+		83729437278226A400AD958A /* TabBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83729436278226A400AD958A /* TabBar.swift */; };
+		8372943A278229D900AD958A /* QualifyingResults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83729439278229D900AD958A /* QualifyingResults.swift */; };
+		8372943C2782499A00AD958A /* Napier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8372943B2782499A00AD958A /* Napier.swift */; };
+		83A2F72A2780CD3B00E4370C /* Koin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83A2F7292780CD3B00E4370C /* Koin.swift */; };
+		83A2F72E278105FD00E4370C /* CurrentRaceResultsScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83A2F72D278105FD00E4370C /* CurrentRaceResultsScreen.swift */; };
+		83A2F7302781117300E4370C /* CurrentRaceResultsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83A2F72F2781117300E4370C /* CurrentRaceResultsViewModel.swift */; };
+		83A2F735278123C300E4370C /* CurrentStandingsScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83A2F734278123C300E4370C /* CurrentStandingsScreen.swift */; };
 		A3CF4A66BBA4022409B319BC /* Pods_iosApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C162DD51C6EF01AFDB92CC13 /* Pods_iosApp.framework */; };
 /* End PBXBuildFile section */
 
@@ -23,6 +35,18 @@
 		7555FF82242A565900829871 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		7555FF8C242A565B00829871 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		7ADEB5F43C2DCC785DECEFA8 /* Pods-iosApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-iosApp.release.xcconfig"; path = "Target Support Files/Pods-iosApp/Pods-iosApp.release.xcconfig"; sourceTree = "<group>"; };
+		837294292781E67C00AD958A /* CurrentCalendarScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentCalendarScreen.swift; sourceTree = "<group>"; };
+		8372942C2781EDEC00AD958A /* DriverStandings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DriverStandings.swift; sourceTree = "<group>"; };
+		8372942E2781EE2200AD958A /* ConstructorStandings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConstructorStandings.swift; sourceTree = "<group>"; };
+		837294302781F3BD00AD958A /* CurrentStandingsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentStandingsViewModel.swift; sourceTree = "<group>"; };
+		837294332781FFA500AD958A /* RaceResults.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RaceResults.swift; sourceTree = "<group>"; };
+		83729436278226A400AD958A /* TabBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBar.swift; sourceTree = "<group>"; };
+		83729439278229D900AD958A /* QualifyingResults.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QualifyingResults.swift; sourceTree = "<group>"; };
+		8372943B2782499A00AD958A /* Napier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Napier.swift; sourceTree = "<group>"; };
+		83A2F7292780CD3B00E4370C /* Koin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Koin.swift; sourceTree = "<group>"; };
+		83A2F72D278105FD00E4370C /* CurrentRaceResultsScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentRaceResultsScreen.swift; sourceTree = "<group>"; };
+		83A2F72F2781117300E4370C /* CurrentRaceResultsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentRaceResultsViewModel.swift; sourceTree = "<group>"; };
+		83A2F734278123C300E4370C /* CurrentStandingsScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentStandingsScreen.swift; sourceTree = "<group>"; };
 		C162DD51C6EF01AFDB92CC13 /* Pods_iosApp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_iosApp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -44,7 +68,6 @@
 				31CAFFF336F6E55CC32B5001 /* Pods-iosApp.debug.xcconfig */,
 				7ADEB5F43C2DCC785DECEFA8 /* Pods-iosApp.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -77,13 +100,89 @@
 		7555FF7D242A565900829871 /* iosApp */ = {
 			isa = PBXGroup;
 			children = (
+				83A2F731278122FC00E4370C /* presentation */,
 				058557BA273AAA24004C7B11 /* Assets.xcassets */,
 				7555FF82242A565900829871 /* ContentView.swift */,
 				7555FF8C242A565B00829871 /* Info.plist */,
 				2152FB032600AC8F00CF470E /* iOSApp.swift */,
 				058557D7273AAEEB004C7B11 /* Preview Content */,
+				83A2F7292780CD3B00E4370C /* Koin.swift */,
+				8372943B2782499A00AD958A /* Napier.swift */,
 			);
 			path = iosApp;
+			sourceTree = "<group>";
+		};
+		837294282781E66C00AD958A /* currentCalendar */ = {
+			isa = PBXGroup;
+			children = (
+				837294292781E67C00AD958A /* CurrentCalendarScreen.swift */,
+			);
+			path = currentCalendar;
+			sourceTree = "<group>";
+		};
+		8372942B2781EDCE00AD958A /* standings */ = {
+			isa = PBXGroup;
+			children = (
+				8372942C2781EDEC00AD958A /* DriverStandings.swift */,
+				8372942E2781EE2200AD958A /* ConstructorStandings.swift */,
+			);
+			path = standings;
+			sourceTree = "<group>";
+		};
+		837294322781FF9400AD958A /* raceResults */ = {
+			isa = PBXGroup;
+			children = (
+				837294332781FFA500AD958A /* RaceResults.swift */,
+			);
+			path = raceResults;
+			sourceTree = "<group>";
+		};
+		837294352782268A00AD958A /* common */ = {
+			isa = PBXGroup;
+			children = (
+				83729436278226A400AD958A /* TabBar.swift */,
+			);
+			path = common;
+			sourceTree = "<group>";
+		};
+		837294382782295000AD958A /* qualifyingResults */ = {
+			isa = PBXGroup;
+			children = (
+				83729439278229D900AD958A /* QualifyingResults.swift */,
+			);
+			path = qualifyingResults;
+			sourceTree = "<group>";
+		};
+		83A2F731278122FC00E4370C /* presentation */ = {
+			isa = PBXGroup;
+			children = (
+				837294382782295000AD958A /* qualifyingResults */,
+				837294352782268A00AD958A /* common */,
+				837294322781FF9400AD958A /* raceResults */,
+				8372942B2781EDCE00AD958A /* standings */,
+				837294282781E66C00AD958A /* currentCalendar */,
+				83A2F733278123AE00E4370C /* currentStandings */,
+				83A2F7322781230900E4370C /* currentRaceResults */,
+			);
+			path = presentation;
+			sourceTree = "<group>";
+		};
+		83A2F7322781230900E4370C /* currentRaceResults */ = {
+			isa = PBXGroup;
+			children = (
+				83A2F72D278105FD00E4370C /* CurrentRaceResultsScreen.swift */,
+				83A2F72F2781117300E4370C /* CurrentRaceResultsViewModel.swift */,
+			);
+			path = currentRaceResults;
+			sourceTree = "<group>";
+		};
+		83A2F733278123AE00E4370C /* currentStandings */ = {
+			isa = PBXGroup;
+			children = (
+				83A2F734278123C300E4370C /* CurrentStandingsScreen.swift */,
+				837294302781F3BD00AD958A /* CurrentStandingsViewModel.swift */,
+			);
+			path = currentStandings;
 			sourceTree = "<group>";
 		};
 		BF92D48EA40CE15B802F384D /* Frameworks */ = {
@@ -190,8 +289,20 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				83A2F72A2780CD3B00E4370C /* Koin.swift in Sources */,
+				83A2F72E278105FD00E4370C /* CurrentRaceResultsScreen.swift in Sources */,
+				837294312781F3BD00AD958A /* CurrentStandingsViewModel.swift in Sources */,
+				83729437278226A400AD958A /* TabBar.swift in Sources */,
+				837294342781FFA500AD958A /* RaceResults.swift in Sources */,
+				8372943A278229D900AD958A /* QualifyingResults.swift in Sources */,
 				2152FB042600AC8F00CF470E /* iOSApp.swift in Sources */,
+				8372942F2781EE2200AD958A /* ConstructorStandings.swift in Sources */,
+				83A2F735278123C300E4370C /* CurrentStandingsScreen.swift in Sources */,
+				8372942A2781E67C00AD958A /* CurrentCalendarScreen.swift in Sources */,
+				8372943C2782499A00AD958A /* Napier.swift in Sources */,
 				7555FF83242A565900829871 /* ContentView.swift in Sources */,
+				83A2F7302781117300E4370C /* CurrentRaceResultsViewModel.swift in Sources */,
+				8372942D2781EDEC00AD958A /* DriverStandings.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

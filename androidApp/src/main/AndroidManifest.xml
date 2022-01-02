@@ -6,6 +6,7 @@
 
     <application
         android:allowBackup="false"
+        android:name="dev.mateusz1913.f1results.android.MainApplication"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity

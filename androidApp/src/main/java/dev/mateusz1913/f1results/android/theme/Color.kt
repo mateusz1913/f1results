@@ -15,6 +15,7 @@ object F1ResultsColor {
     val Secondary = Color(0xFFFF8C00)
     val SecondPlace = Color(0xFFC0C0C0)
     val ThirdPlace = Color(0xFF8B4513)
+    val Transparent = Color(0x00000000)
     // Overlay
     val White89 = Color(0x89FFFFFF)
 }

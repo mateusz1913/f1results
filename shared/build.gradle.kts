@@ -22,6 +22,8 @@ android {
 
 val ktorVersion = "1.6.7"
 val kotlinxSerializationVersion = "1.3.2"
+val koinVersion = "3.1.4"
+val napierVersion = "2.3.0"
 
 kotlin {
     android()
@@ -48,6 +50,9 @@ kotlin {
                 implementation("io.ktor:ktor-client-serialization:$ktorVersion")
                 implementation("org.jetbrains.kotlinx:kotlinx-serialization-core:$kotlinxSerializationVersion")
                 implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:$kotlinxSerializationVersion")
+                implementation("io.insert-koin:koin-core:$koinVersion")
+                implementation("io.github.aakira:napier:$napierVersion")
+                api("io.github.aakira:napier:$napierVersion")
             }
         }
         val commonTest by getting {

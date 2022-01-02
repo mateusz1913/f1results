@@ -2,52 +2,37 @@ package dev.mateusz1913.f1results.android
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import dev.mateusz1913.f1results.Greeting
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.layout.*
-import androidx.compose.material.Text
-import androidx.compose.runtime.*
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
-import dev.mateusz1913.f1results.android.theme.F1ResultsColor
+import androidx.compose.material.MaterialTheme
+import androidx.compose.runtime.SideEffect
+import com.google.accompanist.pager.ExperimentalPagerApi
+import com.google.accompanist.systemuicontroller.rememberSystemUiController
+import dev.mateusz1913.f1results.android.presentation.navigation.Navigation
 import dev.mateusz1913.f1results.android.theme.F1ResultsTheme
-import dev.mateusz1913.f1results.repository.F1Repository
-import dev.mateusz1913.f1results.repository.models.driver.DriverType
+import dev.mateusz1913.f1results.di.AppInfo
+import io.github.aakira.napier.Napier
+import org.koin.core.component.KoinComponent
+import org.koin.core.component.inject
 
-fun greet(): String {
-    return Greeting().greeting()
-}
+@ExperimentalPagerApi
+class MainActivity : AppCompatActivity(), KoinComponent {
+    private val appInfo: AppInfo by inject()
 
-class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        Napier.d("APP_INFO: ${appInfo.appId}", null, "appInfo")
         setContent {
+            val systemUiController = rememberSystemUiController()
             F1ResultsTheme {
-                Screen()
-            }
-        }
-    }
-}
-
-@Composable
-fun Screen() {
-    var driverState by remember { mutableStateOf<DriverType?>(null) }
-    LaunchedEffect(key1 = null, block = {
-        val driver = F1Repository.api.driversApi.getSpecificDriver("max_verstappen")
-        if (driver != null) {
-            driverState = driver
-        }
-    })
-    Box(modifier = Modifier.fillMaxSize()) {
-        Column(
-            modifier = Modifier.fillMaxSize(),
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center,
-        ) {
-            Text(text = greet(), color = F1ResultsColor.Primary)
-            val driver = driverState
-            if (driver != null) {
-                Text(text = "${driver.givenName} ${driver.familyName}", color = F1ResultsColor.Secondary)
+                val statusBarColor = MaterialTheme.colors.primary
+                val useDarkIcons = MaterialTheme.colors.isLight
+                SideEffect {
+                    systemUiController.setStatusBarColor(
+                        color = statusBarColor,
+                        darkIcons = useDarkIcons
+                    )
+                }
+                Navigation()
             }
         }
     }
