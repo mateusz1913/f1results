@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		83612CD327877F00002408B1 /* NetworkMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83612CD227877F00002408B1 /* NetworkMonitor.swift */; };
+		83612CD427877F00002408B1 /* NetworkMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83612CD227877F00002408B1 /* NetworkMonitor.swift */; };
 		838D7F8A2787440A001E8051 /* Koin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 838D7F892787440A001E8051 /* Koin.swift */; };
 		838D7F8B2787440A001E8051 /* Koin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 838D7F892787440A001E8051 /* Koin.swift */; };
 		838D7F8D27874EB1001E8051 /* Napier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 838D7F8C27874EB1001E8051 /* Napier.swift */; };
@@ -64,6 +66,7 @@
 
 /* Begin PBXFileReference section */
 		6A956C939475A9BB0BB2E4D2 /* Pods-f1results (iOS).debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-f1results (iOS).debug.xcconfig"; path = "Target Support Files/Pods-f1results (iOS)/Pods-f1results (iOS).debug.xcconfig"; sourceTree = "<group>"; };
+		83612CD227877F00002408B1 /* NetworkMonitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkMonitor.swift; sourceTree = "<group>"; };
 		838D7F892787440A001E8051 /* Koin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Koin.swift; sourceTree = "<group>"; };
 		838D7F8C27874EB1001E8051 /* Napier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Napier.swift; sourceTree = "<group>"; };
 		838D7F9727874FC8001E8051 /* TabBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBar.swift; sourceTree = "<group>"; };
@@ -136,6 +139,14 @@
 				9D8D90E42D4BC4D3A1069FB3 /* Pods_f1results__macOS_.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		83612CD127877EEA002408B1 /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				83612CD227877F00002408B1 /* NetworkMonitor.swift */,
+			);
+			path = Utils;
 			sourceTree = "<group>";
 		};
 		838D7F8F27874F0C001E8051 /* Presentation */ = {
@@ -227,6 +238,7 @@
 		83D0B78E27873BB50023AF07 /* Shared */ = {
 			isa = PBXGroup;
 			children = (
+				83612CD127877EEA002408B1 /* Utils */,
 				838D7F8F27874F0C001E8051 /* Presentation */,
 				83D0B78F27873BB50023AF07 /* f1resultsApp.swift */,
 				83D0B79027873BB50023AF07 /* ContentView.swift */,
@@ -499,6 +511,7 @@
 				838D7F9B27874FEB001E8051 /* CurrentCalendarScreen.swift in Sources */,
 				838D7FA4278750CA001E8051 /* QualifyingResults.swift in Sources */,
 				838D7FB02787520C001E8051 /* ConstructorStandings.swift in Sources */,
+				83612CD327877F00002408B1 /* NetworkMonitor.swift in Sources */,
 				83D0B7B927873BB60023AF07 /* ContentView.swift in Sources */,
 				838D7F8D27874EB1001E8051 /* Napier.swift in Sources */,
 				83D0B7B727873BB60023AF07 /* f1resultsApp.swift in Sources */,
@@ -520,6 +533,7 @@
 				838D7F9C27874FEB001E8051 /* CurrentCalendarScreen.swift in Sources */,
 				838D7FA5278750CA001E8051 /* QualifyingResults.swift in Sources */,
 				838D7FB12787520C001E8051 /* ConstructorStandings.swift in Sources */,
+				83612CD427877F00002408B1 /* NetworkMonitor.swift in Sources */,
 				83D0B7BA27873BB60023AF07 /* ContentView.swift in Sources */,
 				838D7F8E27874EB1001E8051 /* Napier.swift in Sources */,
 				83D0B7B827873BB60023AF07 /* f1resultsApp.swift in Sources */,
@@ -683,11 +697,13 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = ZS95ZW7KX6;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				IPHONEOS_DEPLOYMENT_TARGET = 15.2;
@@ -713,11 +729,13 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = ZS95ZW7KX6;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				IPHONEOS_DEPLOYMENT_TARGET = 15.2;
@@ -746,6 +764,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = ZS95ZW7KX6;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
@@ -773,6 +792,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = ZS95ZW7KX6;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";

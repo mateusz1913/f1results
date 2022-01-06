@@ -11,6 +11,7 @@ import dev.burnoo.cokoin.Koin
 import dev.mateusz1913.f1results.android.di.appModule
 import dev.mateusz1913.f1results.android.presentation.navigation.Navigation
 import dev.mateusz1913.f1results.android.theme.F1ResultsTheme
+import dev.mateusz1913.f1results.android.utils.NetworkMonitor
 import dev.mateusz1913.f1results.di.initKoinAppDeclaration
 
 @ExperimentalPagerApi
@@ -35,5 +36,15 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        NetworkMonitor.shared.startMonitoring(this)
+    }
+
+    override fun onPause() {
+        super.onPause()
+        NetworkMonitor.shared.stopMonitoring()
     }
 }
