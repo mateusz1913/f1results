@@ -41,13 +41,14 @@ import org.koin.dsl.module
 
 fun initKoin(appModule: Module): KoinApplication {
     val koinApplication = startKoin {
-        modules(
-            commonModule,
-            appModule
-        )
+        initKoinAppDeclaration(this, appModule)
     }
 
     return koinApplication
+}
+
+fun initKoinAppDeclaration(koinApplication: KoinApplication, appModule: Module): KoinApplication {
+    return koinApplication.modules(commonModule, appModule)
 }
 
 private val commonModule = module {

@@ -9,7 +9,9 @@ plugins {
 group = "me.mateuszmedrek"
 version = "1.0"
 
+val cokoinVersion = "0.3.2"
 val koinVersion = "3.1.4"
+val kotlinVersion = "1.6.10"
 
 kotlin {
     jvm {
@@ -24,7 +26,7 @@ kotlin {
                 implementation(project(":shared"))
                 implementation(compose.desktop.currentOs)
                 // TODO: Get back to JVM desktop implementation, when it will mature
-//                implementation("io.insert-koin:koin-core:$koinVersion")
+                implementation("dev.burnoo:cokoin:$cokoinVersion")
             }
         }
         val jvmTest by getting

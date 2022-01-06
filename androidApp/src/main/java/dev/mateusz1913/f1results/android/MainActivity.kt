@@ -7,32 +7,32 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.SideEffect
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
+import dev.burnoo.cokoin.Koin
+import dev.mateusz1913.f1results.android.di.appModule
 import dev.mateusz1913.f1results.android.presentation.navigation.Navigation
 import dev.mateusz1913.f1results.android.theme.F1ResultsTheme
-import dev.mateusz1913.f1results.di.AppInfo
-import io.github.aakira.napier.Napier
-import org.koin.core.component.KoinComponent
-import org.koin.core.component.inject
+import dev.mateusz1913.f1results.di.initKoinAppDeclaration
 
 @ExperimentalPagerApi
-class MainActivity : AppCompatActivity(), KoinComponent {
-    private val appInfo: AppInfo by inject()
-
+class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        Napier.d("APP_INFO: ${appInfo.appId}", null, "appInfo")
         setContent {
-            val systemUiController = rememberSystemUiController()
-            F1ResultsTheme {
-                val statusBarColor = MaterialTheme.colors.primary
-                val useDarkIcons = MaterialTheme.colors.isLight
-                SideEffect {
-                    systemUiController.setStatusBarColor(
-                        color = statusBarColor,
-                        darkIcons = useDarkIcons
-                    )
+            Koin(appDeclaration = {
+                initKoinAppDeclaration(this, appModule)
+            }) {
+                val systemUiController = rememberSystemUiController()
+                F1ResultsTheme {
+                    val statusBarColor = MaterialTheme.colors.primary
+                    val useDarkIcons = MaterialTheme.colors.isLight
+                    SideEffect {
+                        systemUiController.setStatusBarColor(
+                            color = statusBarColor,
+                            darkIcons = useDarkIcons
+                        )
+                    }
+                    Navigation()
                 }
-                Navigation()
             }
         }
     }

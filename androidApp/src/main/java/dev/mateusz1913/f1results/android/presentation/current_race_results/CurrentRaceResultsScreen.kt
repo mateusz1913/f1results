@@ -7,12 +7,12 @@ import androidx.compose.ui.Modifier
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.rememberPagerState
+import dev.burnoo.cokoin.viewmodel.getViewModel
 import dev.mateusz1913.f1results.android.presentation.common.TabBar
 import dev.mateusz1913.f1results.android.presentation.common.TabBarItem
 import dev.mateusz1913.f1results.android.presentation.qualifying_results.QualifyingResults
 import dev.mateusz1913.f1results.android.presentation.race_results.RaceResults
 import kotlinx.coroutines.launch
-import org.koin.androidx.compose.getViewModel
 
 @ExperimentalPagerApi
 @Composable

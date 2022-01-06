@@ -4,7 +4,6 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
@@ -12,12 +11,12 @@ import androidx.compose.ui.Modifier
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.rememberPagerState
+import dev.burnoo.cokoin.viewmodel.getViewModel
 import dev.mateusz1913.f1results.android.presentation.common.TabBar
 import dev.mateusz1913.f1results.android.presentation.common.TabBarItem
 import dev.mateusz1913.f1results.android.presentation.standings.ConstructorStandings
 import dev.mateusz1913.f1results.android.presentation.standings.DriverStandings
 import kotlinx.coroutines.launch
-import org.koin.androidx.compose.getViewModel
 
 @ExperimentalPagerApi
 @Composable

@@ -32,6 +32,7 @@ android {
     }
 }
 
+val cokoinVersion = "0.3.2"
 val composeVersion = "1.1.0-rc01"
 val koinVersion = "3.1.4"
 val accompanistVersion = "0.20.3"
@@ -53,10 +54,10 @@ dependencies {
     implementation("androidx.activity:activity-compose:1.4.0")
     implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.4.0")
     implementation("androidx.navigation:navigation-compose:2.4.0-rc01")
-    // Koin
-    implementation("io.insert-koin:koin-core:$koinVersion")
-    implementation("io.insert-koin:koin-android:$koinVersion")
-    implementation("io.insert-koin:koin-androidx-compose:$koinVersion")
+    // Cokoin
+    implementation("dev.burnoo:cokoin:$cokoinVersion")
+    implementation("dev.burnoo:cokoin-android-viewmodel:$cokoinVersion")
+    implementation("dev.burnoo:cokoin-android-navigation:$cokoinVersion")
     // Accompanist
     implementation("com.google.accompanist:accompanist-swiperefresh:$accompanistVersion")
     implementation("com.google.accompanist:accompanist-pager:$accompanistVersion")
