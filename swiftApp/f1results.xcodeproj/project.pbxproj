@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		83612CD327877F00002408B1 /* NetworkMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83612CD227877F00002408B1 /* NetworkMonitor.swift */; };
 		83612CD427877F00002408B1 /* NetworkMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83612CD227877F00002408B1 /* NetworkMonitor.swift */; };
+		83779C6B2788CAF200657DB8 /* Pods_f1results__macOS_.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 9D8D90E42D4BC4D3A1069FB3 /* Pods_f1results__macOS_.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		83779C6E2788CB9B00657DB8 /* Pods_f1results__macOS_.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9D8D90E42D4BC4D3A1069FB3 /* Pods_f1results__macOS_.framework */; };
 		838D7F8A2787440A001E8051 /* Koin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 838D7F892787440A001E8051 /* Koin.swift */; };
 		838D7F8B2787440A001E8051 /* Koin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 838D7F892787440A001E8051 /* Koin.swift */; };
 		838D7F8D27874EB1001E8051 /* Napier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 838D7F8C27874EB1001E8051 /* Napier.swift */; };
@@ -44,7 +46,6 @@
 		83D0B7BB27873BB60023AF07 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 83D0B79127873BB60023AF07 /* Assets.xcassets */; };
 		83D0B7BC27873BB60023AF07 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 83D0B79127873BB60023AF07 /* Assets.xcassets */; };
 		BBE36D1087C0BBB437AB68E4 /* Pods_f1results__iOS_.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EB0C9B94943F1060723DC012 /* Pods_f1results__iOS_.framework */; };
-		EB3E5F16D3F13639427D29A0 /* Pods_f1results__macOS_.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9D8D90E42D4BC4D3A1069FB3 /* Pods_f1results__macOS_.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -63,6 +64,20 @@
 			remoteInfo = "f1results (macOS)";
 		};
 /* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		83779C6C2788CAF200657DB8 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				83779C6B2788CAF200657DB8 /* Pods_f1results__macOS_.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		6A956C939475A9BB0BB2E4D2 /* Pods-f1results (iOS).debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-f1results (iOS).debug.xcconfig"; path = "Target Support Files/Pods-f1results (iOS)/Pods-f1results (iOS).debug.xcconfig"; sourceTree = "<group>"; };
@@ -111,7 +126,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				EB3E5F16D3F13639427D29A0 /* Pods_f1results__macOS_.framework in Frameworks */,
+				83779C6E2788CB9B00657DB8 /* Pods_f1results__macOS_.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -326,6 +341,7 @@
 				83D0B79827873BB60023AF07 /* Sources */,
 				83D0B79927873BB60023AF07 /* Frameworks */,
 				83D0B79A27873BB60023AF07 /* Resources */,
+				83779C6C2788CAF200657DB8 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -712,6 +728,14 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-ObjC",
+					"-l\"c++\"",
+					"-framework",
+					"\"shared\"",
+					"-lsqlite3",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = dev.mateusz1913.f1results;
 				PRODUCT_NAME = f1results;
 				SDKROOT = iphoneos;
@@ -744,6 +768,14 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-ObjC",
+					"-l\"c++\"",
+					"-framework",
+					"\"shared\"",
+					"-lsqlite3",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = dev.mateusz1913.f1results;
 				PRODUCT_NAME = f1results;
 				SDKROOT = iphoneos;
@@ -764,16 +796,31 @@
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
+				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = ZS95ZW7KX6;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
+					"@executable_path/Frameworks",
 					"@executable_path/../Frameworks",
+				);
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					/usr/local/Cellar/sqlite/3.37.1/lib,
 				);
 				MACOSX_DEPLOYMENT_TARGET = 12.1;
 				MARKETING_VERSION = 1.0;
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-ObjC",
+					"-l\"c++\"",
+					"-framework",
+					"\"shared\"",
+					"-lsqlite3",
+				);
+				PRESERVE_DEAD_CODE_INITS_AND_TERMS = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = dev.mateusz1913.f1results;
 				PRODUCT_NAME = f1results;
 				SDKROOT = macosx;
@@ -792,16 +839,31 @@
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
+				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = ZS95ZW7KX6;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
+					"@executable_path/Frameworks",
 					"@executable_path/../Frameworks",
+				);
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					/usr/local/Cellar/sqlite/3.37.1/lib,
 				);
 				MACOSX_DEPLOYMENT_TARGET = 12.1;
 				MARKETING_VERSION = 1.0;
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-ObjC",
+					"-l\"c++\"",
+					"-framework",
+					"\"shared\"",
+					"-lsqlite3",
+				);
+				PRESERVE_DEAD_CODE_INITS_AND_TERMS = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = dev.mateusz1913.f1results;
 				PRODUCT_NAME = f1results;
 				SDKROOT = macosx;

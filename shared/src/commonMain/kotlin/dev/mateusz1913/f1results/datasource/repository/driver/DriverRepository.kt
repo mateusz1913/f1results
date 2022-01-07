@@ -3,12 +3,8 @@ package dev.mateusz1913.f1results.datasource.repository.driver
 import dev.mateusz1913.f1results.datasource.data.driver.DriverInfoData
 import dev.mateusz1913.f1results.datasource.data.driver.DriverType
 import dev.mateusz1913.f1results.datasource.remote.driver.DriversApi
-import org.koin.core.component.KoinComponent
-import org.koin.core.component.inject
 
-class DriverRepository: KoinComponent {
-    private val driversApi: DriversApi by inject()
-
+class DriverRepository(private val driversApi: DriversApi){
     suspend fun fetchDriver(driverId: String): DriverType? {
         return driversApi.getSpecificDriver(driverId)
     }

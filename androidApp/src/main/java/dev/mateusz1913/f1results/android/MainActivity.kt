@@ -13,6 +13,7 @@ import dev.mateusz1913.f1results.android.presentation.navigation.Navigation
 import dev.mateusz1913.f1results.android.theme.F1ResultsTheme
 import dev.mateusz1913.f1results.android.utils.NetworkMonitor
 import dev.mateusz1913.f1results.di.initKoinAppDeclaration
+import org.koin.android.ext.koin.androidContext
 
 @ExperimentalPagerApi
 class MainActivity : AppCompatActivity() {
@@ -20,7 +21,9 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             Koin(appDeclaration = {
-                initKoinAppDeclaration(this, appModule)
+                androidContext(this@MainActivity)
+                initKoinAppDeclaration(this)
+                modules(appModule)
             }) {
                 val systemUiController = rememberSystemUiController()
                 F1ResultsTheme {

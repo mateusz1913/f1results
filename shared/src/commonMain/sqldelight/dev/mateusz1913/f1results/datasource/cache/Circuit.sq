@@ -1,0 +1,29 @@
+CREATE TABLE circuit_Entity (
+    circuit_id TEXT NOT NULL PRIMARY KEY,
+    url TEXT NOT NULL,
+    circuit_name TEXT NOT NULL,
+    country TEXT NOT NULL,
+    locality TEXT NOT NULL,
+    alt TEXT DEFAULT NULL,
+    lat TEXT DEFAULT NULL,
+    long TEXT DEFAULT NULL,
+    timestamp REAL NOT NULL
+);
+
+getCircuitById:
+SELECT * FROM circuit_Entity
+WHERE circuit_id = :id;
+
+insertCircuit:
+INSERT OR REPLACE
+INTO circuit_Entity (
+    circuit_id,
+    url,
+    circuit_name,
+    country,
+    locality,
+    alt,
+    lat,
+    long,
+    timestamp
+) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);

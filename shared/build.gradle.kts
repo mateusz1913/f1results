@@ -3,6 +3,7 @@ plugins {
     kotlin("native.cocoapods")
     id("com.android.library")
     id("kotlinx-serialization")
+    id("com.squareup.sqldelight")
 }
 
 version = "1.0"
@@ -20,11 +21,13 @@ android {
     }
 }
 
-val ktorVersion = "1.6.7"
-val kotlinxSerializationVersion = "1.3.2"
 val koinVersion = "3.1.4"
 val kotlinVersion = "1.6.10"
+val kotlinxDatetimeVersion = "0.3.1"
+val kotlinxSerializationVersion = "1.3.2"
+val ktorVersion = "1.6.7"
 val napierVersion = "2.3.0"
+val sqlDelightVersion = "1.5.3"
 
 kotlin {
     android()
@@ -56,6 +59,8 @@ kotlin {
                 implementation("io.insert-koin:koin-core:$koinVersion")
                 implementation("io.github.aakira:napier:$napierVersion")
                 api("io.github.aakira:napier:$napierVersion")
+                implementation("com.squareup.sqldelight:runtime:$sqlDelightVersion")
+                implementation("org.jetbrains.kotlinx:kotlinx-datetime:$kotlinxDatetimeVersion")
             }
         }
         val commonTest by getting {
@@ -68,6 +73,7 @@ kotlin {
         val androidMain by getting {
             dependencies {
                 implementation("io.ktor:ktor-client-android:$ktorVersion")
+                implementation("com.squareup.sqldelight:android-driver:$sqlDelightVersion")
             }
         }
         val androidTest by getting {
@@ -79,6 +85,9 @@ kotlin {
         // Darwin
         val darwinMain by creating {
             dependsOn(commonMain)
+            dependencies {
+                implementation("com.squareup.sqldelight:native-driver:$sqlDelightVersion")
+            }
         }
         val darwinTest by creating {
             dependsOn(commonTest)
@@ -111,6 +120,7 @@ kotlin {
         val jvmMain by getting {
             dependencies {
                 implementation("io.ktor:ktor-client-cio:$ktorVersion")
+                implementation("com.squareup.sqldelight:sqlite-driver:$sqlDelightVersion")
             }
         }
         // Macos
@@ -135,5 +145,12 @@ kotlin {
         val macosArm64Test by getting {
             dependsOn(macosMain)
         }
+    }
+}
+
+sqldelight {
+    database("F1Database") {
+        packageName = "dev.mateusz1913.f1results.datasource.cache"
+        sourceFolders = listOf("sqldelight")
     }
 }

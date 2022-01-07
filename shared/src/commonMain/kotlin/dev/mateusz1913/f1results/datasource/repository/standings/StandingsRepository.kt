@@ -5,12 +5,8 @@ import dev.mateusz1913.f1results.datasource.data.standings.ConstructorStandingsT
 import dev.mateusz1913.f1results.datasource.data.standings.DriverStandingsData
 import dev.mateusz1913.f1results.datasource.data.standings.DriverStandingsType
 import dev.mateusz1913.f1results.datasource.remote.standings.StandingsApi
-import org.koin.core.component.KoinComponent
-import org.koin.core.component.inject
 
-class StandingsRepository: KoinComponent {
-    private val standingsApi: StandingsApi by inject()
-
+class StandingsRepository(private val standingsApi: StandingsApi) {
     suspend fun fetchDriverStandings(
         season: String,
         round: String,

@@ -3,12 +3,8 @@ package dev.mateusz1913.f1results.datasource.repository.constructor
 import dev.mateusz1913.f1results.datasource.data.constructor.ConstructorInfoData
 import dev.mateusz1913.f1results.datasource.data.constructor.ConstructorType
 import dev.mateusz1913.f1results.datasource.remote.constructor.ConstructorsApi
-import org.koin.core.component.KoinComponent
-import org.koin.core.component.inject
 
-class ConstructorRepository: KoinComponent {
-    private val constructorsApi: ConstructorsApi by inject()
-
+class ConstructorRepository(private val constructorsApi: ConstructorsApi) {
     suspend fun fetchConstructor(constructorId: String): ConstructorType? {
         return constructorsApi.getSpecificConstructor(constructorId)
     }

@@ -76,7 +76,7 @@ fun Navigation() {
                 CurrentStandingsScreen()
             }
             composable(route = Screen.CurrentCalendar.route) { navBackStackEntry ->
-                CurrentCalendarScreen()
+                CurrentCalendarScreen(navController)
             }
             composable(
                 route = Screen.CircuitScreen.route + "/{circuitId}",
@@ -84,7 +84,9 @@ fun Navigation() {
                     type = NavType.StringType
                 })
             ) { navBackStackEntry ->
-                CircuitScreen()
+                val circuitId = navBackStackEntry.arguments?.getString("circuitId")
+                requireNotNull(circuitId) { "circuitId parameter not found"}
+                CircuitScreen(circuitId)
             }
             composable(
                 route = Screen.ConstructorScreen.route + "/{constructorId}",

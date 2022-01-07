@@ -2,8 +2,8 @@ import SwiftUI
 import shared
 
 struct ContentView: View {
-    @ObservedObject var currentRaceResultsViewModel = CurrentRaceResultsViewModel(raceResultsRepository: RaceResultsRepository(), qualifyingResultsRepository: QualifyingResultsRepository())
-    @ObservedObject var currentStandingsViewModel = CurrentStandingsViewModel(repository: StandingsRepository())
+    @ObservedObject var currentRaceResultsViewModel = CurrentRaceResultsViewModel(raceResultsRepository: koin.get(), qualifyingResultsRepository: koin.get())
+    @ObservedObject var currentStandingsViewModel = CurrentStandingsViewModel(repository: koin.get())
 
     var body: some View {
         VStack {

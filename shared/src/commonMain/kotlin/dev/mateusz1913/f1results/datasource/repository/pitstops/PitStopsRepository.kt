@@ -2,12 +2,8 @@ package dev.mateusz1913.f1results.datasource.repository.pitstops
 
 import dev.mateusz1913.f1results.datasource.data.pitstops.RaceWithPitStopsType
 import dev.mateusz1913.f1results.datasource.remote.pitstops.PitStopsApi
-import org.koin.core.component.KoinComponent
-import org.koin.core.component.inject
 
-class PitStopsRepository: KoinComponent {
-    private val pitStopsApi: PitStopsApi by inject()
-
+class PitStopsRepository(private val pitStopsApi: PitStopsApi) {
     suspend fun fetchPitStops(
         limit: Int? = null,
         offset: Int? = null,

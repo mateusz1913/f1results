@@ -2,9 +2,7 @@ import Foundation
 import shared
 
 func startKoin() {
-    let iosAppInfo: SwiftAppInfo = SwiftAppInfo()
-    
-    let koinApplication = KoinSwiftKt.doInitKoinSwift(appInfo: iosAppInfo)
+    let koinApplication = KoinSwiftKt.doInitKoinSwift()
     _koin = koinApplication.koin
 }
 
@@ -13,6 +11,16 @@ var koin: Koin_coreKoin {
     return _koin!
 }
 
-class SwiftAppInfo: AppInfo {
-    let appId: String = Bundle.main.bundleIdentifier!
+extension Koin_coreKoin {
+    func get() -> RaceResultsRepository {
+        return koin.getDependency(objCClass: RaceResultsRepository.self) as! RaceResultsRepository
+    }
+    
+    func get() -> QualifyingResultsRepository {
+        return koin.getDependency(objCClass: QualifyingResultsRepository.self) as! QualifyingResultsRepository
+    }
+    
+    func get() -> StandingsRepository {
+        return koin.getDependency(objCClass: StandingsRepository.self) as! StandingsRepository
+    }
 }

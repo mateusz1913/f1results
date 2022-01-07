@@ -2,12 +2,8 @@ package dev.mateusz1913.f1results.datasource.repository.season_list
 
 import dev.mateusz1913.f1results.datasource.data.season_list.SeasonListData
 import dev.mateusz1913.f1results.datasource.remote.season_list.SeasonListApi
-import org.koin.core.component.KoinComponent
-import org.koin.core.component.inject
 
-class SeasonListRepository: KoinComponent {
-    private val seasonListApi: SeasonListApi by inject()
-
+class SeasonListRepository(private val seasonListApi: SeasonListApi) {
     suspend fun fetchSeasonList(
         limit: Int? = null,
         offset: Int? = null,

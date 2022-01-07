@@ -3,12 +3,8 @@ package dev.mateusz1913.f1results.datasource.repository.race_results
 import dev.mateusz1913.f1results.datasource.data.race_results.RaceResultsData
 import dev.mateusz1913.f1results.datasource.data.race_results.RaceWithResultsType
 import dev.mateusz1913.f1results.datasource.remote.race_results.RaceResultsApi
-import org.koin.core.component.KoinComponent
-import org.koin.core.component.inject
 
-class RaceResultsRepository: KoinComponent {
-    private val raceResultsApi: RaceResultsApi by inject()
-
+class RaceResultsRepository(private val raceResultsApi: RaceResultsApi) {
     suspend fun fetchRaceResult(
         season: String,
         round: String,
