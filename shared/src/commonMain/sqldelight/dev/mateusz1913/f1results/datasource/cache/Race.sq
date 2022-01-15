@@ -1,0 +1,48 @@
+CREATE TABLE race_Entity (
+    race_id TEXT NOT NULL PRIMARY KEY,
+    season TEXT NOT NULL,
+    round TEXT NOT NULL,
+    url TEXT NOT NULL,
+    race_name TEXT NOT NULL,
+    circuit_id TEXT NOT NULL,
+    date TEXT NOT NULL,
+    time TEXT NOT NULL,
+    timestamp REAL NOT NULL,
+    FOREIGN KEY (circuit_id) REFERENCES circuit_Entity(circuit_id)
+);
+
+getRaceWithRaceId:
+SELECT race_Entity.race_id AS race_id, race_Entity.season AS season, race_Entity.round AS round,
+race_Entity.url AS url, race_Entity.race_name AS race_name, race_Entity.date AS date,
+race_Entity.time AS time, race_Entity.timestamp AS timestamp, circuit_Entity.circuit_id AS circuit_id,
+circuit_Entity.url AS circuit_url, circuit_Entity.circuit_name AS circuit_name,
+circuit_Entity.country AS circuit_country, circuit_Entity.locality AS circuit_locality,
+circuit_Entity.alt AS circuit_alt, circuit_Entity.lat AS circuit_lat,
+circuit_Entity.long AS circuit_long, circuit_Entity.timestamp AS circuit_timestamp
+FROM race_Entity INNER JOIN circuit_Entity ON race_Entity.circuit_id = circuit_Entity.circuit_id
+WHERE race_id = :id;
+
+getRaceWithSeason:
+SELECT race_Entity.race_id AS race_id, race_Entity.season AS season, race_Entity.round AS round,
+race_Entity.url AS url, race_Entity.race_name AS race_name, race_Entity.date AS date,
+race_Entity.time AS time, race_Entity.timestamp AS timestamp, circuit_Entity.circuit_id AS circuit_id,
+circuit_Entity.url AS circuit_url, circuit_Entity.circuit_name AS circuit_name,
+circuit_Entity.country AS circuit_country, circuit_Entity.locality AS circuit_locality,
+circuit_Entity.alt AS circuit_alt, circuit_Entity.lat AS circuit_lat,
+circuit_Entity.long AS circuit_long, circuit_Entity.timestamp AS circuit_timestamp
+FROM race_Entity INNER JOIN circuit_Entity ON race_Entity.circuit_id = circuit_Entity.circuit_id
+WHERE season = :season;
+
+insertRace:
+INSERT OR REPLACE
+INTO race_Entity (
+    race_id,
+    season,
+    round,
+    url,
+    race_name,
+    circuit_id,
+    date,
+    time,
+    timestamp
+) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);

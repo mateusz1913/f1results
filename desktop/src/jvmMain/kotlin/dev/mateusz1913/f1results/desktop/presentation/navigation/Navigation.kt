@@ -10,14 +10,14 @@ import com.arkivanov.decompose.extensions.compose.jetbrains.Children
 import com.arkivanov.decompose.extensions.compose.jetbrains.animation.child.crossfadeScale
 import com.arkivanov.decompose.router.RouterState
 import com.arkivanov.decompose.value.ValueObserver
-import dev.mateusz1913.f1results.composable.circuit.CircuitScreen
+import dev.mateusz1913.f1results.composable.current_calendar.CurrentCalendarScreen
 import dev.mateusz1913.f1results.composable.current_race_results.CurrentRaceResultsScreen
 import dev.mateusz1913.f1results.composable.current_standings.CurrentStandingsScreen
-import dev.mateusz1913.f1results.composable.driver.DriverScreen
 
 val items = listOf(
     Screen.CurrentRaceResults,
-    Screen.CurrentStandings
+    Screen.CurrentStandings,
+    Screen.CurrentCalendar
 )
 
 @Composable
@@ -69,6 +69,7 @@ fun Navigation() {
                 when (val configuration = screen.configuration) {
                     is Screen.CurrentRaceResults -> CurrentRaceResultsScreen()
                     is Screen.CurrentStandings -> CurrentStandingsScreen()
+                    is Screen.CurrentCalendar -> CurrentCalendarScreen()
                 }
             }
         }

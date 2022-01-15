@@ -4,6 +4,7 @@ import shared
 struct ContentView: View {
     let currentRaceResultsState = CurrentRaceResultsState()
     let currentStandingsState = CurrentStandingsState()
+    let currentCalendarState = CurrentCalendarState()
     
     @Environment(\.colorScheme) var colorScheme
     
@@ -23,7 +24,7 @@ struct ContentView: View {
                                 Label("Current standings", image: "round_emoji_events_black_24pt")
                             }
                             .navigationTitle("Current standings")
-                        CurrentCalendarScreen()
+                        CurrentCalendarScreen(currentCalendarState: currentCalendarState)
                             .tabItem {
                                 Label("Current calendar", image: "round_event_black_24pt")
                             }

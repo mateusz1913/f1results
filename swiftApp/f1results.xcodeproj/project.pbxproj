@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		831883BE279389BB00553DD0 /* CurrentCalendarState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 831883BD279389BB00553DD0 /* CurrentCalendarState.swift */; };
+		831883BF279389BB00553DD0 /* CurrentCalendarState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 831883BD279389BB00553DD0 /* CurrentCalendarState.swift */; };
+		831883C227938AF700553DD0 /* RaceSchedule.swift in Sources */ = {isa = PBXBuildFile; fileRef = 831883C127938AF700553DD0 /* RaceSchedule.swift */; };
+		831883C327938AF700553DD0 /* RaceSchedule.swift in Sources */ = {isa = PBXBuildFile; fileRef = 831883C127938AF700553DD0 /* RaceSchedule.swift */; };
 		8359F309279098FF00ADC9C3 /* CurrentRaceResultsState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8359F308279098FF00ADC9C3 /* CurrentRaceResultsState.swift */; };
 		8359F30A279098FF00ADC9C3 /* CurrentRaceResultsState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8359F308279098FF00ADC9C3 /* CurrentRaceResultsState.swift */; };
 		8359F30C2790A52C00ADC9C3 /* CurrentStandingsState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8359F30B2790A52C00ADC9C3 /* CurrentStandingsState.swift */; };
@@ -91,6 +95,8 @@
 
 /* Begin PBXFileReference section */
 		6A956C939475A9BB0BB2E4D2 /* Pods-f1results (iOS).debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-f1results (iOS).debug.xcconfig"; path = "Target Support Files/Pods-f1results (iOS)/Pods-f1results (iOS).debug.xcconfig"; sourceTree = "<group>"; };
+		831883BD279389BB00553DD0 /* CurrentCalendarState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentCalendarState.swift; sourceTree = "<group>"; };
+		831883C127938AF700553DD0 /* RaceSchedule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RaceSchedule.swift; sourceTree = "<group>"; };
 		8359F308279098FF00ADC9C3 /* CurrentRaceResultsState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentRaceResultsState.swift; sourceTree = "<group>"; };
 		8359F30B2790A52C00ADC9C3 /* CurrentStandingsState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentStandingsState.swift; sourceTree = "<group>"; };
 		8359F3122790BE1100ADC9C3 /* DriverScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DriverScreen.swift; sourceTree = "<group>"; };
@@ -171,6 +177,14 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		831883C027938ADB00553DD0 /* RaceSchedule */ = {
+			isa = PBXGroup;
+			children = (
+				831883C127938AF700553DD0 /* RaceSchedule.swift */,
+			);
+			path = RaceSchedule;
+			sourceTree = "<group>";
+		};
 		8359F3112790BE0200ADC9C3 /* Driver */ = {
 			isa = PBXGroup;
 			children = (
@@ -193,6 +207,7 @@
 		838D7F8F27874F0C001E8051 /* Presentation */ = {
 			isa = PBXGroup;
 			children = (
+				831883C027938ADB00553DD0 /* RaceSchedule */,
 				8359F3112790BE0200ADC9C3 /* Driver */,
 				838D7F9627874F62001E8051 /* Standings */,
 				838D7F9527874F56001E8051 /* RaceResults */,
@@ -218,6 +233,7 @@
 			isa = PBXGroup;
 			children = (
 				838D7F9A27874FEB001E8051 /* CurrentCalendarScreen.swift */,
+				831883BD279389BB00553DD0 /* CurrentCalendarState.swift */,
 			);
 			path = CurrentCalendar;
 			sourceTree = "<group>";
@@ -551,6 +567,7 @@
 				838D7F8A2787440A001E8051 /* Koin.swift in Sources */,
 				838D7FA1278750A2001E8051 /* CurrentRaceResultsScreen.swift in Sources */,
 				838D7F9B27874FEB001E8051 /* CurrentCalendarScreen.swift in Sources */,
+				831883C227938AF700553DD0 /* RaceSchedule.swift in Sources */,
 				8359F3192790C84400ADC9C3 /* DriverState.swift in Sources */,
 				838D7FA4278750CA001E8051 /* QualifyingResults.swift in Sources */,
 				8359F31F2790E4D400ADC9C3 /* NavigationLazyView.swift in Sources */,
@@ -561,6 +578,7 @@
 				838D7F8D27874EB1001E8051 /* Napier.swift in Sources */,
 				8359F3132790BE1100ADC9C3 /* DriverScreen.swift in Sources */,
 				83D0B7B727873BB60023AF07 /* f1resultsApp.swift in Sources */,
+				831883BE279389BB00553DD0 /* CurrentCalendarState.swift in Sources */,
 				838D7FAD278751E9001E8051 /* CurrentStandingsScreen.swift in Sources */,
 				838D7FB327875223001E8051 /* DriverStandings.swift in Sources */,
 				8359F309279098FF00ADC9C3 /* CurrentRaceResultsState.swift in Sources */,
@@ -578,6 +596,7 @@
 				838D7F8B2787440A001E8051 /* Koin.swift in Sources */,
 				838D7FA2278750A2001E8051 /* CurrentRaceResultsScreen.swift in Sources */,
 				838D7F9C27874FEB001E8051 /* CurrentCalendarScreen.swift in Sources */,
+				831883C327938AF700553DD0 /* RaceSchedule.swift in Sources */,
 				8359F31A2790C84400ADC9C3 /* DriverState.swift in Sources */,
 				838D7FA5278750CA001E8051 /* QualifyingResults.swift in Sources */,
 				8359F3202790E4D400ADC9C3 /* NavigationLazyView.swift in Sources */,
@@ -588,6 +607,7 @@
 				838D7F8E27874EB1001E8051 /* Napier.swift in Sources */,
 				8359F3142790BE1100ADC9C3 /* DriverScreen.swift in Sources */,
 				83D0B7B827873BB60023AF07 /* f1resultsApp.swift in Sources */,
+				831883BF279389BB00553DD0 /* CurrentCalendarState.swift in Sources */,
 				838D7FAE278751E9001E8051 /* CurrentStandingsScreen.swift in Sources */,
 				838D7FB427875223001E8051 /* DriverStandings.swift in Sources */,
 				8359F30A279098FF00ADC9C3 /* CurrentRaceResultsState.swift in Sources */,

@@ -7,7 +7,7 @@ import dev.mateusz1913.f1results.datasource.data.standings.DriverStandingType
 import dev.mateusz1913.f1results.domain.now
 import dev.mateusz1913.f1results.domain.toEpochMilliseconds
 
-class DriverStandingCacheImpl(
+class DriverStandingsCacheImpl(
     private val queries: DriverStandingsQueries,
     private val constructorQueries: ConstructorQueries,
     private val driverQueries: DriverQueries,

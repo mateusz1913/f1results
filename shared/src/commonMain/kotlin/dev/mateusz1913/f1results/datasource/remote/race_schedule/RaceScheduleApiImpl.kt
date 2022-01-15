@@ -13,6 +13,21 @@ class RaceScheduleApiImpl(
 ): RaceScheduleApi {
     override suspend fun getSpecificRaceSchedule(
         season: String,
+    ): Array<RaceType>? {
+        val paramString = "/$season"
+        try {
+            val response = client.get<RaceScheduleResponse>("$baseUrl$paramString.json")
+            if (response.data.raceTable.races.isEmpty()) {
+                return null
+            }
+            return response.data.raceTable.races
+        } catch (e: Exception) {
+            return null
+        }
+    }
+
+    override suspend fun getSpecificRaceSchedule(
+        season: String,
         round: String,
     ): RaceType? {
         val paramString = "/$season/$round"

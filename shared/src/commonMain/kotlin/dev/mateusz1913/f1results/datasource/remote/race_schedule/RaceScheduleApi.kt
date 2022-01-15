@@ -6,6 +6,10 @@ import dev.mateusz1913.f1results.datasource.data.race_schedule.RaceType
 interface RaceScheduleApi {
     suspend fun getSpecificRaceSchedule(
         season: String,
+    ): Array<RaceType>?
+
+    suspend fun getSpecificRaceSchedule(
+        season: String,
         round: String,
     ): RaceType?
 

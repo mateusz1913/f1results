@@ -65,5 +65,6 @@ data class RaceScheduleData(
 
 @Serializable
 data class RaceScheduleResponse(
+    @SerialName("MRData")
     override val data: RaceScheduleData
 ): BaseResponse

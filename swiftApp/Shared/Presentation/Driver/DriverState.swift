@@ -14,9 +14,7 @@ class DriverState: ObservableObject {
     init(driverId: String) {
         self.driverId = driverId
         viewModel = koin.get(with: driverId)
-        NapierNapier.d(tag: "DriverState", viewModel.driverState.value, driverId, separator: "; ")
         viewModel.observeDriver { driverState in
-            NapierNapier.d(tag: "DriverState", "driver", driverState.isFetching, self.viewModel.driverState.value, separator: "; ")
             self.driver = driverState.driver
         }
         viewModel.observeSeasons { seasonsState in
@@ -29,7 +27,6 @@ class DriverState: ObservableObject {
             self.driverStanding = driverStandingState.driverStanding
         }
         viewModel.observeSelectedSeason { selectedSeason in
-            NapierNapier.d(tag: "DriverState", "selectedSeason", selectedSeason, separator: "; ")
             self.selectedSeason = selectedSeason
         }
     }

@@ -56,6 +56,10 @@ extension Koin_coreKoin {
         return koin.getDependency(objCClass: StandingsRepository.self) as! StandingsRepository
     }
     
+    func get() -> CurrentCalendarViewModel {
+        return koin.getDependency(objCClass: CurrentCalendarViewModel.self) as! CurrentCalendarViewModel
+    }
+    
     func get() -> CurrentRaceResultsViewModel {
         return koin.getDependency(objCClass: CurrentRaceResultsViewModel.self) as! CurrentRaceResultsViewModel
     }
