@@ -6,7 +6,7 @@ private enum StandingsTabItems: Int {
 }
 
 struct CurrentStandingsScreen: View {
-    @ObservedObject var currentStandingsViewModel: CurrentStandingsViewModel
+    @ObservedObject var currentStandingsState: CurrentStandingsState
     
     @State var selectedTab = StandingsTabItems.driver.rawValue
     
@@ -25,9 +25,9 @@ struct CurrentStandingsScreen: View {
                 })
             ])
             TabView(selection: $selectedTab) {
-                DriverStandings(driverStandings: currentStandingsViewModel.driverStandings)
+                DriverStandings(driverStandings: currentStandingsState.driverStandings)
                     .tag(StandingsTabItems.driver.rawValue)
-                ConstructorStandings(constructorStandings: currentStandingsViewModel.constructorStandings)
+                ConstructorStandings(constructorStandings: currentStandingsState.constructorStandings)
                     .tag(StandingsTabItems.constructor.rawValue)
             }
             #if os(iOS)

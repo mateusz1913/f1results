@@ -21,11 +21,13 @@ android {
     }
 }
 
+val cokoinVersion = "0.3.2"
 val koinVersion = "3.1.4"
 val kotlinVersion = "1.6.10"
 val kotlinxDatetimeVersion = "0.3.1"
 val kotlinxSerializationVersion = "1.3.2"
 val ktorVersion = "1.6.7"
+val lifecycleVersion = "2.4.0"
 val napierVersion = "2.3.0"
 val sqlDelightVersion = "1.5.3"
 
@@ -74,6 +76,8 @@ kotlin {
             dependencies {
                 implementation("io.ktor:ktor-client-android:$ktorVersion")
                 implementation("com.squareup.sqldelight:android-driver:$sqlDelightVersion")
+                implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycleVersion")
+                implementation("io.insert-koin:koin-android:$koinVersion")
             }
         }
         val androidTest by getting {

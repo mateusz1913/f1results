@@ -1,0 +1,47 @@
+CREATE TABLE IF NOT EXISTS driver_and_constructors_Entity (
+    id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    driver_id TEXT NOT NULL,
+    constructor_id TEXT NOT NULL,
+    season TEXT NOT NULL,
+    FOREIGN KEY (constructor_id) REFERENCES constructor_Entity(constructor_id)
+);
+
+CREATE TABLE IF NOT EXISTS driver_standing_Entity (
+    id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    driver_id TEXT NOT NULL,
+    season TEXT NOT NULL,
+    position TEXT NOT NULL,
+    position_text TEXT NOT NULL,
+    points TEXT NOT NULL,
+    wins TEXT NOT NULL,
+    timestamp REAL NOT NULL
+);
+
+getDriverStandingWithDriverIdAndSeason:
+SELECT season, position, position_text, points, wins, driver_standing_Entity.timestamp AS timestamp
+FROM driver_standing_Entity
+INNER JOIN driver_Entity ON driver_standing_Entity.driver_id = driver_Entity.driver_id
+WHERE driver_standing_Entity.driver_id = :id AND driver_standing_Entity.season = :season;
+
+getDriverConstructorsStandingWithDriverIdAndSeason:
+SELECT constructor_Entity.constructor_id, url, name, nationality FROM constructor_Entity
+INNER JOIN driver_and_constructors_Entity ON driver_and_constructors_Entity.constructor_id = constructor_Entity.constructor_id
+WHERE driver_and_constructors_Entity.driver_id = :id AND driver_and_constructors_Entity.season = :season;
+
+insertDriverStanding:
+INSERT INTO driver_standing_Entity (
+    driver_id,
+    season,
+    position,
+    position_text,
+    points,
+    wins,
+    timestamp
+) VALUES (?, ?, ?, ?, ?, ?, ?);
+
+insertDriverConstructorsStanding:
+INSERT INTO driver_and_constructors_Entity (
+    driver_id,
+    constructor_id,
+    season
+) VALUES (?, ?, ?);

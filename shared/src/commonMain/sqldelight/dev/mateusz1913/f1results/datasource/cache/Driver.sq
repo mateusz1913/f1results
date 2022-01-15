@@ -1,0 +1,29 @@
+CREATE TABLE IF NOT EXISTS driver_Entity (
+    driver_id TEXT NOT NULL PRIMARY KEY,
+    permanent_number TEXT DEFAULT NULL,
+    code TEXT NOT NULL,
+    url TEXT DEFAULT NULL,
+    given_name TEXT NOT NULL,
+    family_name TEXT NOT NULL,
+    date_of_birth TEXT DEFAULT NULL,
+    nationality TEXT DEFAULT NULL,
+    timestamp REAL NOT NULL
+);
+
+getDriverById:
+SELECT * FROM driver_Entity
+WHERE driver_id = :id;
+
+insertDriver:
+INSERT OR REPLACE
+INTO driver_Entity (
+    driver_id,
+    permanent_number,
+    code,
+    url,
+    given_name,
+    family_name,
+    date_of_birth,
+    nationality,
+    timestamp
+) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);

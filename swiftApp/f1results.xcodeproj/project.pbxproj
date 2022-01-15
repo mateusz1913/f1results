@@ -7,6 +7,20 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		8359F309279098FF00ADC9C3 /* CurrentRaceResultsState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8359F308279098FF00ADC9C3 /* CurrentRaceResultsState.swift */; };
+		8359F30A279098FF00ADC9C3 /* CurrentRaceResultsState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8359F308279098FF00ADC9C3 /* CurrentRaceResultsState.swift */; };
+		8359F30C2790A52C00ADC9C3 /* CurrentStandingsState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8359F30B2790A52C00ADC9C3 /* CurrentStandingsState.swift */; };
+		8359F30D2790A52C00ADC9C3 /* CurrentStandingsState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8359F30B2790A52C00ADC9C3 /* CurrentStandingsState.swift */; };
+		8359F3132790BE1100ADC9C3 /* DriverScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8359F3122790BE1100ADC9C3 /* DriverScreen.swift */; };
+		8359F3142790BE1100ADC9C3 /* DriverScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8359F3122790BE1100ADC9C3 /* DriverScreen.swift */; };
+		8359F3162790BEBB00ADC9C3 /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8359F3152790BEBB00ADC9C3 /* Theme.swift */; };
+		8359F3172790BEBB00ADC9C3 /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8359F3152790BEBB00ADC9C3 /* Theme.swift */; };
+		8359F3192790C84400ADC9C3 /* DriverState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8359F3182790C84400ADC9C3 /* DriverState.swift */; };
+		8359F31A2790C84400ADC9C3 /* DriverState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8359F3182790C84400ADC9C3 /* DriverState.swift */; };
+		8359F31C2790D29C00ADC9C3 /* KotlinExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8359F31B2790D29C00ADC9C3 /* KotlinExt.swift */; };
+		8359F31D2790D29C00ADC9C3 /* KotlinExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8359F31B2790D29C00ADC9C3 /* KotlinExt.swift */; };
+		8359F31F2790E4D400ADC9C3 /* NavigationLazyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8359F31E2790E4D400ADC9C3 /* NavigationLazyView.swift */; };
+		8359F3202790E4D400ADC9C3 /* NavigationLazyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8359F31E2790E4D400ADC9C3 /* NavigationLazyView.swift */; };
 		83612CD327877F00002408B1 /* NetworkMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83612CD227877F00002408B1 /* NetworkMonitor.swift */; };
 		83612CD427877F00002408B1 /* NetworkMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83612CD227877F00002408B1 /* NetworkMonitor.swift */; };
 		83779C6B2788CAF200657DB8 /* Pods_f1results__macOS_.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 9D8D90E42D4BC4D3A1069FB3 /* Pods_f1results__macOS_.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -19,16 +33,12 @@
 		838D7F9927874FC8001E8051 /* TabBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 838D7F9727874FC8001E8051 /* TabBar.swift */; };
 		838D7F9B27874FEB001E8051 /* CurrentCalendarScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 838D7F9A27874FEB001E8051 /* CurrentCalendarScreen.swift */; };
 		838D7F9C27874FEB001E8051 /* CurrentCalendarScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 838D7F9A27874FEB001E8051 /* CurrentCalendarScreen.swift */; };
-		838D7F9E27875026001E8051 /* CurrentRaceResultsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 838D7F9D27875026001E8051 /* CurrentRaceResultsViewModel.swift */; };
-		838D7F9F27875026001E8051 /* CurrentRaceResultsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 838D7F9D27875026001E8051 /* CurrentRaceResultsViewModel.swift */; };
 		838D7FA1278750A2001E8051 /* CurrentRaceResultsScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 838D7FA0278750A2001E8051 /* CurrentRaceResultsScreen.swift */; };
 		838D7FA2278750A2001E8051 /* CurrentRaceResultsScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 838D7FA0278750A2001E8051 /* CurrentRaceResultsScreen.swift */; };
 		838D7FA4278750CA001E8051 /* QualifyingResults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 838D7FA3278750CA001E8051 /* QualifyingResults.swift */; };
 		838D7FA5278750CA001E8051 /* QualifyingResults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 838D7FA3278750CA001E8051 /* QualifyingResults.swift */; };
 		838D7FA72787511D001E8051 /* RaceResults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 838D7FA62787511D001E8051 /* RaceResults.swift */; };
 		838D7FA82787511D001E8051 /* RaceResults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 838D7FA62787511D001E8051 /* RaceResults.swift */; };
-		838D7FAA278751C1001E8051 /* CurrentStandingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 838D7FA9278751C1001E8051 /* CurrentStandingsViewModel.swift */; };
-		838D7FAB278751C1001E8051 /* CurrentStandingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 838D7FA9278751C1001E8051 /* CurrentStandingsViewModel.swift */; };
 		838D7FAD278751E9001E8051 /* CurrentStandingsScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 838D7FAC278751E9001E8051 /* CurrentStandingsScreen.swift */; };
 		838D7FAE278751E9001E8051 /* CurrentStandingsScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 838D7FAC278751E9001E8051 /* CurrentStandingsScreen.swift */; };
 		838D7FB02787520C001E8051 /* ConstructorStandings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 838D7FAF2787520C001E8051 /* ConstructorStandings.swift */; };
@@ -81,16 +91,21 @@
 
 /* Begin PBXFileReference section */
 		6A956C939475A9BB0BB2E4D2 /* Pods-f1results (iOS).debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-f1results (iOS).debug.xcconfig"; path = "Target Support Files/Pods-f1results (iOS)/Pods-f1results (iOS).debug.xcconfig"; sourceTree = "<group>"; };
+		8359F308279098FF00ADC9C3 /* CurrentRaceResultsState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentRaceResultsState.swift; sourceTree = "<group>"; };
+		8359F30B2790A52C00ADC9C3 /* CurrentStandingsState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentStandingsState.swift; sourceTree = "<group>"; };
+		8359F3122790BE1100ADC9C3 /* DriverScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DriverScreen.swift; sourceTree = "<group>"; };
+		8359F3152790BEBB00ADC9C3 /* Theme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Theme.swift; sourceTree = "<group>"; };
+		8359F3182790C84400ADC9C3 /* DriverState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DriverState.swift; sourceTree = "<group>"; };
+		8359F31B2790D29C00ADC9C3 /* KotlinExt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KotlinExt.swift; sourceTree = "<group>"; };
+		8359F31E2790E4D400ADC9C3 /* NavigationLazyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationLazyView.swift; sourceTree = "<group>"; };
 		83612CD227877F00002408B1 /* NetworkMonitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkMonitor.swift; sourceTree = "<group>"; };
 		838D7F892787440A001E8051 /* Koin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Koin.swift; sourceTree = "<group>"; };
 		838D7F8C27874EB1001E8051 /* Napier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Napier.swift; sourceTree = "<group>"; };
 		838D7F9727874FC8001E8051 /* TabBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBar.swift; sourceTree = "<group>"; };
 		838D7F9A27874FEB001E8051 /* CurrentCalendarScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentCalendarScreen.swift; sourceTree = "<group>"; };
-		838D7F9D27875026001E8051 /* CurrentRaceResultsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentRaceResultsViewModel.swift; sourceTree = "<group>"; };
 		838D7FA0278750A2001E8051 /* CurrentRaceResultsScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentRaceResultsScreen.swift; sourceTree = "<group>"; };
 		838D7FA3278750CA001E8051 /* QualifyingResults.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QualifyingResults.swift; sourceTree = "<group>"; };
 		838D7FA62787511D001E8051 /* RaceResults.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RaceResults.swift; sourceTree = "<group>"; };
-		838D7FA9278751C1001E8051 /* CurrentStandingsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentStandingsViewModel.swift; sourceTree = "<group>"; };
 		838D7FAC278751E9001E8051 /* CurrentStandingsScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentStandingsScreen.swift; sourceTree = "<group>"; };
 		838D7FAF2787520C001E8051 /* ConstructorStandings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConstructorStandings.swift; sourceTree = "<group>"; };
 		838D7FB227875223001E8051 /* DriverStandings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DriverStandings.swift; sourceTree = "<group>"; };
@@ -156,10 +171,21 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		8359F3112790BE0200ADC9C3 /* Driver */ = {
+			isa = PBXGroup;
+			children = (
+				8359F3122790BE1100ADC9C3 /* DriverScreen.swift */,
+				8359F3182790C84400ADC9C3 /* DriverState.swift */,
+			);
+			path = Driver;
+			sourceTree = "<group>";
+		};
 		83612CD127877EEA002408B1 /* Utils */ = {
 			isa = PBXGroup;
 			children = (
 				83612CD227877F00002408B1 /* NetworkMonitor.swift */,
+				8359F31B2790D29C00ADC9C3 /* KotlinExt.swift */,
+				8359F31E2790E4D400ADC9C3 /* NavigationLazyView.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -167,6 +193,7 @@
 		838D7F8F27874F0C001E8051 /* Presentation */ = {
 			isa = PBXGroup;
 			children = (
+				8359F3112790BE0200ADC9C3 /* Driver */,
 				838D7F9627874F62001E8051 /* Standings */,
 				838D7F9527874F56001E8051 /* RaceResults */,
 				838D7F9427874F49001E8051 /* QualifyingResults */,
@@ -174,6 +201,7 @@
 				838D7F9227874F36001E8051 /* CurrentRaceResults */,
 				838D7F9127874F2D001E8051 /* CurrentCalendar */,
 				838D7F9027874F22001E8051 /* Common */,
+				8359F3152790BEBB00ADC9C3 /* Theme.swift */,
 			);
 			path = Presentation;
 			sourceTree = "<group>";
@@ -197,8 +225,8 @@
 		838D7F9227874F36001E8051 /* CurrentRaceResults */ = {
 			isa = PBXGroup;
 			children = (
-				838D7F9D27875026001E8051 /* CurrentRaceResultsViewModel.swift */,
 				838D7FA0278750A2001E8051 /* CurrentRaceResultsScreen.swift */,
+				8359F308279098FF00ADC9C3 /* CurrentRaceResultsState.swift */,
 			);
 			path = CurrentRaceResults;
 			sourceTree = "<group>";
@@ -206,8 +234,8 @@
 		838D7F9327874F40001E8051 /* CurrentStandings */ = {
 			isa = PBXGroup;
 			children = (
-				838D7FA9278751C1001E8051 /* CurrentStandingsViewModel.swift */,
 				838D7FAC278751E9001E8051 /* CurrentStandingsScreen.swift */,
+				8359F30B2790A52C00ADC9C3 /* CurrentStandingsState.swift */,
 			);
 			path = CurrentStandings;
 			sourceTree = "<group>";
@@ -520,21 +548,26 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				838D7FAA278751C1001E8051 /* CurrentStandingsViewModel.swift in Sources */,
 				838D7F8A2787440A001E8051 /* Koin.swift in Sources */,
 				838D7FA1278750A2001E8051 /* CurrentRaceResultsScreen.swift in Sources */,
-				838D7F9E27875026001E8051 /* CurrentRaceResultsViewModel.swift in Sources */,
 				838D7F9B27874FEB001E8051 /* CurrentCalendarScreen.swift in Sources */,
+				8359F3192790C84400ADC9C3 /* DriverState.swift in Sources */,
 				838D7FA4278750CA001E8051 /* QualifyingResults.swift in Sources */,
+				8359F31F2790E4D400ADC9C3 /* NavigationLazyView.swift in Sources */,
 				838D7FB02787520C001E8051 /* ConstructorStandings.swift in Sources */,
+				8359F30C2790A52C00ADC9C3 /* CurrentStandingsState.swift in Sources */,
 				83612CD327877F00002408B1 /* NetworkMonitor.swift in Sources */,
 				83D0B7B927873BB60023AF07 /* ContentView.swift in Sources */,
 				838D7F8D27874EB1001E8051 /* Napier.swift in Sources */,
+				8359F3132790BE1100ADC9C3 /* DriverScreen.swift in Sources */,
 				83D0B7B727873BB60023AF07 /* f1resultsApp.swift in Sources */,
 				838D7FAD278751E9001E8051 /* CurrentStandingsScreen.swift in Sources */,
 				838D7FB327875223001E8051 /* DriverStandings.swift in Sources */,
+				8359F309279098FF00ADC9C3 /* CurrentRaceResultsState.swift in Sources */,
 				838D7F9827874FC8001E8051 /* TabBar.swift in Sources */,
 				838D7FA72787511D001E8051 /* RaceResults.swift in Sources */,
+				8359F31C2790D29C00ADC9C3 /* KotlinExt.swift in Sources */,
+				8359F3162790BEBB00ADC9C3 /* Theme.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -542,21 +575,26 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				838D7FAB278751C1001E8051 /* CurrentStandingsViewModel.swift in Sources */,
 				838D7F8B2787440A001E8051 /* Koin.swift in Sources */,
 				838D7FA2278750A2001E8051 /* CurrentRaceResultsScreen.swift in Sources */,
-				838D7F9F27875026001E8051 /* CurrentRaceResultsViewModel.swift in Sources */,
 				838D7F9C27874FEB001E8051 /* CurrentCalendarScreen.swift in Sources */,
+				8359F31A2790C84400ADC9C3 /* DriverState.swift in Sources */,
 				838D7FA5278750CA001E8051 /* QualifyingResults.swift in Sources */,
+				8359F3202790E4D400ADC9C3 /* NavigationLazyView.swift in Sources */,
 				838D7FB12787520C001E8051 /* ConstructorStandings.swift in Sources */,
+				8359F30D2790A52C00ADC9C3 /* CurrentStandingsState.swift in Sources */,
 				83612CD427877F00002408B1 /* NetworkMonitor.swift in Sources */,
 				83D0B7BA27873BB60023AF07 /* ContentView.swift in Sources */,
 				838D7F8E27874EB1001E8051 /* Napier.swift in Sources */,
+				8359F3142790BE1100ADC9C3 /* DriverScreen.swift in Sources */,
 				83D0B7B827873BB60023AF07 /* f1resultsApp.swift in Sources */,
 				838D7FAE278751E9001E8051 /* CurrentStandingsScreen.swift in Sources */,
 				838D7FB427875223001E8051 /* DriverStandings.swift in Sources */,
+				8359F30A279098FF00ADC9C3 /* CurrentRaceResultsState.swift in Sources */,
 				838D7F9927874FC8001E8051 /* TabBar.swift in Sources */,
 				838D7FA82787511D001E8051 /* RaceResults.swift in Sources */,
+				8359F31D2790D29C00ADC9C3 /* KotlinExt.swift in Sources */,
+				8359F3172790BEBB00ADC9C3 /* Theme.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

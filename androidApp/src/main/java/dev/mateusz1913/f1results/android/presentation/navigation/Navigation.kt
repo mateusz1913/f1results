@@ -14,13 +14,12 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
-import com.google.accompanist.pager.ExperimentalPagerApi
-import dev.mateusz1913.f1results.android.presentation.circuit.CircuitScreen
-import dev.mateusz1913.f1results.android.presentation.constructor.ConstructorScreen
-import dev.mateusz1913.f1results.android.presentation.current_calendar.CurrentCalendarScreen
-import dev.mateusz1913.f1results.android.presentation.current_race_results.CurrentRaceResultsScreen
-import dev.mateusz1913.f1results.android.presentation.current_standings.CurrentStandingsScreen
-import dev.mateusz1913.f1results.android.presentation.driver.DriverScreen
+import dev.mateusz1913.f1results.composable.circuit.CircuitScreen
+import dev.mateusz1913.f1results.composable.constructor.ConstructorScreen
+import dev.mateusz1913.f1results.composable.current_calendar.CurrentCalendarScreen
+import dev.mateusz1913.f1results.composable.current_race_results.CurrentRaceResultsScreen
+import dev.mateusz1913.f1results.composable.current_standings.CurrentStandingsScreen
+import dev.mateusz1913.f1results.composable.driver.DriverScreen
 
 val items = listOf(
     Screen.CurrentRaceResults,
@@ -28,7 +27,6 @@ val items = listOf(
     Screen.CurrentCalendar,
 )
 
-@ExperimentalPagerApi
 @Composable
 fun Navigation() {
     val navController = rememberNavController()
@@ -62,21 +60,22 @@ fun Navigation() {
                     )
                 }
             }
-        }
+        },
+        topBar = { TopAppBar(title = { Text("F1Results") }) }
     ) { innerPadding ->
         NavHost(
             navController = navController,
-            startDestination = Screen.CurrentRaceResults.route,
+            startDestination = Screen.CurrentCalendar.route,
             modifier = Modifier.padding(innerPadding)
         ) {
-            composable(route = Screen.CurrentRaceResults.route) { navBackStackEntry ->
+            composable(route = Screen.CurrentRaceResults.route) {
                 CurrentRaceResultsScreen()
             }
-            composable(route = Screen.CurrentStandings.route) { navBackStackEntry ->
+            composable(route = Screen.CurrentStandings.route) {
                 CurrentStandingsScreen()
             }
-            composable(route = Screen.CurrentCalendar.route) { navBackStackEntry ->
-                CurrentCalendarScreen(navController)
+            composable(route = Screen.CurrentCalendar.route) {
+                CurrentCalendarScreen()
             }
             composable(
                 route = Screen.CircuitScreen.route + "/{circuitId}",
@@ -93,7 +92,7 @@ fun Navigation() {
                 arguments = listOf(navArgument("constructorId") {
                     type = NavType.StringType
                 })
-            ) { navBackStackEntry ->
+            ) {
                 ConstructorScreen()
             }
             composable(
@@ -102,7 +101,9 @@ fun Navigation() {
                     type = NavType.StringType
                 })
             ) { navBackStackEntry ->
-                DriverScreen()
+                val driverId = navBackStackEntry.arguments?.getString("driverId")
+                requireNotNull(driverId) { "driverId parameter not found" }
+                DriverScreen(driverId)
             }
         }
     }

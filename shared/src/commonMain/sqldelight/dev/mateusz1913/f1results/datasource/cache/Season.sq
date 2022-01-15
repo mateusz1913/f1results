@@ -1,0 +1,22 @@
+CREATE TABLE IF NOT EXISTS driver_season_Entity (
+    season TEXT NOT NULL PRIMARY KEY,
+    url TEXT NOT NULL,
+    driver_id TEXT NOT NULL,
+    timestamp REAL NOT NULL,
+    FOREIGN KEY (driver_id) REFERENCES driver_Entity(driver_id)
+);
+
+getSeasonsWithDriverId:
+SELECT season, driver_season_Entity.url AS url, driver_season_Entity.driver_id AS driver_id,
+driver_season_Entity.timestamp AS timestamp FROM driver_season_Entity
+INNER JOIN driver_Entity ON driver_Entity.driver_id = driver_season_Entity.driver_id
+WHERE driver_season_Entity.driver_id = :id;
+
+insertDriverSeason:
+INSERT OR REPLACE
+INTO driver_season_Entity (
+    season,
+    url,
+    driver_id,
+    timestamp
+) VALUES (?, ?, ?, ?);

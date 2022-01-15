@@ -4,6 +4,14 @@ import dev.mateusz1913.f1results.datasource.cache.F1Database
 import dev.mateusz1913.f1results.datasource.cache.F1DatabaseFactory
 import dev.mateusz1913.f1results.datasource.cache.circuit.CircuitCache
 import dev.mateusz1913.f1results.datasource.cache.circuit.CircuitCacheImpl
+import dev.mateusz1913.f1results.datasource.cache.constructor.ConstructorCache
+import dev.mateusz1913.f1results.datasource.cache.constructor.ConstructorCacheImpl
+import dev.mateusz1913.f1results.datasource.cache.driver.DriverCache
+import dev.mateusz1913.f1results.datasource.cache.driver.DriverCacheImpl
+import dev.mateusz1913.f1results.datasource.cache.season_list.SeasonCache
+import dev.mateusz1913.f1results.datasource.cache.season_list.SeasonCacheImpl
+import dev.mateusz1913.f1results.datasource.cache.standings.DriverStandingCacheImpl
+import dev.mateusz1913.f1results.datasource.cache.standings.DriverStandingsCache
 import dev.mateusz1913.f1results.datasource.remote.createKtorClient
 import dev.mateusz1913.f1results.datasource.remote.circuit.CircuitsApi
 import dev.mateusz1913.f1results.datasource.remote.circuit.CircuitsApiImpl
@@ -38,13 +46,14 @@ import dev.mateusz1913.f1results.datasource.repository.race_results.RaceResultsR
 import dev.mateusz1913.f1results.datasource.repository.race_schedule.RaceScheduleRepository
 import dev.mateusz1913.f1results.datasource.repository.season_list.SeasonListRepository
 import dev.mateusz1913.f1results.datasource.repository.standings.StandingsRepository
-import org.koin.core.Koin
+import dev.mateusz1913.f1results.viewmodel.CircuitViewModel
+import dev.mateusz1913.f1results.viewmodel.CurrentRaceResultsViewModel
+import dev.mateusz1913.f1results.viewmodel.CurrentStandingsViewModel
+import dev.mateusz1913.f1results.viewmodel.DriverViewModel
 import org.koin.core.KoinApplication
 import org.koin.core.context.startKoin
-import org.koin.core.parameter.parametersOf
 import org.koin.dsl.KoinAppDeclaration
 import org.koin.dsl.module
-import kotlin.reflect.KClass
 
 fun initKoin(appDeclaration: KoinAppDeclaration = {}): KoinApplication {
     val koinApplication = startKoin {
@@ -56,22 +65,32 @@ fun initKoin(appDeclaration: KoinAppDeclaration = {}): KoinApplication {
 }
 
 fun initKoinAppDeclaration(koinApplication: KoinApplication): KoinApplication {
-    return koinApplication.modules(cacheModule, dataSourceModule)
+    return koinApplication.modules(cacheModule, networkModule, viewModelModule)
 }
 
 private val cacheModule = module {
-    single { F1DatabaseFactory(getDriverFactory(this)).createDatabase() }
+    single<F1Database> { F1DatabaseFactory(getDriverFactory(this)).createDatabase() }
     single<CircuitCache> { CircuitCacheImpl(get<F1Database>().circuitQueries) }
+    single<ConstructorCache> { ConstructorCacheImpl(get<F1Database>().constructorQueries) }
+    single<DriverCache> { DriverCacheImpl(get<F1Database>().driverQueries) }
+    single<SeasonCache> { SeasonCacheImpl(get<F1Database>().seasonQueries) }
+    single<DriverStandingsCache> {
+        DriverStandingCacheImpl(
+            get<F1Database>().driverStandingsQueries,
+            get<F1Database>().constructorQueries,
+            get<F1Database>().driverQueries
+        )
+    }
 }
 
-private val dataSourceModule = module {
+private val networkModule = module {
     single { createKtorClient() }
     single<CircuitsApi> { CircuitsApiImpl(get()) }
     single { CircuitRepository(get(), get()) }
     single<ConstructorsApi> { ConstructorsApiImpl(get()) }
-    single { ConstructorRepository(get()) }
+    single { ConstructorRepository(get(), get()) }
     single<DriversApi> { DriversApiImpl(get()) }
-    single { DriverRepository(get()) }
+    single { DriverRepository(get(), get()) }
     single<FinishingStatusApi> { FinishingStatusApiImpl(get()) }
     single { FinishingStatusRepository(get()) }
     single<LapTimesApi> { LapTimesApiImpl(get()) }
@@ -85,11 +104,14 @@ private val dataSourceModule = module {
     single<RaceScheduleApi> { RaceScheduleApiImpl(get()) }
     single { RaceScheduleRepository(get()) }
     single<SeasonListApi> { SeasonListApiImpl(get()) }
-    single { SeasonListRepository(get()) }
+    single { SeasonListRepository(get(), get()) }
     single<StandingsApi> { StandingsApiImpl(get()) }
-    single { StandingsRepository(get()) }
+    single { StandingsRepository(get(), get()) }
 }
 
-fun <T>Koin.getDependency(clazz: KClass<*>): T {
-    return get(clazz, null) { parametersOf(clazz.simpleName) } as T
+private val viewModelModule = module {
+    viewModelFactory { CurrentRaceResultsViewModel(get(), get()) }
+    viewModelFactory { CurrentStandingsViewModel(get()) }
+    viewModelFactory { CircuitViewModel(get(), get()) }
+    viewModelFactory { DriverViewModel(get(), get(), get(), get()) }
 }

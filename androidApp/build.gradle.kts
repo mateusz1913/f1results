@@ -32,14 +32,15 @@ android {
     }
 }
 
+val accompanistVersion = "0.20.3"
 val cokoinVersion = "0.3.2"
 val composeVersion = "1.1.0-rc01"
 val koinVersion = "3.1.4"
-val accompanistVersion = "0.20.3"
 val napierVersion = "2.3.0"
 
 dependencies {
     implementation(project(":shared"))
+    implementation(project(":sharedComposables"))
     implementation("com.google.android.material:material:1.4.0")
     implementation("androidx.appcompat:appcompat:1.4.0")
     // Compose

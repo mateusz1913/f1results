@@ -9,5 +9,6 @@ pluginManagement {
 
 rootProject.name = "f1results"
 include(":shared")
+include(":sharedComposables")
 include(":androidApp")
 include(":desktop")

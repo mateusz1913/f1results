@@ -6,7 +6,7 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class StatusType(
+data class FinishingStatusType(
     @SerialName("statusId")
     val statusId: String,
     @SerialName("count")
@@ -18,7 +18,7 @@ data class StatusType(
 @Serializable
 data class StatusTableType(
     @SerialName("Status")
-    val status: Array<StatusType>
+    val finishingStatuses: Array<FinishingStatusType>
 ) {
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
@@ -26,13 +26,13 @@ data class StatusTableType(
 
         other as StatusTableType
 
-        if (!status.contentEquals(other.status)) return false
+        if (!finishingStatuses.contentEquals(other.finishingStatuses)) return false
 
         return true
     }
 
     override fun hashCode(): Int {
-        return status.contentHashCode()
+        return finishingStatuses.contentHashCode()
     }
 }
 

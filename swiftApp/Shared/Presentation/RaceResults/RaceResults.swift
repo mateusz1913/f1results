@@ -12,10 +12,12 @@ struct RaceResults: View {
                         ForEach(0..<results.results.size, id: \.self) { i in
                             if let result = results.results.get(index: i) {
                                 let text = "\(result.positionText): \(result.driver.givenName) \(result.driver.familyName) - \(result.constructor.name)"
-                                Text(text)
-                                    .padding(4)
-                                    .frame(maxWidth: .infinity, alignment: .leading)
-                                    .border(.orange, width: 1)
+                                NavigationLink(destination: NavigationLazyView(DriverScreen(driverState: DriverState(driverId: result.driver.driverId)))) {
+                                    Text(text)
+                                        .padding(4)
+                                        .frame(maxWidth: .infinity, alignment: .leading)
+                                        .border(.orange, width: 1)
+                                }
                             }
                         }
                     }

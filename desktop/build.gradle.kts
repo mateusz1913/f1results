@@ -6,10 +6,11 @@ plugins {
     id("org.jetbrains.compose") version "1.0.1-rc2"
 }
 
-group = "me.mateuszmedrek"
+group = "dev.mateusz1913"
 version = "1.0"
 
 val cokoinVersion = "0.3.2"
+val decomposeVersion = "0.4.0"
 val koinVersion = "3.1.4"
 val kotlinVersion = "1.6.10"
 
@@ -24,9 +25,13 @@ kotlin {
         val jvmMain by getting {
             dependencies {
                 implementation(project(":shared"))
+                implementation(project(":sharedComposables"))
+                implementation(kotlin("stdlib-jdk8"))
                 implementation(compose.desktop.currentOs)
-                // TODO: Get back to JVM desktop implementation, when it will mature
+                implementation(compose.materialIconsExtended)
                 implementation("dev.burnoo:cokoin:$cokoinVersion")
+                implementation("com.arkivanov.decompose:decompose:$decomposeVersion")
+                implementation("com.arkivanov.decompose:extensions-compose-jetbrains:$decomposeVersion")
             }
         }
         val jvmTest by getting
@@ -35,7 +40,7 @@ kotlin {
 
 compose.desktop {
     application {
-        mainClass = "MainKt"
+        mainClass = "dev.mateusz1913.f1results.desktop.MainKt"
         nativeDistributions {
             targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb)
             packageName = "desktop"

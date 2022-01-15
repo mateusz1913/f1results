@@ -1,0 +1,21 @@
+CREATE TABLE IF NOT EXISTS constructor_Entity (
+    constructor_id TEXT NOT NULL PRIMARY KEY,
+    url TEXT DEFAULT NULL,
+    name TEXT NOT NULL,
+    nationality TEXT NOT NULL,
+    timestamp REAL NOT NULL
+);
+
+getConstructorById:
+SELECT * FROM constructor_Entity
+WHERE constructor_id = :id;
+
+insertConstructor:
+INSERT OR REPLACE
+INTO constructor_Entity (
+    constructor_id,
+    url,
+    name,
+    nationality,
+    timestamp
+) VALUES (?, ?, ?, ?, ?);
