@@ -23,6 +23,12 @@ fun <T> Koin.getCircuitViewModel(objCClass: ObjCClass, circuitId: String): T? =
     }
 
 @Suppress("unused")
+fun <T> Koin.getConstructorViewModel(objCClass: ObjCClass, constructorId: String): T? =
+    getOriginalKotlinClass(objCClass)?.let {
+        getDependency(it, constructorId)
+    }
+
+@Suppress("unused")
 fun <T> Koin.getDriverViewModel(objCClass: ObjCClass, driverId: String): T? =
     getOriginalKotlinClass(objCClass)?.let {
         getDependency(it, driverId)

@@ -72,6 +72,10 @@ extension Koin_coreKoin {
         return koin.getCircuitViewModel(objCClass: CircuitViewModel.self, circuitId: circuitId) as! CircuitViewModel
     }
     
+    func get(with constructorId: String) -> ConstructorViewModel {
+        return koin.getConstructorViewModel(objCClass: ConstructorViewModel.self, constructorId: constructorId) as! ConstructorViewModel
+    }
+    
     func get(with driverId: String) -> DriverViewModel {
         return koin.getDriverViewModel(objCClass: DriverViewModel.self, driverId: driverId) as! DriverViewModel
     }

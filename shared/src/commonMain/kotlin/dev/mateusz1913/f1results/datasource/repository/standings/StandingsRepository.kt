@@ -1,10 +1,11 @@
 package dev.mateusz1913.f1results.datasource.repository.standings
 
+import dev.mateusz1913.f1results.datasource.cache.standings.ConstructorStandingsCache
 import dev.mateusz1913.f1results.datasource.cache.standings.DriverStandingsCache
+import dev.mateusz1913.f1results.datasource.cache.standings.toConstructorStandingType
 import dev.mateusz1913.f1results.datasource.data.constructor.ConstructorType
 import dev.mateusz1913.f1results.datasource.data.standings.*
 import dev.mateusz1913.f1results.datasource.remote.standings.StandingsApi
-import dev.mateusz1913.f1results.datasource.repository.circuit.CircuitRepository
 import dev.mateusz1913.f1results.domain.now
 import dev.mateusz1913.f1results.domain.toEpochMilliseconds
 import io.github.aakira.napier.Napier
@@ -12,6 +13,7 @@ import io.github.aakira.napier.Napier
 class StandingsRepository(
     private val standingsApi: StandingsApi,
     private val driverStandingsCache: DriverStandingsCache,
+    private val constructorStandingsCache: ConstructorStandingsCache
 ) {
     suspend fun fetchDriverStandings(
         season: String,
@@ -53,7 +55,7 @@ class StandingsRepository(
         )
     }
 
-    suspend fun fetchConstructorsStandingsList(
+    private suspend fun fetchConstructorsStandingsList(
         limit: Int? = null,
         offset: Int? = null,
         season: String? = null,
@@ -73,7 +75,16 @@ class StandingsRepository(
         val standingData = fetchDriversStandingsList(season = season, driverId = driverId)
         val standing = standingData?.standingsTable?.standingsLists?.get(0)?.driverStandings?.get(0)
         if (standing != null) {
-            driverStandingsCache.insertDriverStanding(standing, driverId, season)
+            driverStandingsCache.insertDriverStanding(standing, season)
+        }
+        return standing
+    }
+
+    suspend fun fetchSeasonConstructorStanding(constructorId: String, season: String): ConstructorStandingType? {
+        val standingData = fetchConstructorsStandingsList(season = season, constructorId = constructorId)
+        val standing = standingData?.standingsTable?.standingsLists?.get(0)?.constructorStandings?.get(0)
+        if (standing != null) {
+            constructorStandingsCache.insertConstructorStanding(standing, season)
         }
         return standing
     }
@@ -106,6 +117,22 @@ class StandingsRepository(
             Napier.d(e.message ?: "No cached driver standing", tag = "StandingsRepository")
             null
         }
+    }
+
+    fun getCachedSeasonConstructorStanding(constructorId: String, season: String): ConstructorStandingType? {
+        val cachedStanding = try {
+            val cached = constructorStandingsCache.getConstructorStanding(constructorId, season)
+            val currentTimestamp = now().toEpochMilliseconds()
+            if (currentTimestamp < cached.timestamp + TIMESTAMP_THRESHOLD) {
+                cached
+            } else {
+                null
+            }
+        } catch (e: Exception) {
+            Napier.d(e.message ?: "No cached constructor standing", tag = "StandingRepository")
+            null
+        }
+        return cachedStanding?.toConstructorStandingType()
     }
 
     companion object {

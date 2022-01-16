@@ -12,6 +12,8 @@ import dev.mateusz1913.f1results.datasource.cache.race_schedule.RaceScheduleCach
 import dev.mateusz1913.f1results.datasource.cache.race_schedule.RaceScheduleCacheImpl
 import dev.mateusz1913.f1results.datasource.cache.season_list.SeasonCache
 import dev.mateusz1913.f1results.datasource.cache.season_list.SeasonCacheImpl
+import dev.mateusz1913.f1results.datasource.cache.standings.ConstructorStandingsCache
+import dev.mateusz1913.f1results.datasource.cache.standings.ConstructorStandingsCacheImpl
 import dev.mateusz1913.f1results.datasource.cache.standings.DriverStandingsCacheImpl
 import dev.mateusz1913.f1results.datasource.cache.standings.DriverStandingsCache
 import dev.mateusz1913.f1results.datasource.remote.createKtorClient
@@ -79,6 +81,12 @@ private val cacheModule = module {
         )
     }
     single<SeasonCache> { SeasonCacheImpl(get<F1Database>().seasonQueries) }
+    single<ConstructorStandingsCache> {
+        ConstructorStandingsCacheImpl(
+            get<F1Database>().constructorStandingsQueries,
+            get<F1Database>().constructorQueries
+        )
+    }
     single<DriverStandingsCache> {
         DriverStandingsCacheImpl(
             get<F1Database>().driverStandingsQueries,
@@ -111,7 +119,7 @@ private val networkModule = module {
     single<SeasonListApi> { SeasonListApiImpl(get()) }
     single { SeasonListRepository(get(), get()) }
     single<StandingsApi> { StandingsApiImpl(get()) }
-    single { StandingsRepository(get(), get()) }
+    single { StandingsRepository(get(), get(), get()) }
 }
 
 private val viewModelModule = module {
@@ -119,5 +127,6 @@ private val viewModelModule = module {
     viewModelFactory { CurrentRaceResultsViewModel(get(), get()) }
     viewModelFactory { CurrentStandingsViewModel(get()) }
     viewModelFactory { CircuitViewModel(get(), get()) }
+    viewModelFactory { ConstructorViewModel(get(), get(), get(), get()) }
     viewModelFactory { DriverViewModel(get(), get(), get(), get()) }
 }

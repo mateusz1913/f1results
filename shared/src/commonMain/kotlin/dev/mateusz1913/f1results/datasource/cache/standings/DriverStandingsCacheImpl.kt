@@ -27,12 +27,11 @@ class DriverStandingsCacheImpl(
 
     override fun insertDriverStanding(
         driverStanding: DriverStandingType,
-        driverId: String,
         season: String
     ) {
         queries.transaction {
             queries.insertDriverStanding(
-                driver_id = driverId,
+                driver_id = driverStanding.driver.driverId,
                 season = season,
                 position = driverStanding.position,
                 position_text = driverStanding.positionText,
@@ -50,7 +49,7 @@ class DriverStandingsCacheImpl(
                     timestamp = now().toEpochMilliseconds()
                 )
                 queries.insertDriverConstructorsStanding(
-                    driver_id = driverId,
+                    driver_id = driverStanding.driver.driverId,
                     constructor_id = it.constructorId,
                     season = season
                 )

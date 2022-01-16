@@ -10,15 +10,23 @@ import dev.mateusz1913.f1results.domain.toEpochMilliseconds
 import io.github.aakira.napier.Napier
 
 class SeasonListRepository(private val seasonListApi: SeasonListApi, private val seasonCache: SeasonCache) {
+    suspend fun fetchConstructorSeasonList(constructorId: String): Array<SeasonType>? {
+        val constructorSeasonList = fetchSeasonList(constructorId = constructorId, limit = 100)
+        if (constructorSeasonList != null) {
+            seasonCache.insertConstructorSeason(constructorSeasonList.seasonTable.seasons, constructorId)
+        }
+        return constructorSeasonList?.seasonTable?.seasons
+    }
+
     suspend fun fetchDriverSeasonList(driverId: String): Array<SeasonType>? {
-        val driverSeasonList = fetchSeasonList(driverId = driverId)
+        val driverSeasonList = fetchSeasonList(driverId = driverId, limit = 100)
         if (driverSeasonList != null) {
             seasonCache.insertDriverSeason(driverSeasonList.seasonTable.seasons, driverId)
         }
         return driverSeasonList?.seasonTable?.seasons
     }
 
-    suspend fun fetchSeasonList(
+    private suspend fun fetchSeasonList(
         limit: Int? = null,
         offset: Int? = null,
         circuitId: String? = null,
@@ -46,6 +54,22 @@ class SeasonListRepository(private val seasonListApi: SeasonListApi, private val
             statusId,
             order
         )
+    }
+
+    fun getCachedConstructorSeasonList(constructorId: String): Array<SeasonType>? {
+        val cachedConstructorSeasonList = try {
+            val cached = seasonCache.getSeasonsWithConstructorId(constructorId)
+            val currentTimestamp = now().toEpochMilliseconds()
+            if (currentTimestamp < cached[0].timestamp + TIMESTAMP_THRESHOLD) {
+                cached
+            } else {
+                null
+            }
+        } catch (e: Exception) {
+            Napier.d(e.message ?: "No cached constructor season list", tag = "SeasonListRepository")
+            null
+        }
+        return cachedConstructorSeasonList?.toArraySeasonType()
     }
 
     fun getCachedDriverSeasonList(driverId: String): Array<SeasonType>? {

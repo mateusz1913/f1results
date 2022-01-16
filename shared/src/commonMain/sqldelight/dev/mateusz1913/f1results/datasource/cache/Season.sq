@@ -1,3 +1,11 @@
+CREATE TABLE IF NOT EXISTS constructor_season_Entity (
+    season TEXT NOT NULL PRIMARY KEY,
+    url TEXT NOT NULL,
+    constructor_id TEXT NOT NULL,
+    timestamp REAL NOT NULL,
+    FOREIGN KEY (constructor_id) REFERENCES constructor_Entity(constructor_id)
+);
+
 CREATE TABLE IF NOT EXISTS driver_season_Entity (
     season TEXT NOT NULL PRIMARY KEY,
     url TEXT NOT NULL,
@@ -6,11 +14,27 @@ CREATE TABLE IF NOT EXISTS driver_season_Entity (
     FOREIGN KEY (driver_id) REFERENCES driver_Entity(driver_id)
 );
 
+getSeasonsWithConstructorId:
+SELECT season, constructor_season_Entity.url AS url,
+constructor_season_Entity.constructor_id AS constructor_id, constructor_season_Entity.timestamp AS timestamp
+FROM constructor_season_Entity
+INNER JOIN constructor_Entity ON constructor_Entity.constructor_id = constructor_season_Entity.constructor_id
+WHERE constructor_season_Entity.constructor_id = :id;
+
 getSeasonsWithDriverId:
 SELECT season, driver_season_Entity.url AS url, driver_season_Entity.driver_id AS driver_id,
 driver_season_Entity.timestamp AS timestamp FROM driver_season_Entity
 INNER JOIN driver_Entity ON driver_Entity.driver_id = driver_season_Entity.driver_id
 WHERE driver_season_Entity.driver_id = :id;
+
+insertConstructorSeason:
+INSERT OR REPLACE
+INTO constructor_season_Entity (
+    season,
+    url,
+    constructor_id,
+    timestamp
+) VALUES (?, ?, ?, ?);
 
 insertDriverSeason:
 INSERT OR REPLACE

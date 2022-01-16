@@ -13,10 +13,12 @@ struct ConstructorStandings: View {
                             if let standing = constructorStandings.constructorStandings.get(index: i) {
                                 let text = "\(standing.position): \(standing.constructor.name) - \(standing.points)"
                                 
-                                Text(text)
-                                    .padding(4)
-                                    .frame(maxWidth: .infinity, alignment: .leading)
-                                    .border(.orange, width: 1)
+                                NavigationLink(destination: NavigationLazyView(ConstructorScreen(constructorState: ConstructorState(constructorId: standing.constructor.constructorId)))) {
+                                    Text(text)
+                                        .padding(4)
+                                        .frame(maxWidth: .infinity, alignment: .leading)
+                                        .border(.orange, width: 1)                                    
+                                }
                             }
                         }
                     }

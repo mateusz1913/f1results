@@ -19,6 +19,7 @@ class DriverViewModel(
         MutableStateFlow(DriverState(driver = driverRepository.getCachedDriver(driverId)))
     val driverState: StateFlow<DriverState>
         get() = _driverState
+
     @Suppress("unused")
     fun observeDriver(onChange: (DriverState) -> Unit) {
         driverState.observe(onChange)
@@ -30,6 +31,7 @@ class DriverViewModel(
         ?.toTypedArray()))
     val seasonsState: StateFlow<SeasonsState>
         get() = _seasonsState
+
     @Suppress("unused")
     fun observeSeasons(onChange: (SeasonsState) -> Unit) {
         seasonsState.observe(onChange)
@@ -38,6 +40,7 @@ class DriverViewModel(
     private val _driverStandingState = MutableStateFlow(DriverStandingState())
     val driverStandingState: StateFlow<DriverStandingState>
         get() = _driverStandingState
+
     @Suppress("unused")
     fun observeDriverStanding(onChange: (DriverStandingState) -> Unit) {
         driverStandingState.observe(onChange)
@@ -46,6 +49,7 @@ class DriverViewModel(
     private val _selectedSeasonState = MutableStateFlow<String?>(null)
     val selectedSeasonState: StateFlow<String?>
         get() = _selectedSeasonState
+
     @Suppress("unused")
     fun observeSelectedSeason(onChange: (String?) -> Unit) {
         selectedSeasonState.observe(onChange)
@@ -76,7 +80,7 @@ class DriverViewModel(
             val seasonList = seasonListRepository.fetchDriverSeasonList(driverId)
             seasonList?.sortByDescending { it.season }
             _seasonsState.update { it.copy(seasons = seasonList, isFetching = false) }
-            if (_selectedSeasonState.value != null && seasonList != null) {
+            if (_selectedSeasonState.value == null && seasonList != null && seasonList.isNotEmpty()) {
                 fetchDriverStanding(seasonList[0].season)
             }
         }

@@ -49,6 +49,10 @@
 		838D7FB12787520C001E8051 /* ConstructorStandings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 838D7FAF2787520C001E8051 /* ConstructorStandings.swift */; };
 		838D7FB327875223001E8051 /* DriverStandings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 838D7FB227875223001E8051 /* DriverStandings.swift */; };
 		838D7FB427875223001E8051 /* DriverStandings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 838D7FB227875223001E8051 /* DriverStandings.swift */; };
+		839CA1FA27944BA10063DCCF /* ConstructorScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 839CA1F927944BA10063DCCF /* ConstructorScreen.swift */; };
+		839CA1FB27944BA10063DCCF /* ConstructorScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 839CA1F927944BA10063DCCF /* ConstructorScreen.swift */; };
+		839CA1FD27944BE00063DCCF /* ConstructorState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 839CA1FC27944BE00063DCCF /* ConstructorState.swift */; };
+		839CA1FE27944BE00063DCCF /* ConstructorState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 839CA1FC27944BE00063DCCF /* ConstructorState.swift */; };
 		83D0B7A827873BB60023AF07 /* Tests_iOS.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83D0B7A727873BB60023AF07 /* Tests_iOS.swift */; };
 		83D0B7AA27873BB60023AF07 /* Tests_iOSLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83D0B7A927873BB60023AF07 /* Tests_iOSLaunchTests.swift */; };
 		83D0B7B427873BB60023AF07 /* Tests_macOS.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83D0B7B327873BB60023AF07 /* Tests_macOS.swift */; };
@@ -115,6 +119,8 @@
 		838D7FAC278751E9001E8051 /* CurrentStandingsScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentStandingsScreen.swift; sourceTree = "<group>"; };
 		838D7FAF2787520C001E8051 /* ConstructorStandings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConstructorStandings.swift; sourceTree = "<group>"; };
 		838D7FB227875223001E8051 /* DriverStandings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DriverStandings.swift; sourceTree = "<group>"; };
+		839CA1F927944BA10063DCCF /* ConstructorScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConstructorScreen.swift; sourceTree = "<group>"; };
+		839CA1FC27944BE00063DCCF /* ConstructorState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConstructorState.swift; sourceTree = "<group>"; };
 		83D0B78F27873BB50023AF07 /* f1resultsApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = f1resultsApp.swift; sourceTree = "<group>"; };
 		83D0B79027873BB50023AF07 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		83D0B79127873BB60023AF07 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -207,6 +213,7 @@
 		838D7F8F27874F0C001E8051 /* Presentation */ = {
 			isa = PBXGroup;
 			children = (
+				839CA1F827944B900063DCCF /* Constructor */,
 				831883C027938ADB00553DD0 /* RaceSchedule */,
 				8359F3112790BE0200ADC9C3 /* Driver */,
 				838D7F9627874F62001E8051 /* Standings */,
@@ -279,6 +286,15 @@
 				838D7FB227875223001E8051 /* DriverStandings.swift */,
 			);
 			path = Standings;
+			sourceTree = "<group>";
+		};
+		839CA1F827944B900063DCCF /* Constructor */ = {
+			isa = PBXGroup;
+			children = (
+				839CA1F927944BA10063DCCF /* ConstructorScreen.swift */,
+				839CA1FC27944BE00063DCCF /* ConstructorState.swift */,
+			);
+			path = Constructor;
 			sourceTree = "<group>";
 		};
 		83D0B78927873BB50023AF07 = {
@@ -564,6 +580,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				839CA1FD27944BE00063DCCF /* ConstructorState.swift in Sources */,
 				838D7F8A2787440A001E8051 /* Koin.swift in Sources */,
 				838D7FA1278750A2001E8051 /* CurrentRaceResultsScreen.swift in Sources */,
 				838D7F9B27874FEB001E8051 /* CurrentCalendarScreen.swift in Sources */,
@@ -578,6 +595,7 @@
 				838D7F8D27874EB1001E8051 /* Napier.swift in Sources */,
 				8359F3132790BE1100ADC9C3 /* DriverScreen.swift in Sources */,
 				83D0B7B727873BB60023AF07 /* f1resultsApp.swift in Sources */,
+				839CA1FA27944BA10063DCCF /* ConstructorScreen.swift in Sources */,
 				831883BE279389BB00553DD0 /* CurrentCalendarState.swift in Sources */,
 				838D7FAD278751E9001E8051 /* CurrentStandingsScreen.swift in Sources */,
 				838D7FB327875223001E8051 /* DriverStandings.swift in Sources */,
@@ -593,6 +611,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				839CA1FE27944BE00063DCCF /* ConstructorState.swift in Sources */,
 				838D7F8B2787440A001E8051 /* Koin.swift in Sources */,
 				838D7FA2278750A2001E8051 /* CurrentRaceResultsScreen.swift in Sources */,
 				838D7F9C27874FEB001E8051 /* CurrentCalendarScreen.swift in Sources */,
@@ -607,6 +626,7 @@
 				838D7F8E27874EB1001E8051 /* Napier.swift in Sources */,
 				8359F3142790BE1100ADC9C3 /* DriverScreen.swift in Sources */,
 				83D0B7B827873BB60023AF07 /* f1resultsApp.swift in Sources */,
+				839CA1FB27944BA10063DCCF /* ConstructorScreen.swift in Sources */,
 				831883BF279389BB00553DD0 /* CurrentCalendarState.swift in Sources */,
 				838D7FAE278751E9001E8051 /* CurrentStandingsScreen.swift in Sources */,
 				838D7FB427875223001E8051 /* DriverStandings.swift in Sources */,

@@ -6,7 +6,6 @@ struct DriverScreen: View {
     @ObservedObject var driverState: DriverState
     
     var body: some View {
-        Text(driverState.driverId)
         if let driver = driverState.driver {
             VStack {
                 ScrollView {

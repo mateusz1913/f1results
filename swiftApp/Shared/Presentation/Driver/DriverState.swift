@@ -18,7 +18,6 @@ class DriverState: ObservableObject {
             self.driver = driverState.driver
         }
         viewModel.observeSeasons { seasonsState in
-            NapierNapier.d(tag: "DriverState", "seasons", seasonsState.isFetching, separator: "; ")
             if let kotlinArr = seasonsState.seasons {
                 self.seasons = Array(kotlinArr)
             }

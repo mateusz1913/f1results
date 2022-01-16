@@ -1,0 +1,28 @@
+CREATE TABLE IF NOT EXISTS constructor_standing_Entity (
+    id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    constructor_id TEXT NOT NULL,
+    season TEXT NOT NULL,
+    position TEXT NOT NULL,
+    points TEXT NOT NULL,
+    wins TEXT NOT NULL,
+    timestamp REAL NOT NULL
+);
+
+getConstructorStandingWithConstructorIdAndSeason:
+SELECT season, position, points, wins, constructor_standing_Entity.timestamp AS timestamp,
+constructor_Entity.constructor_id AS constructor_id, constructor_Entity.url AS url,
+constructor_Entity.name AS name, constructor_Entity.nationality AS nationality,
+constructor_Entity.timestamp AS timestamp
+FROM constructor_standing_Entity
+INNER JOIN constructor_Entity ON constructor_standing_Entity.constructor_id = constructor_Entity.constructor_id
+WHERE constructor_standing_Entity.constructor_id = :id AND season = :season;
+
+insertConstructorStanding:
+INSERT OR REPLACE INTO constructor_standing_Entity (
+    constructor_id,
+    season,
+    position,
+    points,
+    wins,
+    timestamp
+) VALUES (?, ?, ?, ?, ?, ?);

@@ -10,5 +10,5 @@ actual inline fun <reified T: BaseViewModel> Module.viewModelFactory(
     qualifier: Qualifier?,
     noinline definition: Definition<T>
 ): Pair<Module, InstanceFactory<T>> {
-    return single(qualifier, definition = definition)
+    return factory(qualifier, definition = definition)
 }
