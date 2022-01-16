@@ -1,6 +1,7 @@
 package dev.mateusz1913.f1results.composable.standings
 
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
@@ -11,11 +12,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import dev.mateusz1913.f1results.composable.common.MaybeSwipeRefresh
+import dev.mateusz1913.f1results.composable.navigation.LocalNavController
 import dev.mateusz1913.f1results.datasource.data.standings.DriverStandingsType
 
 @Composable
 fun DriverStandings(standings: DriverStandingsType?, isRefreshing: Boolean, onRefresh: () -> Unit) {
     if (standings != null) {
+        val navigationController = LocalNavController.current
         MaybeSwipeRefresh(isRefreshing, onRefresh) {
             LazyColumn {
                 items(standings.driverStandings) {
@@ -23,6 +26,9 @@ fun DriverStandings(standings: DriverStandingsType?, isRefreshing: Boolean, onRe
                         modifier = Modifier
                             .padding(4.dp)
                             .border(1.dp, MaterialTheme.colors.primary)
+                            .clickable {
+                                navigationController.navigateToDriverScreen(it.driver.driverId)
+                            }
                     ) {
                         Text("${it.positionText}: ${it.driver.givenName} ${it.driver.familyName} - ${
                             it.constructors.joinToString(

@@ -1,11 +1,13 @@
 package dev.mateusz1913.f1results.android.presentation.navigation
 
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.*
+import androidx.compose.material.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.sp
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavType
@@ -20,90 +22,133 @@ import dev.mateusz1913.f1results.composable.current_calendar.CurrentCalendarScre
 import dev.mateusz1913.f1results.composable.current_race_results.CurrentRaceResultsScreen
 import dev.mateusz1913.f1results.composable.current_standings.CurrentStandingsScreen
 import dev.mateusz1913.f1results.composable.driver.DriverScreen
+import dev.mateusz1913.f1results.composable.navigation.LocalNavController
+import dev.mateusz1913.f1results.composable.navigation.NavigationBottomBar
+import dev.mateusz1913.f1results.composable.navigation.NavigationController
+import dev.mateusz1913.f1results.composable.navigation.NavigationTopBar
 
 val items = listOf(
-    Screen.CurrentRaceResults,
-    Screen.CurrentStandings,
-    Screen.CurrentCalendar,
+    ScreenConfig.CurrentRaceResults,
+    ScreenConfig.CurrentStandings,
+    ScreenConfig.CurrentCalendar,
 )
 
 @Composable
 fun Navigation() {
+    val bottomBarVisibleState = rememberSaveable { mutableStateOf(true) }
+    val topBarVisibleState = rememberSaveable { mutableStateOf(false) }
     val navController = rememberNavController()
     Scaffold(
         bottomBar = {
-            BottomNavigation {
-                val navBackStackEntry by navController.currentBackStackEntryAsState()
-                val currentDestination = navBackStackEntry?.destination
-                items.forEach { screen ->
-                    BottomNavigationItem(
-                        icon = {
-                            if (screen.icon != null) {
-                                Icon(screen.icon, contentDescription = screen.iconContentDescription)
-                            }
-                        },
-                        label = {
-                            if (screen.label != null) {
-                                Text(screen.label, fontSize = 10.sp)
-                            }
-                        },
-                        selected = currentDestination?.hierarchy?.any { it.route == screen.route } == true,
-                        onClick = {
-                            navController.navigate(screen.route) {
-                                popUpTo(navController.graph.findStartDestination().id) {
-                                    saveState = true
-                                }
-                                launchSingleTop = true
-                                restoreState = true
-                            }
-                        },
-                    )
+            val navBackStackEntry by navController.currentBackStackEntryAsState()
+            val currentDestination = navBackStackEntry?.destination
+            NavigationBottomBar(
+                bottomBarVisibleState = bottomBarVisibleState,
+                items = items,
+                isItemSelected = { screen ->
+                    currentDestination?.hierarchy?.any { it.route == screen.route } == true
+                },
+                onBottomItemClick = { screen ->
+                    navController.navigate(screen.route) {
+                        popUpTo(navController.graph.findStartDestination().id) {
+                            saveState = true
+                        }
+                        launchSingleTop = true
+                        restoreState = true
+                    }
                 }
-            }
+            )
         },
-        topBar = { TopAppBar(title = { Text("F1Results") }) }
+        topBar = {
+            val navBackStackEntry by navController.currentBackStackEntryAsState()
+            val currentDestination = navBackStackEntry?.destination
+            val currentRoute = currentDestination?.route
+            NavigationTopBar(
+                topBarVisibleState = topBarVisibleState,
+                title = currentRoute ?: "",
+                shouldDisplayBackButton = navController.previousBackStackEntry != null,
+                onBackButtonPress = { navController.navigateUp() }
+            )
+        }
     ) { innerPadding ->
-        NavHost(
-            navController = navController,
-            startDestination = Screen.CurrentCalendar.route,
-            modifier = Modifier.padding(innerPadding)
-        ) {
-            composable(route = Screen.CurrentRaceResults.route) {
-                CurrentRaceResultsScreen()
+        val localNavController: NavigationController = object: NavigationController {
+            override fun goBack() {
+                navController.popBackStack()
             }
-            composable(route = Screen.CurrentStandings.route) {
-                CurrentStandingsScreen()
+
+            override fun navigate(to: String) {
+                navController.navigate(to)
             }
-            composable(route = Screen.CurrentCalendar.route) {
-                CurrentCalendarScreen()
+
+            override fun navigateToCircuitScreen(circuitId: String) {
+                navController.navigate("circuitScreen/$circuitId")
             }
-            composable(
-                route = Screen.CircuitScreen.route + "/{circuitId}",
-                arguments = listOf(navArgument("circuitId") {
-                    type = NavType.StringType
-                })
-            ) { navBackStackEntry ->
-                val circuitId = navBackStackEntry.arguments?.getString("circuitId")
-                requireNotNull(circuitId) { "circuitId parameter not found"}
-                CircuitScreen(circuitId)
+
+            override fun navigateToConstructorScreen(constructorId: String) {
+                navController.navigate("constructorScreen/$constructorId")
             }
-            composable(
-                route = Screen.ConstructorScreen.route + "/{constructorId}",
-                arguments = listOf(navArgument("constructorId") {
-                    type = NavType.StringType
-                })
+
+            override fun navigateToDriverScreen(driverId: String) {
+                navController.navigate("driverScreen/$driverId")
+            }
+        }
+        CompositionLocalProvider(LocalNavController provides localNavController) {
+            NavHost(
+                navController = navController,
+                startDestination = ScreenConfig.CurrentRaceResults.route,
+                modifier = Modifier.padding(innerPadding)
             ) {
-                ConstructorScreen()
-            }
-            composable(
-                route = Screen.DriverScreen.route + "/{driverId}",
-                arguments = listOf(navArgument("driverId") {
-                    type = NavType.StringType
-                })
-            ) { navBackStackEntry ->
-                val driverId = navBackStackEntry.arguments?.getString("driverId")
-                requireNotNull(driverId) { "driverId parameter not found" }
-                DriverScreen(driverId)
+                composable(route = ScreenConfig.CurrentRaceResults.route) {
+                    bottomBarVisibleState.value = true
+                    topBarVisibleState.value = false
+                    CurrentRaceResultsScreen()
+                }
+                composable(route = ScreenConfig.CurrentStandings.route) {
+                    bottomBarVisibleState.value = true
+                    topBarVisibleState.value = false
+                    CurrentStandingsScreen()
+                }
+                composable(route = ScreenConfig.CurrentCalendar.route) {
+                    bottomBarVisibleState.value = true
+                    topBarVisibleState.value = false
+                    CurrentCalendarScreen()
+                }
+                composable(
+                    route = ScreenConfig.CircuitScreen.route + "/{circuitId}",
+                    arguments = listOf(navArgument("circuitId") {
+                        type = NavType.StringType
+                    })
+                ) { navBackStackEntry ->
+                    bottomBarVisibleState.value = false
+                    topBarVisibleState.value = true
+                    val circuitId = navBackStackEntry.arguments?.getString("circuitId")
+                    requireNotNull(circuitId) { "circuitId parameter not found"}
+                    CircuitScreen(circuitId)
+                }
+                composable(
+                    route = ScreenConfig.ConstructorScreen.route + "/{constructorId}",
+                    arguments = listOf(navArgument("constructorId") {
+                        type = NavType.StringType
+                    })
+                ) { navBackStackEntry ->
+                    bottomBarVisibleState.value = false
+                    topBarVisibleState.value = true
+                    val constructorId = navBackStackEntry.arguments?.getString("constructorId")
+                    requireNotNull(constructorId) { "constructorId parameter not found" }
+                    ConstructorScreen(constructorId)
+                }
+                composable(
+                    route = ScreenConfig.DriverScreen.route + "/{driverId}",
+                    arguments = listOf(navArgument("driverId") {
+                        type = NavType.StringType
+                    })
+                ) { navBackStackEntry ->
+                    bottomBarVisibleState.value = false
+                    topBarVisibleState.value = true
+                    val driverId = navBackStackEntry.arguments?.getString("driverId")
+                    requireNotNull(driverId) { "driverId parameter not found" }
+                    DriverScreen(driverId)
+                }
             }
         }
     }

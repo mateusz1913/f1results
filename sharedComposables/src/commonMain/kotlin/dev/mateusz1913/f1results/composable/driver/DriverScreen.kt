@@ -20,12 +20,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import dev.mateusz1913.f1results.composable.common.DriverStandingsRow
-import dev.mateusz1913.f1results.composable.common.DropdownButton
-import dev.mateusz1913.f1results.composable.common.Loading
+import dev.mateusz1913.f1results.composable.common.*
 import dev.mateusz1913.f1results.composable.di.getViewModelInstance
-import dev.mateusz1913.f1results.datasource.data.season_list.SeasonType
-import dev.mateusz1913.f1results.datasource.data.standings.DriverStandingType
 import dev.mateusz1913.f1results.viewmodel.DriverViewModel
 import org.koin.core.parameter.parametersOf
 
@@ -70,8 +66,10 @@ fun DriverScreen(
                     .padding(start = 24.dp, top = 20.dp, end = 24.dp),
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                Column(modifier = Modifier
-                    .padding(start = 0.dp, top = 2.dp, end = 10.dp, bottom = 2.dp)) {
+                Column(
+                    modifier = Modifier
+                        .padding(start = 0.dp, top = 2.dp, end = 10.dp, bottom = 2.dp)
+                ) {
                     Column(
                         modifier = Modifier
                             .size(50.dp)
@@ -129,52 +127,13 @@ fun DriverScreen(
                 )
             }
             if (seasons != null && selectedSeason != null) {
-                SeasonsSummary(
-                    seasons = seasons,
+                DriverSeasonsSummary(
                     driverStanding = driverStandingState.value.driverStanding,
+                    seasons = seasons,
                     selectedSeason = selectedSeason
                 ) { season ->
                     driverViewModel.fetchDriverStanding(season)
                 }
-            }
-        }
-    }
-}
-
-@Composable
-fun InfoContainer(content: @Composable (ColumnScope.() -> Unit)) {
-    Column(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(horizontal = 24.dp),
-        content = content
-    )
-}
-
-@Composable
-fun SeasonsSummary(
-    seasons: Array<SeasonType>,
-    driverStanding: DriverStandingType? = null,
-    selectedSeason: String,
-    onSelectedSeasonChange: (season: String) -> Unit
-) {
-    Column(modifier = Modifier.padding(start = 24.dp, top = 10.dp, end = 24.dp)) {
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.SpaceBetween
-        ) {
-            Text("Selected season: ")
-            DropdownButton(
-                items = seasons.map { it.season },
-                selected = selectedSeason,
-                onSelectedChange = onSelectedSeasonChange
-            )
-        }
-        if (driverStanding != null) {
-            Column(modifier = Modifier.fillMaxWidth()) {
-                Text("Standings: ", fontSize = 18.sp, fontStyle = FontStyle.Italic)
-                DriverStandingsRow(driverStanding = driverStanding, noDriverInfo = true)
             }
         }
     }

@@ -7,15 +7,16 @@ import androidx.compose.material.icons.rounded.SportsScore
 import androidx.compose.ui.graphics.vector.ImageVector
 import com.arkivanov.essenty.parcelable.Parcelable
 import com.arkivanov.essenty.parcelable.Parcelize
+import dev.mateusz1913.f1results.composable.navigation.Screen
 
-sealed class Screen(
-    val route: String,
-    val icon: ImageVector? = null,
-    val iconContentDescription: String? = null,
-    val label: String? = null
-): Parcelable {
+sealed class ScreenConfig(
+    override val route: String,
+    override val icon: ImageVector? = null,
+    override val iconContentDescription: String? = null,
+    override val label: String? = null,
+): Screen, Parcelable {
     @Parcelize
-    object CurrentRaceResults: Screen(
+    object CurrentRaceResults: ScreenConfig(
         route = "currentRaceResults",
         icon = Icons.Rounded.SportsScore,
         iconContentDescription = "Checkered flag icon",
@@ -23,7 +24,7 @@ sealed class Screen(
     )
 
     @Parcelize
-    object CurrentStandings: Screen(
+    object CurrentStandings: ScreenConfig(
         route = "currentStandings",
         icon = Icons.Rounded.EmojiEvents,
         iconContentDescription = "Trophy icon",
@@ -31,7 +32,7 @@ sealed class Screen(
     )
 
     @Parcelize
-    object CurrentCalendar: Screen(
+    object CurrentCalendar: ScreenConfig(
         route ="currentCalendar",
         icon = Icons.Rounded.Event,
         iconContentDescription = "Calendar icon",
@@ -39,11 +40,11 @@ sealed class Screen(
     )
 
     @Parcelize
-    object DriverScreen: Screen("driverScreen")
+    data class DriverScreen(val driverId: String): ScreenConfig(route = "driverScreen")
 
     @Parcelize
-    object CircuitScreen: Screen("circuitScreen")
+    data class CircuitScreen(val circuitId: String): ScreenConfig(route = "circuitScreen")
 
     @Parcelize
-    object ConstructorScreen: Screen("constructorScreen")
+    data class ConstructorScreen(val constructorId: String): ScreenConfig(route = "constructorScreen")
 }
