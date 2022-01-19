@@ -1,9 +1,11 @@
 import org.jetbrains.compose.compose
 import org.jetbrains.compose.desktop.application.dsl.TargetFormat
+import java.util.ArrayList
 
 plugins {
     kotlin("multiplatform")
     id("org.jetbrains.compose") version "1.0.1-rc2"
+    id("org.openjfx.javafxplugin") version "0.0.9"
 }
 
 group = "dev.mateusz1913"
@@ -36,6 +38,15 @@ kotlin {
         }
         val jvmTest by getting
     }
+}
+
+javafx {
+    version = "15"
+    val javaFXModules = ArrayList<String>()
+    javaFXModules.add("javafx.controls")
+    javaFXModules.add("javafx.swing")
+    javaFXModules.add("javafx.web")
+    modules = javaFXModules
 }
 
 compose.desktop {
