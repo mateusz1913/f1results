@@ -8,6 +8,8 @@ import dev.mateusz1913.f1results.datasource.cache.constructor.ConstructorCache
 import dev.mateusz1913.f1results.datasource.cache.constructor.ConstructorCacheImpl
 import dev.mateusz1913.f1results.datasource.cache.driver.DriverCache
 import dev.mateusz1913.f1results.datasource.cache.driver.DriverCacheImpl
+import dev.mateusz1913.f1results.datasource.cache.race_results.RaceResultsCache
+import dev.mateusz1913.f1results.datasource.cache.race_results.RaceResultsCacheImpl
 import dev.mateusz1913.f1results.datasource.cache.race_schedule.RaceScheduleCache
 import dev.mateusz1913.f1results.datasource.cache.race_schedule.RaceScheduleCacheImpl
 import dev.mateusz1913.f1results.datasource.cache.season_list.SeasonCache
@@ -74,6 +76,15 @@ private val cacheModule = module {
     single<CircuitCache> { CircuitCacheImpl(get<F1Database>().circuitQueries) }
     single<ConstructorCache> { ConstructorCacheImpl(get<F1Database>().constructorQueries) }
     single<DriverCache> { DriverCacheImpl(get<F1Database>().driverQueries) }
+    single<RaceResultsCache> {
+        RaceResultsCacheImpl(
+            get<F1Database>().raceResultsQueries,
+            get<F1Database>().raceQueries,
+            get<F1Database>().circuitQueries,
+            get<F1Database>().driverQueries,
+            get<F1Database>().constructorQueries
+        )
+    }
     single<RaceScheduleCache> {
         RaceScheduleCacheImpl(
             get<F1Database>().raceQueries,
@@ -113,7 +124,7 @@ private val networkModule = module {
     single<QualifyingResultsApi> { QualifyingResultsApiImpl(get()) }
     single { QualifyingResultsRepository(get()) }
     single<RaceResultsApi> { RaceResultsApiImpl(get()) }
-    single { RaceResultsRepository(get()) }
+    single { RaceResultsRepository(get(), get()) }
     single<RaceScheduleApi> { RaceScheduleApiImpl(get()) }
     single { RaceScheduleRepository(get(), get()) }
     single<SeasonListApi> { SeasonListApiImpl(get()) }

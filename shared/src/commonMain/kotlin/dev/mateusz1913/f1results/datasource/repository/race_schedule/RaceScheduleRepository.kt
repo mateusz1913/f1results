@@ -58,19 +58,37 @@ class RaceScheduleRepository(
         )
     }
 
+    private fun getCachedLastRaceSchedule(currentTimestamp: Double): RaceType? {
+        val cached = raceScheduleCache.getLastRaceSchedule()
+        if (currentTimestamp < cached.timestamp + TIMESTAMP_THRESHOLD) {
+            return cached.toRaceType()
+        }
+        return null
+    }
+
+    private fun getCachedRaceScheduleWithSeasonAndRound(
+        season: String,
+        round: String,
+        currentTimestamp: Double
+    ): RaceType? {
+        val cached = raceScheduleCache.getRaceScheduleWithSeasonAndRound(season, round)
+        if (currentTimestamp < cached.timestamp + TIMESTAMP_THRESHOLD) {
+            return cached.toRaceType()
+        }
+        return null
+    }
+
     fun getCachedRaceSchedule(season: String, round: String): RaceType? {
-        val cachedRaceSchedule = try {
-            val cached = raceScheduleCache.getRaceScheduleWithSeasonAndRound(season, round)
+        return try {
             val currentTimestamp = now().toEpochMilliseconds()
-            if (currentTimestamp < cached.timestamp + TIMESTAMP_THRESHOLD) {
-                cached
+            if (season == "current" && round == "last") {
+                getCachedLastRaceSchedule(currentTimestamp)
             } else {
-                null
+                getCachedRaceScheduleWithSeasonAndRound(season, round, currentTimestamp)
             }
         } catch (e: Exception) {
             null
         }
-        return cachedRaceSchedule?.toRaceType()
     }
 
     fun getCachedRaceScheduleListWithSeason(season: String): Array<RaceType>? {

@@ -1,0 +1,88 @@
+CREATE TABLE race_results_Entity (
+    id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    race_id TEXT NOT NULL,
+    driver_id TEXT NOT NULL,
+    constructor_id TEXT NOT NULL,
+    number TEXT DEFAULT NULL,
+    position TEXT NOT NULL,
+    position_text TEXT NOT NULL,
+    points TEXT DEFAULT NULL,
+    grid TEXT NOT NULL,
+    laps TEXT NOT NULL,
+    status TEXT NOT NULL,
+    time TEXT DEFAULT NULL,
+    milliseconds TEXT DEFAULT NULL,
+    fastest_lap TEXT DEFAULT NULL,
+    rank TEXT DEFAULT NULL,
+    fastest_lap_time TEXT DEFAULT NULL,
+    fastest_lap_milliseconds TEXT DEFAULT NULL,
+    fastest_lap_speed TEXT DEFAULT NULL,
+    fastest_lap_speed_units TEXT DEFAULT NULL,
+    timestamp REAL NOT NULL,
+    FOREIGN KEY (race_id) REFERENCES race_Entity(race_id),
+    FOREIGN KEY (driver_id) REFERENCES driver_Entity(driver_id),
+    FOREIGN KEY (constructor_id) REFERENCES constructor_Entity(constructor_id)
+);
+
+getRaceResultsWithRaceId:
+SELECT race_id,
+driver.driver_id AS driver_id, driver.nationality AS driver_nationality,
+driver.url AS driver_url, driver.date_of_birth AS driver_date_of_birth,
+driver.family_name AS driver_family_name, driver.given_name AS driver_given_name,
+driver.permanent_number AS driver_permanent_number, driver.code AS driver_code,
+driver.timestamp AS driver_timestamp, constructor.constructor_id AS constructor_id,
+constructor.url AS constructor_url, constructor.nationality AS constructor_nationality,
+constructor.name AS constructor_name, constructor.timestamp AS constructor_timestamp,
+number, position, position_text, points, grid, laps, status, results.time AS time, milliseconds,
+fastest_lap, rank, fastest_lap_time, fastest_lap_milliseconds, fastest_lap_speed,
+fastest_lap_speed_units, results.timestamp AS timestamp
+FROM race_results_Entity results
+INNER JOIN driver_Entity driver ON driver.driver_id = results.driver_id
+INNER JOIN constructor_Entity constructor ON constructor.constructor_id = results.constructor_id
+WHERE results.race_id = :id;
+
+getLastRaceResults:
+SELECT results.race_id AS race_id,
+driver.driver_id AS driver_id, driver.nationality AS driver_nationality,
+driver.url AS driver_url, driver.date_of_birth AS driver_date_of_birth,
+driver.family_name AS driver_family_name, driver.given_name AS driver_given_name,
+driver.permanent_number AS driver_permanent_number, driver.code AS driver_code,
+driver.timestamp AS driver_timestamp, constructor.constructor_id AS constructor_id,
+constructor.url AS constructor_url, constructor.nationality AS constructor_nationality,
+constructor.name AS constructor_name, constructor.timestamp AS constructor_timestamp,
+number, position, position_text, points, grid, laps, status, results.time AS time, milliseconds,
+fastest_lap, rank, fastest_lap_time, fastest_lap_milliseconds, fastest_lap_speed,
+fastest_lap_speed_units, results.timestamp AS timestamp
+FROM race_results_Entity results
+INNER JOIN race_Entity races ON races.race_id = results.race_id
+INNER JOIN driver_Entity driver ON driver.driver_id = results.driver_id
+INNER JOIN constructor_Entity constructor ON constructor.constructor_id = results.constructor_id
+WHERE races.round = (
+    SELECT MAX(races.round) FROM race_Entity races WHERE races.season = (
+        SELECT MAX(races.season) FROM race_Entity races
+    )
+) AND races.season = (SELECT MAX(races.season) FROM race_Entity races);
+
+insertRaceResults:
+INSERT OR REPLACE
+INTO race_results_Entity (
+    race_id,
+    driver_id,
+    constructor_id,
+    number,
+    position,
+    position_text,
+    points,
+    grid,
+    laps,
+    status,
+    time,
+    milliseconds,
+    fastest_lap,
+    rank,
+    fastest_lap_time,
+    fastest_lap_milliseconds,
+    fastest_lap_speed,
+    fastest_lap_speed_units,
+    timestamp
+) VALUES (?, ?, ?, ?, ?, ?, ?, ? ,?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
