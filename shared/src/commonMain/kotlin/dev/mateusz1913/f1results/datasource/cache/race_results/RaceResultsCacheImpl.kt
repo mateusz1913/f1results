@@ -11,7 +11,7 @@ class RaceResultsCacheImpl(
     private val circuitQueries: CircuitQueries,
     private val driverQueries: DriverQueries,
     private val constructorQueries: ConstructorQueries
-): RaceResultsCache {
+) : RaceResultsCache {
     override fun getLatestRaceResults(): Pair<GetLatestRace, List<GetLastRaceResults>> {
         val raceSchedule = raceScheduleQueries.getLatestRace().executeAsOne()
         val raceResults = raceResultsQueries.getLastRaceResults().executeAsList()
@@ -23,7 +23,8 @@ class RaceResultsCacheImpl(
         round: String
     ): Pair<GetRaceWithRaceId, List<GetRaceResultsWithRaceId>> {
         val raceSchedule = raceScheduleQueries.getRaceWithRaceId("$season/$round").executeAsOne()
-        val raceResults = raceResultsQueries.getRaceResultsWithRaceId("$season/$round").executeAsList()
+        val raceResults =
+            raceResultsQueries.getRaceResultsWithRaceId("$season/$round").executeAsList()
         return Pair(raceSchedule, raceResults)
     }
 

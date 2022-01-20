@@ -10,7 +10,10 @@ import dev.mateusz1913.f1results.datasource.remote.race_results.RaceResultsApi
 import dev.mateusz1913.f1results.domain.now
 import dev.mateusz1913.f1results.domain.toEpochMilliseconds
 
-class RaceResultsRepository(private val raceResultsApi: RaceResultsApi, private val raceResultsCache: RaceResultsCache) {
+class RaceResultsRepository(
+    private val raceResultsApi: RaceResultsApi,
+    private val raceResultsCache: RaceResultsCache
+) {
     suspend fun fetchRaceResult(
         season: String,
         round: String,
@@ -86,7 +89,10 @@ class RaceResultsRepository(private val raceResultsApi: RaceResultsApi, private 
         round: String,
         currentTimestamp: Double
     ): RaceWithResultsType? {
-        val (raceSchedule, raceResults) = raceResultsCache.getRaceResultsWithSeasonAndRound(season, round)
+        val (raceSchedule, raceResults) = raceResultsCache.getRaceResultsWithSeasonAndRound(
+            season,
+            round
+        )
         if (currentTimestamp < raceResults[0].timestamp + TIMESTAMP_THRESHOLD) {
             return RaceWithResultsType(
                 season = "${raceSchedule.season}",

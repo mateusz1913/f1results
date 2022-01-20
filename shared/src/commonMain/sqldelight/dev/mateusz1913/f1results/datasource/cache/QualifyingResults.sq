@@ -1,0 +1,64 @@
+CREATE TABLE qualifying_results_Entity (
+    id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    race_id TEXT NOT NULL,
+    driver_id TEXT NOT NULL,
+    constructor_id TEXT NOT NULL,
+    number TEXT DEFAULT NULL,
+    position TEXT NOT NULL,
+    q1 TEXT NOT NULL,
+    q2 TEXT DEFAULT NULL,
+    q3 TEXT DEFAULT NULL,
+    timestamp REAL NOT NULL,
+    FOREIGN KEY (race_id) REFERENCES race_Entity(race_id),
+    FOREIGN KEY (driver_id) REFERENCES driver_Entity(driver_id),
+    FOREIGN KEY (constructor_id) REFERENCES constructor_Entity(constructor_id)
+);
+
+getQualifyingResultsWithRaceId:
+SELECT race_id,
+driver.driver_id AS driver_id, driver.nationality AS driver_nationality,
+driver.url AS driver_url, driver.date_of_birth AS driver_date_of_birth,
+driver.family_name AS driver_family_name, driver.given_name AS driver_given_name,
+driver.permanent_number AS driver_permanent_number, driver.code AS driver_code,
+driver.timestamp AS driver_timestamp, constructor.constructor_id AS constructor_id,
+constructor.url AS constructor_url, constructor.nationality AS constructor_nationality,
+constructor.name AS constructor_name, constructor.timestamp AS constructor_timestamp,
+number, position, q1, q2, q3, qualifying.timestamp AS timestamp
+FROM qualifying_results_Entity qualifying
+INNER JOIN driver_Entity driver ON driver.driver_id = qualifying.driver_id
+INNER JOIN constructor_Entity constructor ON constructor.constructor_id = qualifying.constructor_id
+WHERE qualifying.race_id = :id;
+
+getLastQualifyingResults:
+SELECT qualifying.race_id AS race_id,
+driver.driver_id AS driver_id, driver.nationality AS driver_nationality,
+driver.url AS driver_url, driver.date_of_birth AS driver_date_of_birth,
+driver.family_name AS driver_family_name, driver.given_name AS driver_given_name,
+driver.permanent_number AS driver_permanent_number, driver.code AS driver_code,
+driver.timestamp AS driver_timestamp, constructor.constructor_id AS constructor_id,
+constructor.url AS constructor_url, constructor.nationality AS constructor_nationality,
+constructor.name AS constructor_name, constructor.timestamp AS constructor_timestamp,
+number, position, q1, q2, q3, qualifying.timestamp AS timestamp
+FROM qualifying_results_Entity qualifying
+INNER JOIN race_Entity races ON races.race_id = qualifying.race_id
+INNER JOIN driver_Entity driver ON driver.driver_id = qualifying.driver_id
+INNER JOIN constructor_Entity constructor ON constructor.constructor_id = qualifying.constructor_id
+WHERE races.round = (
+    SELECT MAX(races.round) FROM race_Entity races WHERE races.season = (
+        SELECT MAX(races.season) FROM race_Entity races
+    )
+) AND races.season = (SELECT MAX(races.season) FROM race_Entity races);
+
+insertQualifyingResults:
+INSERT OR REPLACE
+INTO qualifying_results_Entity (
+    race_id,
+    driver_id,
+    constructor_id,
+    number,
+    position,
+    q1,
+    q2,
+    q3,
+    timestamp
+) VALUES (?, ?, ?, ?, ?, ?, ?, ? ,?);

@@ -27,7 +27,14 @@ class CurrentRaceResultsViewModel(
         raceResultsState.observe(onChange)
     }
 
-    private val _qualifyingResultsState = MutableStateFlow(QualifyingResultsState())
+    private val _qualifyingResultsState = MutableStateFlow(
+        QualifyingResultsState(
+            qualifyingResults = qualifyingResultsRepository.getCachedQualifyingResult(
+                season = "current",
+                round = "last"
+            )
+        )
+    )
     val qualifyingResultsState: StateFlow<QualifyingResultsState>
         get() = _qualifyingResultsState
 
@@ -40,7 +47,9 @@ class CurrentRaceResultsViewModel(
         if (raceResultsState.value.raceResults == null) {
             fetchCurrentRaceResults()
         }
-        fetchCurrentQualifyingResults()
+        if (qualifyingResultsState.value.qualifyingResults == null) {
+            fetchCurrentQualifyingResults()
+        }
     }
 
     fun fetchCurrentRaceResults() {

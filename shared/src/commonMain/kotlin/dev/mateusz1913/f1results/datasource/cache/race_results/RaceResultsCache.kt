@@ -8,6 +8,10 @@ import dev.mateusz1913.f1results.datasource.data.race_results.RaceWithResultsTyp
 
 interface RaceResultsCache {
     fun getLatestRaceResults(): Pair<GetLatestRace, List<GetLastRaceResults>>
-    fun getRaceResultsWithSeasonAndRound(season: String, round: String): Pair<GetRaceWithRaceId, List<GetRaceResultsWithRaceId>>
+    fun getRaceResultsWithSeasonAndRound(
+        season: String,
+        round: String
+    ): Pair<GetRaceWithRaceId, List<GetRaceResultsWithRaceId>>
+
     fun insertRaceResults(raceResults: RaceWithResultsType)
 }
