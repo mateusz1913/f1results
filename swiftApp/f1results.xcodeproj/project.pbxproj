@@ -119,6 +119,7 @@
 		838D7FAC278751E9001E8051 /* CurrentStandingsScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentStandingsScreen.swift; sourceTree = "<group>"; };
 		838D7FAF2787520C001E8051 /* ConstructorStandings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConstructorStandings.swift; sourceTree = "<group>"; };
 		838D7FB227875223001E8051 /* DriverStandings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DriverStandings.swift; sourceTree = "<group>"; };
+		839B4A4C279A0390006D0DF6 /* f1results--iOS--Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "f1results--iOS--Info.plist"; sourceTree = "<group>"; };
 		839CA1F927944BA10063DCCF /* ConstructorScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConstructorScreen.swift; sourceTree = "<group>"; };
 		839CA1FC27944BE00063DCCF /* ConstructorState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConstructorState.swift; sourceTree = "<group>"; };
 		83D0B78F27873BB50023AF07 /* f1resultsApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = f1resultsApp.swift; sourceTree = "<group>"; };
@@ -288,6 +289,13 @@
 			path = Standings;
 			sourceTree = "<group>";
 		};
+		839B4A49279A0289006D0DF6 /* iOS */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = iOS;
+			sourceTree = "<group>";
+		};
 		839CA1F827944B900063DCCF /* Constructor */ = {
 			isa = PBXGroup;
 			children = (
@@ -300,7 +308,9 @@
 		83D0B78927873BB50023AF07 = {
 			isa = PBXGroup;
 			children = (
+				839B4A4C279A0390006D0DF6 /* f1results--iOS--Info.plist */,
 				83D0B78E27873BB50023AF07 /* Shared */,
+				839B4A49279A0289006D0DF6 /* iOS */,
 				83D0B79D27873BB60023AF07 /* macOS */,
 				83D0B7A627873BB60023AF07 /* Tests iOS */,
 				83D0B7B227873BB60023AF07 /* Tests macOS */,
@@ -794,9 +804,9 @@
 				DEVELOPMENT_TEAM = ZS95ZW7KX6;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "f1results--iOS--Info.plist";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
-				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
@@ -834,9 +844,9 @@
 				DEVELOPMENT_TEAM = ZS95ZW7KX6;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "f1results--iOS--Info.plist";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
-				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
