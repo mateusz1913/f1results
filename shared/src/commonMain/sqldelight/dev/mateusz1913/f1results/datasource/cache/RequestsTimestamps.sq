@@ -1,0 +1,13 @@
+CREATE TABLE IF NOT EXISTS request_timestamp_Entity (
+    request TEXT NOT NULL PRIMARY KEY,
+    timestamp REAL NOT NULL
+);
+
+getRequestTimestamp:
+SELECT * FROM request_timestamp_Entity WHERE request = :request;
+
+insertRequestTimestamp:
+INSERT OR REPLACE INTO request_timestamp_Entity (
+    request,
+    timestamp
+) VALUES (?, ?);

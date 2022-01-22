@@ -1,10 +1,10 @@
 CREATE TABLE IF NOT EXISTS qualifying_results_Entity (
-    id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    id TEXT NOT NULL PRIMARY KEY,
     race_id TEXT NOT NULL,
     driver_id TEXT NOT NULL,
     constructor_id TEXT NOT NULL,
     number TEXT DEFAULT NULL,
-    position TEXT NOT NULL,
+    position INTEGER NOT NULL,
     q1 TEXT NOT NULL,
     q2 TEXT DEFAULT NULL,
     q3 TEXT DEFAULT NULL,
@@ -27,7 +27,7 @@ number, position, q1, q2, q3, qualifying.timestamp AS timestamp
 FROM qualifying_results_Entity qualifying
 INNER JOIN driver_Entity driver ON driver.driver_id = qualifying.driver_id
 INNER JOIN constructor_Entity constructor ON constructor.constructor_id = qualifying.constructor_id
-WHERE qualifying.race_id = :id;
+WHERE qualifying.race_id = :id ORDER BY position ASC;
 
 getLastQualifyingResults:
 SELECT qualifying.race_id AS race_id,
@@ -47,11 +47,13 @@ WHERE races.round = (
     SELECT MAX(races.round) FROM race_Entity races WHERE races.season = (
         SELECT MAX(races.season) FROM race_Entity races
     )
-) AND races.season = (SELECT MAX(races.season) FROM race_Entity races);
+) AND races.season = (SELECT MAX(races.season) FROM race_Entity races)
+ORDER BY position ASC;
 
 insertQualifyingResults:
 INSERT OR REPLACE
 INTO qualifying_results_Entity (
+    id,
     race_id,
     driver_id,
     constructor_id,
@@ -61,4 +63,4 @@ INTO qualifying_results_Entity (
     q2,
     q3,
     timestamp
-) VALUES (?, ?, ?, ?, ?, ?, ?, ? ,?);
+) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?);

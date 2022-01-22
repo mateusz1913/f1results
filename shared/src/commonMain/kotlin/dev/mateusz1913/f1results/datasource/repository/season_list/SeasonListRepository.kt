@@ -1,5 +1,8 @@
 package dev.mateusz1913.f1results.datasource.repository.season_list
 
+import dev.mateusz1913.f1results.datasource.cache.requests_timestamps.RequestsTimestampsCache
+import dev.mateusz1913.f1results.datasource.cache.requests_timestamps.getConstructorSeasonListRequest
+import dev.mateusz1913.f1results.datasource.cache.requests_timestamps.getDriverSeasonListRequest
 import dev.mateusz1913.f1results.datasource.cache.season_list.SeasonCache
 import dev.mateusz1913.f1results.datasource.cache.season_list.toArraySeasonType
 import dev.mateusz1913.f1results.datasource.data.season_list.SeasonListData
@@ -9,11 +12,24 @@ import dev.mateusz1913.f1results.domain.now
 import dev.mateusz1913.f1results.domain.toEpochMilliseconds
 import io.github.aakira.napier.Napier
 
-class SeasonListRepository(private val seasonListApi: SeasonListApi, private val seasonCache: SeasonCache) {
+class SeasonListRepository(
+    private val seasonListApi: SeasonListApi,
+    private val seasonCache: SeasonCache,
+    private val requestsTimestampsCache: RequestsTimestampsCache
+) {
     suspend fun fetchConstructorSeasonList(constructorId: String): Array<SeasonType>? {
         val constructorSeasonList = fetchSeasonList(constructorId = constructorId, limit = 100)
         if (constructorSeasonList != null) {
-            seasonCache.insertConstructorSeason(constructorSeasonList.seasonTable.seasons, constructorId)
+            val succeeded = seasonCache.insertConstructorSeason(
+                constructorSeasonList.seasonTable.seasons,
+                constructorId
+            )
+            if (succeeded) {
+                requestsTimestampsCache.insertRequestTimestamp(
+                    getConstructorSeasonListRequest(constructorId),
+                    now().toEpochMilliseconds()
+                )
+            }
         }
         return constructorSeasonList?.seasonTable?.seasons
     }
@@ -21,7 +37,13 @@ class SeasonListRepository(private val seasonListApi: SeasonListApi, private val
     suspend fun fetchDriverSeasonList(driverId: String): Array<SeasonType>? {
         val driverSeasonList = fetchSeasonList(driverId = driverId, limit = 100)
         if (driverSeasonList != null) {
-            seasonCache.insertDriverSeason(driverSeasonList.seasonTable.seasons, driverId)
+            val succeeded = seasonCache.insertDriverSeason(driverSeasonList.seasonTable.seasons, driverId)
+            if (succeeded) {
+                requestsTimestampsCache.insertRequestTimestamp(
+                    getDriverSeasonListRequest(driverId),
+                    now().toEpochMilliseconds()
+                )
+            }
         }
         return driverSeasonList?.seasonTable?.seasons
     }
@@ -57,32 +79,48 @@ class SeasonListRepository(private val seasonListApi: SeasonListApi, private val
     }
 
     fun getCachedConstructorSeasonList(constructorId: String): Array<SeasonType>? {
-        return try {
+        val currentTimestamp = now().toEpochMilliseconds()
+        val timestamp =
+            requestsTimestampsCache.getRequestTimestamp(
+                getConstructorSeasonListRequest(
+                    constructorId
+                )
+            )?.timestamp
+        if (timestamp == null || currentTimestamp > timestamp + TIMESTAMP_THRESHOLD) {
+            return null
+        }
+        try {
             val cached = seasonCache.getSeasonsWithConstructorId(constructorId)
-            val currentTimestamp = now().toEpochMilliseconds()
-            if (currentTimestamp < cached[0].timestamp + TIMESTAMP_THRESHOLD) {
-                cached.toArraySeasonType()
-            } else {
-                null
+            if (currentTimestamp > cached[0].timestamp + TIMESTAMP_THRESHOLD) {
+                return null
             }
+            return cached.toArraySeasonType()
         } catch (e: Exception) {
-            Napier.d(e.message ?: "No cached constructor season list", tag = "SeasonListRepository")
-            null
+            Napier.w("No cached constructor season list ${e.message}", e, "SeasonListRepository")
+            return null
         }
     }
 
     fun getCachedDriverSeasonList(driverId: String): Array<SeasonType>? {
-        return try {
+        val currentTimestamp = now().toEpochMilliseconds()
+        val timestamp =
+            requestsTimestampsCache.getRequestTimestamp(
+                getDriverSeasonListRequest(
+                    driverId
+                )
+            )?.timestamp
+        if (timestamp == null || currentTimestamp > timestamp + TIMESTAMP_THRESHOLD) {
+            return null
+        }
+        try {
             val cached = seasonCache.getSeasonsWithDriverId(driverId)
-            val currentTimestamp = now().toEpochMilliseconds()
-            if (currentTimestamp < cached[0].timestamp + TIMESTAMP_THRESHOLD) {
-                cached.toArraySeasonType()
-            } else {
-                null
+            if (currentTimestamp > cached[0].timestamp + TIMESTAMP_THRESHOLD) {
+                return null
             }
+            return cached.toArraySeasonType()
         } catch (e: Exception) {
-            Napier.d(e.message ?: "No cached driver season list", tag = "SeasonListRepository")
-            null
+            Napier.w("No cached driver season list ${e.message}", e, "SeasonListRepository")
+            return null
         }
     }
 

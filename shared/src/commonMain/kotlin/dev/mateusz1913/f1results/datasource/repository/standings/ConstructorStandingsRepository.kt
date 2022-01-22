@@ -1,5 +1,9 @@
 package dev.mateusz1913.f1results.datasource.repository.standings
 
+import dev.mateusz1913.f1results.datasource.cache.requests_timestamps.RequestsTimestampsCache
+import dev.mateusz1913.f1results.datasource.cache.requests_timestamps.getConstructorRequest
+import dev.mateusz1913.f1results.datasource.cache.requests_timestamps.getConstructorSeasonStandingRequest
+import dev.mateusz1913.f1results.datasource.cache.requests_timestamps.getConstructorStandingsRequest
 import dev.mateusz1913.f1results.datasource.cache.standings.ConstructorStandingsCache
 import dev.mateusz1913.f1results.datasource.cache.standings.toConstructorStandingType
 import dev.mateusz1913.f1results.datasource.cache.standings.toConstructorStandingsCachedData
@@ -14,7 +18,8 @@ import io.github.aakira.napier.Napier
 
 class ConstructorStandingsRepository(
     private val standingsApi: StandingsApi,
-    private val constructorStandingsCache: ConstructorStandingsCache
+    private val constructorStandingsCache: ConstructorStandingsCache,
+    private val requestsTimestampsCache: RequestsTimestampsCache
 ) {
     suspend fun fetchConstructorStandings(
         season: String,
@@ -26,10 +31,10 @@ class ConstructorStandingsRepository(
         )
         if (constructorStandings != null && constructorStandings.isNotEmpty()) {
             constructorStandings[0].constructorStandings.map {
-                constructorStandingsCache.insertConstructorStanding(
-                    it,
-                    constructorStandings[0].season,
-                    constructorStandings[0].round!!
+                persistConstructorStandings(
+                    it, constructorStandings[0].season,
+                    constructorStandings[0].round,
+                    season == "current" && round == "last"
                 )
             }
         }
@@ -64,46 +69,60 @@ class ConstructorStandingsRepository(
         val standingSeason = standingLists?.season
         val standingRound = standingLists?.round
         if (standing != null && standingSeason != null && standingRound != null) {
-            constructorStandingsCache.insertConstructorStanding(
-                standing,
-                standingSeason,
-                standingRound
-            )
+            persistConstructorStandings(standing, standingSeason, standingRound)
         }
         return standing
     }
 
     fun getCachedLatestConstructorStandings(): ConstructorStandingsType? {
-        return try {
-            val currentTimestamp = now().toEpochMilliseconds()
+        val currentTimestamp = now().toEpochMilliseconds()
+        val timestamp =
+            requestsTimestampsCache.getRequestTimestamp(
+                getConstructorStandingsRequest("current", "last")
+            )?.timestamp
+        if (timestamp == null || currentTimestamp > timestamp + TIMESTAMP_THRESHOLD) {
+            return null
+        }
+        try {
             val cachedConstructorStandings =
                 constructorStandingsCache.getLatestConstructorStandings()
-            if (currentTimestamp < cachedConstructorStandings[0].timestamp + TIMESTAMP_THRESHOLD) {
-                cachedConstructorStandings.map { it.toConstructorStandingsCachedData() }
-                    .toConstructorStandingsType()
-            } else {
-                null
+            if (currentTimestamp > cachedConstructorStandings[0].timestamp + TIMESTAMP_THRESHOLD) {
+                return null
             }
+            return cachedConstructorStandings.map { it.toConstructorStandingsCachedData() }
+                .toConstructorStandingsType()
         } catch (e: Exception) {
-            Napier.d(e.message ?: "No cached latest constructor standings", tag = "ConstructorStandingsRepository")
-            null
+            Napier.w(
+                "No cached latest constructor standings ${e.message}",
+                e, "ConstructorStandingsRepository"
+            )
+            return null
         }
     }
 
     fun getCachedConstructorStandings(season: String, round: String): ConstructorStandingsType? {
-        return try {
-            val currentTimestamp = now().toEpochMilliseconds()
+        val currentTimestamp = now().toEpochMilliseconds()
+        val timestamp =
+            requestsTimestampsCache.getRequestTimestamp(
+                getConstructorStandingsRequest(season, round)
+            )?.timestamp
+        if (timestamp == null || currentTimestamp > timestamp + TIMESTAMP_THRESHOLD) {
+            return null
+        }
+        try {
             val cachedConstructorStandings =
                 constructorStandingsCache.getConstructorStandings(season, round)
-            if (currentTimestamp < cachedConstructorStandings[0].timestamp + TIMESTAMP_THRESHOLD) {
-                cachedConstructorStandings.map { it.toConstructorStandingsCachedData() }
-                    .toConstructorStandingsType()
-            } else {
-                null
+            if (currentTimestamp > cachedConstructorStandings[0].timestamp + TIMESTAMP_THRESHOLD) {
+                return null
             }
+            return cachedConstructorStandings.map { it.toConstructorStandingsCachedData() }
+                .toConstructorStandingsType()
         } catch (e: Exception) {
-            Napier.d(e.message ?: "No cached constructor standings", tag = "ConstructorStandingsRepository")
-            null
+            Napier.w(
+                "No cached constructor standings ${e.message}",
+                e, "ConstructorStandingsRepository"
+            )
+            return null
         }
     }
 
@@ -111,17 +130,53 @@ class ConstructorStandingsRepository(
         constructorId: String,
         season: String
     ): ConstructorStandingType? {
-        return try {
+        val currentTimestamp = now().toEpochMilliseconds()
+        val timestamp =
+            requestsTimestampsCache.getRequestTimestamp(
+                getConstructorSeasonStandingRequest(constructorId, season)
+            )?.timestamp
+        if (timestamp == null || currentTimestamp > timestamp + TIMESTAMP_THRESHOLD) {
+            return null
+        }
+        try {
             val cached = constructorStandingsCache.getConstructorStanding(constructorId, season)
-            val currentTimestamp = now().toEpochMilliseconds()
-            if (currentTimestamp < cached.timestamp + TIMESTAMP_THRESHOLD) {
-                cached.toConstructorStandingType()
-            } else {
-                null
+            if (currentTimestamp > cached.timestamp + TIMESTAMP_THRESHOLD) {
+                return null
             }
+            return cached.toConstructorStandingType()
         } catch (e: Exception) {
-            Napier.d(e.message ?: "No cached season constructor standing", tag = "ConstructorStandingsRepository")
-            null
+            Napier.w(
+                "No cached season constructor standing ${e.message}",
+                e, "ConstructorStandingsRepository"
+            )
+            return null
+        }
+    }
+
+    private fun persistConstructorStandings(
+        constructorStanding: ConstructorStandingType,
+        season: String,
+        round: String,
+        isLatest: Boolean = false
+    ) {
+        val succeeded =
+            constructorStandingsCache.insertConstructorStanding(constructorStanding, season, round)
+        if (succeeded) {
+            val currentTimestamp = now().toEpochMilliseconds()
+            if (isLatest) {
+                requestsTimestampsCache.insertRequestTimestamp(
+                    getConstructorStandingsRequest("current", "last"),
+                    currentTimestamp
+                )
+            }
+            requestsTimestampsCache.insertRequestTimestamp(
+                getConstructorStandingsRequest(season, round),
+                currentTimestamp
+            )
+            requestsTimestampsCache.insertRequestTimestamp(
+                getConstructorRequest(constructorStanding.constructor.constructorId),
+                currentTimestamp
+            )
         }
     }
 

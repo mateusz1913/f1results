@@ -7,10 +7,10 @@ import kotlin.jvm.JvmName
 
 @JvmName("getSeasonsWithConstructorIdToArraySeasonType")
 fun List<GetSeasonsWithConstructorId>.toArraySeasonType(): Array<SeasonType> {
-    return map { SeasonType(it.season, it.url) }.toTypedArray()
+    return map { SeasonType("${it.season}", it.url) }.toTypedArray()
 }
 
 @JvmName("getSeasonsWithDriverIdToArraySeasonType")
 fun List<GetSeasonsWithDriverId>.toArraySeasonType(): Array<SeasonType> {
-    return map { SeasonType(it.season, it.url) }.toTypedArray()
+    return map { SeasonType("${it.season}", it.url) }.toTypedArray()
 }

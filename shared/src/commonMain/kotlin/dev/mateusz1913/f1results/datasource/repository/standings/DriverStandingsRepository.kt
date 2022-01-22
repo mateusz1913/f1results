@@ -1,5 +1,6 @@
 package dev.mateusz1913.f1results.datasource.repository.standings
 
+import dev.mateusz1913.f1results.datasource.cache.requests_timestamps.*
 import dev.mateusz1913.f1results.datasource.cache.standings.DriverStandingsCache
 import dev.mateusz1913.f1results.datasource.cache.standings.toDriverStandingType
 import dev.mateusz1913.f1results.datasource.cache.standings.toDriverStandingsType
@@ -11,16 +12,18 @@ import io.github.aakira.napier.Napier
 
 class DriverStandingsRepository(
     private val standingsApi: StandingsApi,
-    private val driverStandingsCache: DriverStandingsCache
+    private val driverStandingsCache: DriverStandingsCache,
+    private val requestsTimestampsCache: RequestsTimestampsCache
 ) {
     suspend fun fetchDriverStandings(season: String, round: String): DriverStandingsType? {
         val driverStandings = standingsApi.getSpecificDriverStandings(season, round)
         if (driverStandings != null && driverStandings.isNotEmpty()) {
             driverStandings[0].driverStandings.map {
-                driverStandingsCache.insertDriverStanding(
+                persistDriverStandings(
                     it,
                     driverStandings[0].season,
-                    driverStandings[0].round!!
+                    driverStandings[0].round,
+                    season == "current" && round == "last"
                 )
             }
         }
@@ -50,59 +53,115 @@ class DriverStandingsRepository(
         val standingSeason = standingsLists?.season
         val standingRound = standingsLists?.round
         if (standing != null && standingSeason != null && standingRound != null) {
-            driverStandingsCache.insertDriverStanding(standing, standingSeason, standingRound)
+            persistDriverStandings(standing, standingSeason, standingRound)
         }
         return standing
     }
 
     fun getCachedLatestDriverStandings(): DriverStandingsType? {
-        return try {
-            val currentTimestamp = now().toEpochMilliseconds()
+        val currentTimestamp = now().toEpochMilliseconds()
+        val timestamp =
+            requestsTimestampsCache.getRequestTimestamp(
+                getDriverStandingsRequest("current", "last")
+            )?.timestamp
+        if (timestamp == null || currentTimestamp > timestamp + TIMESTAMP_THRESHOLD) {
+            return null
+        }
+        try {
             val cachedDriverStandings = driverStandingsCache.getLatestDriverStandings()
             val (firstDriverStanding) = cachedDriverStandings[0]
-            if (currentTimestamp < firstDriverStanding.timestamp + TIMESTAMP_THRESHOLD) {
-                cachedDriverStandings.toDriverStandingsType()
-            } else {
-                null
+            if (currentTimestamp > firstDriverStanding.timestamp + TIMESTAMP_THRESHOLD) {
+                return null
             }
+            return cachedDriverStandings.toDriverStandingsType()
         } catch (e: Exception) {
-            Napier.d(e.message ?: "No cached latest driver standings", tag = "DriverStandingsRepository")
-            null
+            Napier.w(
+                "No cached latest driver standings ${e.message}",
+                e, "DriverStandingsRepository"
+            )
+            return null
         }
     }
 
     fun getCachedDriverStandings(season: String, round: String): DriverStandingsType? {
-        return try {
-            val currentTimestamp = now().toEpochMilliseconds()
+        val currentTimestamp = now().toEpochMilliseconds()
+        val timestamp =
+            requestsTimestampsCache.getRequestTimestamp(
+                getDriverStandingsRequest(season, round)
+            )?.timestamp
+        if (timestamp == null || currentTimestamp > timestamp + TIMESTAMP_THRESHOLD) {
+            return null
+        }
+        try {
             val cachedDriverStandings = driverStandingsCache.getDriverStandings(season, round)
             val (firstDriverStanding) = cachedDriverStandings[0]
-            if (currentTimestamp < firstDriverStanding.timestamp + TIMESTAMP_THRESHOLD) {
-                cachedDriverStandings.toDriverStandingsType()
-            } else {
-                null
+            if (currentTimestamp > firstDriverStanding.timestamp + TIMESTAMP_THRESHOLD) {
+                return null
             }
+            return cachedDriverStandings.toDriverStandingsType()
         } catch (e: Exception) {
-            Napier.d(e.message ?: "No cached driver standings", tag = "DriverStandingsRepository")
-            null
+            Napier.w("No cached driver standings ${e.message}", e, "DriverStandingsRepository")
+            return null
         }
     }
 
     fun getCachedSeasonDriverStanding(driverId: String, season: String): DriverStandingType? {
-        return try {
+        val currentTimestamp = now().toEpochMilliseconds()
+        val timestamp =
+            requestsTimestampsCache.getRequestTimestamp(
+                getDriverSeasonStandingRequest(driverId, season)
+            )?.timestamp
+        if (timestamp == null || currentTimestamp > timestamp + TIMESTAMP_THRESHOLD) {
+            return null
+        }
+        try {
             val cachedDriverStanding = driverStandingsCache.getDriverStanding(
                 driverId,
                 season
             )
             val (driverStanding) = cachedDriverStanding
-            val currentTimestamp = now().toEpochMilliseconds()
             if (currentTimestamp < driverStanding.timestamp + TIMESTAMP_THRESHOLD) {
-                cachedDriverStanding.toDriverStandingType()
-            } else {
-                null
+                return null
             }
+            return cachedDriverStanding.toDriverStandingType()
         } catch (e: Exception) {
-            Napier.d(e.message ?: "No cached season driver standing", tag = "DriverStandingsRepository")
-            null
+            Napier.w(
+                "No cached season driver standing ${e.message}",
+                e, "DriverStandingsRepository"
+            )
+            return null
+        }
+    }
+
+    private fun persistDriverStandings(
+        driverStanding: DriverStandingType,
+        season: String,
+        round: String,
+        isLatest: Boolean = false
+    ) {
+        val succeeded = driverStandingsCache.insertDriverStanding(driverStanding, season, round)
+        if (succeeded) {
+            val currentTimestamp = now().toEpochMilliseconds()
+            if (isLatest) {
+                requestsTimestampsCache.insertRequestTimestamp(
+                    getDriverStandingsRequest("current", "last"),
+                    currentTimestamp
+                )
+            }
+            requestsTimestampsCache.insertRequestTimestamp(
+                getDriverStandingsRequest(season, round),
+                currentTimestamp
+            )
+            requestsTimestampsCache.insertRequestTimestamp(
+                getDriverRequest(driverStanding.driver.driverId),
+                currentTimestamp
+            )
+            driverStanding.constructors.forEach {
+                requestsTimestampsCache.insertRequestTimestamp(
+                    getConstructorRequest(it.constructorId),
+                    currentTimestamp
+                )
+            }
         }
     }
 

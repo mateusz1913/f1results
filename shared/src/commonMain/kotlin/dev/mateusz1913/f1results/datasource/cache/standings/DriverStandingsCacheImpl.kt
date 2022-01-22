@@ -6,6 +6,7 @@ import dev.mateusz1913.f1results.datasource.data.driver.DriverType
 import dev.mateusz1913.f1results.datasource.data.standings.DriverStandingType
 import dev.mateusz1913.f1results.domain.now
 import dev.mateusz1913.f1results.domain.toEpochMilliseconds
+import io.github.aakira.napier.Napier
 
 class DriverStandingsCacheImpl(
     private val queries: DriverStandingsQueries,
@@ -72,45 +73,53 @@ class DriverStandingsCacheImpl(
         driverStanding: DriverStandingType,
         season: String,
         round: String
-    ) {
-        queries.transaction {
-            queries.insertDriverStanding(
-                driver_id = driverStanding.driver.driverId,
-                season = season.toLong(),
-                round = round.toLong(),
-                position = driverStanding.position,
-                position_text = driverStanding.positionText,
-                points = driverStanding.points,
-                wins = driverStanding.wins,
-                timestamp = now().toEpochMilliseconds()
-            )
-
-            driverQueries.insertDriver(
-                driver_id = driverStanding.driver.driverId,
-                permanent_number = driverStanding.driver.permanentNumber,
-                code = driverStanding.driver.code,
-                url = driverStanding.driver.url,
-                given_name = driverStanding.driver.givenName,
-                family_name = driverStanding.driver.familyName,
-                date_of_birth = driverStanding.driver.dateOfBirth,
-                nationality = driverStanding.driver.nationality,
-                timestamp = now().toEpochMilliseconds()
-            )
-
-            driverStanding.constructors.forEach {
-                constructorQueries.insertConstructor(
-                    constructor_id = it.constructorId,
-                    url = it.url,
-                    nationality = it.nationality,
-                    name = it.name,
+    ): Boolean {
+        return try {
+            queries.transactionWithResult {
+                queries.insertDriverStanding(
+                    id = "${driverStanding.driver.driverId}/$season/$round",
+                    driver_id = driverStanding.driver.driverId,
+                    season = season.toLong(),
+                    round = round.toLong(),
+                    position = driverStanding.position.toLong(),
+                    position_text = driverStanding.positionText,
+                    points = driverStanding.points,
+                    wins = driverStanding.wins,
                     timestamp = now().toEpochMilliseconds()
                 )
-                queries.insertDriverConstructorsStanding(
+
+                driverQueries.insertDriver(
                     driver_id = driverStanding.driver.driverId,
-                    constructor_id = it.constructorId,
-                    season = season.toLong(),
+                    permanent_number = driverStanding.driver.permanentNumber,
+                    code = driverStanding.driver.code,
+                    url = driverStanding.driver.url,
+                    given_name = driverStanding.driver.givenName,
+                    family_name = driverStanding.driver.familyName,
+                    date_of_birth = driverStanding.driver.dateOfBirth,
+                    nationality = driverStanding.driver.nationality,
+                    timestamp = now().toEpochMilliseconds()
                 )
+
+                driverStanding.constructors.forEach {
+                    constructorQueries.insertConstructor(
+                        constructor_id = it.constructorId,
+                        url = it.url,
+                        nationality = it.nationality,
+                        name = it.name,
+                        timestamp = now().toEpochMilliseconds()
+                    )
+                    queries.insertDriverConstructorsStanding(
+                        id = "$season/${driverStanding.driver.driverId}/${it.constructorId}",
+                        driver_id = driverStanding.driver.driverId,
+                        constructor_id = it.constructorId,
+                        season = season.toLong(),
+                    )
+                }
+                true
             }
+        } catch (e: Exception) {
+            Napier.w("insertDriverStanding - ${e.message}", e, "DriverStandingsCache")
+            false
         }
     }
 }

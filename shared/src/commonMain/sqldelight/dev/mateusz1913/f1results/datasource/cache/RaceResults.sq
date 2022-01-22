@@ -1,10 +1,10 @@
 CREATE TABLE IF NOT EXISTS race_results_Entity (
-    id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    id TEXT NOT NULL PRIMARY KEY,
     race_id TEXT NOT NULL,
     driver_id TEXT NOT NULL,
     constructor_id TEXT NOT NULL,
     number TEXT DEFAULT NULL,
-    position TEXT NOT NULL,
+    position INTEGER NOT NULL,
     position_text TEXT NOT NULL,
     points TEXT DEFAULT NULL,
     grid TEXT NOT NULL,
@@ -39,7 +39,7 @@ fastest_lap_speed_units, results.timestamp AS timestamp
 FROM race_results_Entity results
 INNER JOIN driver_Entity driver ON driver.driver_id = results.driver_id
 INNER JOIN constructor_Entity constructor ON constructor.constructor_id = results.constructor_id
-WHERE results.race_id = :id;
+WHERE results.race_id = :id ORDER BY position ASC;
 
 getLastRaceResults:
 SELECT results.race_id AS race_id,
@@ -61,11 +61,13 @@ WHERE races.round = (
     SELECT MAX(races.round) FROM race_Entity races WHERE races.season = (
         SELECT MAX(races.season) FROM race_Entity races
     )
-) AND races.season = (SELECT MAX(races.season) FROM race_Entity races);
+) AND races.season = (SELECT MAX(races.season) FROM race_Entity races)
+ORDER BY position ASC;
 
 insertRaceResults:
 INSERT OR REPLACE
 INTO race_results_Entity (
+    id,
     race_id,
     driver_id,
     constructor_id,
@@ -85,4 +87,4 @@ INTO race_results_Entity (
     fastest_lap_speed,
     fastest_lap_speed_units,
     timestamp
-) VALUES (?, ?, ?, ?, ?, ?, ?, ? ,?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
+) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ? ,?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);

@@ -17,5 +17,5 @@ interface DriverStandingsCache {
 
     fun getLatestDriverStandings(): List<Triple<DriverStandingsCachedData, DriverType, List<GetDriverConstructorsStandingWithDriverIdAndSeason>>>
 
-    fun insertDriverStanding(driverStanding: DriverStandingType, season: String, round: String)
+    fun insertDriverStanding(driverStanding: DriverStandingType, season: String, round: String): Boolean
 }

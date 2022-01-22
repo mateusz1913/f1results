@@ -53,7 +53,7 @@ class NetworkMonitor private constructor() {
                 }
             }
         } catch (e: Exception) {
-            Napier.d("${e.message}", e, "NetworkMonitor")
+            Napier.w("${e.message}", e, "NetworkMonitor")
             _state.update { it.copy(isReachable = false) }
         }
     }

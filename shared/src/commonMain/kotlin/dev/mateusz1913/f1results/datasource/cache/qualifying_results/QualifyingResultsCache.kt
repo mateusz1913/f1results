@@ -1,9 +1,5 @@
 package dev.mateusz1913.f1results.datasource.cache.qualifying_results
 
-import dev.mateusz1913.f1results.datasource.cache.GetLastQualifyingResults
-import dev.mateusz1913.f1results.datasource.cache.GetLatestRace
-import dev.mateusz1913.f1results.datasource.cache.GetQualifyingResultsWithRaceId
-import dev.mateusz1913.f1results.datasource.cache.GetRaceWithRaceId
 import dev.mateusz1913.f1results.datasource.cache.race_schedule.RaceScheduleCachedData
 import dev.mateusz1913.f1results.datasource.data.qualifying_results.RaceWithQualifyingResultsType
 
@@ -14,5 +10,5 @@ interface QualifyingResultsCache {
         round: String
     ): Pair<RaceScheduleCachedData, List<QualifyingResultsCachedData>>
 
-    fun insertQualifyingResults(qualifyingResults: RaceWithQualifyingResultsType)
+    fun insertQualifyingResults(qualifyingResults: RaceWithQualifyingResultsType): Boolean
 }

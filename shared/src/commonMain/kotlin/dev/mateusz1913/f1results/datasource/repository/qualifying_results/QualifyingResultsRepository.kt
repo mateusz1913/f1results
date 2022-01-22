@@ -1,10 +1,8 @@
 package dev.mateusz1913.f1results.datasource.repository.qualifying_results
 
 import dev.mateusz1913.f1results.datasource.cache.qualifying_results.QualifyingResultsCache
-import dev.mateusz1913.f1results.datasource.cache.qualifying_results.toArrayQualifyingResultType
 import dev.mateusz1913.f1results.datasource.cache.qualifying_results.toRaceWithQualifyingResultsType
-import dev.mateusz1913.f1results.datasource.data.circuit.CircuitType
-import dev.mateusz1913.f1results.datasource.data.circuit.LocationType
+import dev.mateusz1913.f1results.datasource.cache.requests_timestamps.*
 import dev.mateusz1913.f1results.datasource.data.qualifying_results.QualifyingResultsData
 import dev.mateusz1913.f1results.datasource.data.qualifying_results.RaceWithQualifyingResultsType
 import dev.mateusz1913.f1results.datasource.remote.qualifying_results.QualifyingResultsApi
@@ -14,7 +12,8 @@ import io.github.aakira.napier.Napier
 
 class QualifyingResultsRepository(
     private val qualifyingResultsApi: QualifyingResultsApi,
-    private val qualifyingResultsCache: QualifyingResultsCache
+    private val qualifyingResultsCache: QualifyingResultsCache,
+    private val requestsTimestampsCache: RequestsTimestampsCache
 ) {
     suspend fun fetchQualifyingResult(
         season: String,
@@ -27,7 +26,7 @@ class QualifyingResultsRepository(
             position
         )
         if (qualifyingResult != null) {
-            qualifyingResultsCache.insertQualifyingResults(qualifyingResult)
+            persistQualifyingResults(qualifyingResult, season == "current" && round == "last")
         }
         return qualifyingResult
     }
@@ -45,7 +44,7 @@ class QualifyingResultsRepository(
         statusId: String? = null,
         position: Int? = null
     ): QualifyingResultsData? {
-        return qualifyingResultsApi.getQualifyingResult(
+        val qualifyingResultsData = qualifyingResultsApi.getQualifyingResult(
             limit,
             offset,
             season,
@@ -58,40 +57,110 @@ class QualifyingResultsRepository(
             statusId,
             position
         )
+        qualifyingResultsData?.raceTable?.races?.forEach { qualifyingResult ->
+            persistQualifyingResults(qualifyingResult)
+        }
+        return qualifyingResultsData
     }
 
     fun getCachedLatestQualifyingResults(): RaceWithQualifyingResultsType? {
-        return try {
-            val currentTimestamp = now().toEpochMilliseconds()
+        val currentTimestamp = now().toEpochMilliseconds()
+        val timestamp =
+            requestsTimestampsCache.getRequestTimestamp(
+                getQualifyingResultsRequest(
+                    "current",
+                    "last"
+                )
+            )?.timestamp
+        if (timestamp == null || currentTimestamp > timestamp + TIMESTAMP_THRESHOLD) {
+            return null
+        }
+        try {
             val cachedQualifyingResults = qualifyingResultsCache.getLatestQualifyingResults()
             val (_, qualifyingResults) = cachedQualifyingResults
-            if (currentTimestamp < qualifyingResults[0].timestamp + TIMESTAMP_THRESHOLD) {
-                cachedQualifyingResults.toRaceWithQualifyingResultsType()
-            } else {
-                null
+            if (currentTimestamp > qualifyingResults[0].timestamp + TIMESTAMP_THRESHOLD) {
+                return null
             }
+            return cachedQualifyingResults.toRaceWithQualifyingResultsType()
         } catch (e: Exception) {
-            Napier.d(e.message ?: "No cached latest qualifyingResults", tag = "QualifyingResultsRepository")
-            null
+            Napier.w(
+                "No cached latest qualifyingResults ${e.message}",
+                e, "QualifyingResultsRepository"
+            )
+            return null
         }
     }
 
-    fun getCachedQualifyingResult(season: String, round: String): RaceWithQualifyingResultsType? {
-        return try {
-            val currentTimestamp = now().toEpochMilliseconds()
-            val cachedQualifyingResults = qualifyingResultsCache.getQualifyingResultsWithSeasonAndRound(
-                season,
-                round
-            )
+    fun getCachedQualifyingResults(season: String, round: String): RaceWithQualifyingResultsType? {
+        val currentTimestamp = now().toEpochMilliseconds()
+        val timestamp =
+            requestsTimestampsCache.getRequestTimestamp(
+                getQualifyingResultsRequest(
+                    season,
+                    round
+                )
+            )?.timestamp
+        if (timestamp == null || currentTimestamp > timestamp + TIMESTAMP_THRESHOLD) {
+            return null
+        }
+        try {
+            val cachedQualifyingResults =
+                qualifyingResultsCache.getQualifyingResultsWithSeasonAndRound(
+                    season,
+                    round
+                )
             val (_, qualifyingResults) = cachedQualifyingResults
-            if (currentTimestamp < qualifyingResults[0].timestamp + TIMESTAMP_THRESHOLD) {
-                cachedQualifyingResults.toRaceWithQualifyingResultsType()
-            } else {
-                null
+            if (currentTimestamp > qualifyingResults[0].timestamp + TIMESTAMP_THRESHOLD) {
+                return null
             }
+            return cachedQualifyingResults.toRaceWithQualifyingResultsType()
         } catch (e: Exception) {
-            Napier.d(e.message ?: "No cached qualifyingResults", tag = "QualifyingResultsRepository")
-            null
+            Napier.w(
+                "No cached qualifyingResults ${e.message}",
+                e,"QualifyingResultsRepository"
+            )
+            return null
+        }
+    }
+
+    private fun persistQualifyingResults(
+        qualifyingResult: RaceWithQualifyingResultsType,
+        isLatestResult: Boolean = false
+    ) {
+        val succeeded = qualifyingResultsCache.insertQualifyingResults(qualifyingResult)
+        if (succeeded) {
+            val timestamp = now().toEpochMilliseconds()
+            // If fetching latest results, let's also save timestamp of "latest results" request
+            if (isLatestResult) {
+                requestsTimestampsCache.insertRequestTimestamp(
+                    getQualifyingResultsRequest("current", "last"), timestamp
+                )
+            }
+            requestsTimestampsCache.insertRequestTimestamp(
+                getQualifyingResultsRequest(
+                    qualifyingResult.season,
+                    qualifyingResult.round
+                ), timestamp
+            )
+            requestsTimestampsCache.insertRequestTimestamp(
+                getRaceScheduleRequest(
+                    qualifyingResult.season,
+                    qualifyingResult.season
+                ), timestamp
+            )
+            requestsTimestampsCache.insertRequestTimestamp(
+                getCircuitRequest(qualifyingResult.circuit.circuitId), timestamp
+            )
+            qualifyingResult.qualifyingResults.forEach {
+                requestsTimestampsCache.insertRequestTimestamp(
+                    getDriverRequest(it.driver.driverId),
+                    timestamp
+                )
+                requestsTimestampsCache.insertRequestTimestamp(
+                    getConstructorRequest(it.constructor.constructorId),
+                    timestamp
+                )
+            }
         }
     }
 

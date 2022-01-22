@@ -5,6 +5,6 @@ import dev.mateusz1913.f1results.datasource.data.circuit.CircuitType
 
 interface CircuitCache {
     fun get(circuitId: String): Circuit_Entity
-    fun insert(circuit: CircuitType)
-    fun insert(circuits: Array<CircuitType>)
+    fun insert(circuit: CircuitType): Boolean
+    fun insert(circuits: Array<CircuitType>): Boolean
 }

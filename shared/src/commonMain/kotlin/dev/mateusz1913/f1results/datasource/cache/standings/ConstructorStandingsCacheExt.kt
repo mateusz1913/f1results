@@ -10,7 +10,7 @@ import kotlin.jvm.JvmName
 
 fun GetConstructorStandingWithConstructorIdAndSeason.toConstructorStandingType(): ConstructorStandingType {
     return ConstructorStandingType(
-        position = position,
+        position = "$position",
         points = points,
         wins = wins,
         constructor = ConstructorType(
@@ -39,14 +39,14 @@ data class ConstructorStandingsCachedData(
 @JvmName("getLatestConstructorStandingsToConstructorStandingsCachedData")
 fun GetLatestConstructorStandings.toConstructorStandingsCachedData(): ConstructorStandingsCachedData {
     return ConstructorStandingsCachedData(
-        season, round, position, points, wins, timestamp, constructor_id, url, name, nationality, constructor_timestamp
+        season, round, "$position", points, wins, timestamp, constructor_id, url, name, nationality, constructor_timestamp
     )
 }
 
 @JvmName("getConstructorStandingsWithSeasonAndRoundToConstructorStandingsCachedData")
 fun GetConstructorStandingsWithSeasonAndRound.toConstructorStandingsCachedData(): ConstructorStandingsCachedData {
     return ConstructorStandingsCachedData(
-        season, round, position, points, wins, timestamp, constructor_id, url, name, nationality, constructor_timestamp
+        season, round, "$position", points, wins, timestamp, constructor_id, url, name, nationality, constructor_timestamp
     )
 }
 

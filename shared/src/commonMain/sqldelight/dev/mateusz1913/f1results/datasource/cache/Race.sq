@@ -31,7 +31,7 @@ circuit.country AS circuit_country, circuit.locality AS circuit_locality,
 circuit.alt AS circuit_alt, circuit.lat AS circuit_lat,
 circuit.long AS circuit_long, circuit.timestamp AS circuit_timestamp
 FROM race_Entity races INNER JOIN circuit_Entity circuit ON races.circuit_id = circuit.circuit_id
-WHERE season = :season;
+WHERE season = :season ORDER BY races.round ASC;
 
 getLatestRace:
 SELECT races.race_id AS race_id, races.season AS season, races.round AS round,
@@ -57,7 +57,7 @@ circuit.country AS circuit_country, circuit.locality AS circuit_locality,
 circuit.alt AS circuit_alt, circuit.lat AS circuit_lat,
 circuit.long AS circuit_long, circuit.timestamp AS circuit_timestamp
 FROM race_Entity races INNER JOIN circuit_Entity circuit ON races.circuit_id = circuit.circuit_id
-WHERE races.season = (SELECT MAX(races.season) FROM race_Entity races);
+WHERE races.season = (SELECT MAX(races.season) FROM race_Entity races) ORDER BY races.round ASC;
 
 insertRace:
 INSERT OR REPLACE

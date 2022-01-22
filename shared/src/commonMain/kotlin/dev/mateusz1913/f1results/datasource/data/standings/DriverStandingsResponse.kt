@@ -56,7 +56,7 @@ data class DriverStandingsType(
     @SerialName("season")
     override val season: String,
     @SerialName("round")
-    override val round: String? = null,
+    override val round: String,
     @SerialName("DriverStandings")
     val driverStandings: Array<DriverStandingType>,
 ): BaseStandingsType {

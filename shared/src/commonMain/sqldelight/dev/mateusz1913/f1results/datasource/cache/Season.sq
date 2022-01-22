@@ -1,5 +1,6 @@
 CREATE TABLE IF NOT EXISTS constructor_season_Entity (
-    season TEXT NOT NULL PRIMARY KEY,
+    id TEXT NOT NULL PRIMARY KEY,
+    season INTEGER NOT NULL,
     url TEXT NOT NULL,
     constructor_id TEXT NOT NULL,
     timestamp REAL NOT NULL,
@@ -7,7 +8,8 @@ CREATE TABLE IF NOT EXISTS constructor_season_Entity (
 );
 
 CREATE TABLE IF NOT EXISTS driver_season_Entity (
-    season TEXT NOT NULL PRIMARY KEY,
+    id TEXT NOT NULL PRIMARY KEY,
+    season INTEGER NOT NULL,
     url TEXT NOT NULL,
     driver_id TEXT NOT NULL,
     timestamp REAL NOT NULL,
@@ -17,27 +19,29 @@ CREATE TABLE IF NOT EXISTS driver_season_Entity (
 getSeasonsWithConstructorId:
 SELECT season, c_season.url AS url, c_season.constructor_id AS constructor_id, c_season.timestamp AS timestamp
 FROM constructor_season_Entity c_season
-WHERE c_season.constructor_id = :id;
+WHERE c_season.constructor_id = :id ORDER BY season DESC;
 
 getSeasonsWithDriverId:
 SELECT season, d_season.url AS url, d_season.driver_id AS driver_id, d_season.timestamp AS timestamp
 FROM driver_season_Entity d_season
-WHERE d_season.driver_id = :id;
+WHERE d_season.driver_id = :id ORDER BY season DESC;
 
 insertConstructorSeason:
 INSERT OR REPLACE
 INTO constructor_season_Entity (
+    id,
     season,
     url,
     constructor_id,
     timestamp
-) VALUES (?, ?, ?, ?);
+) VALUES (?, ?, ?, ?, ?);
 
 insertDriverSeason:
 INSERT OR REPLACE
 INTO driver_season_Entity (
+    id,
     season,
     url,
     driver_id,
     timestamp
-) VALUES (?, ?, ?, ?);
+) VALUES (?, ?, ?, ?, ?);

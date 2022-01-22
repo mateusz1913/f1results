@@ -10,5 +10,5 @@ interface RaceResultsCache {
         round: String
     ): Pair<RaceScheduleCachedData, List<RaceResultsCachedData>>
 
-    fun insertRaceResults(raceResults: RaceWithResultsType)
+    fun insertRaceResults(raceResults: RaceWithResultsType): Boolean
 }

@@ -7,6 +7,6 @@ interface RaceScheduleCache {
     fun getRaceScheduleFromCurrentSeason(): List<RaceScheduleCachedData>
     fun getRaceScheduleWithSeason(season: String): List<RaceScheduleCachedData>
     fun getRaceScheduleWithSeasonAndRound(season: String, round: String): RaceScheduleCachedData
-    fun insertRaceSchedule(raceSchedule: RaceType)
-    fun insertRaceScheduleList(raceScheduleList: Array<RaceType>)
+    fun insertRaceSchedule(raceSchedule: RaceType): Boolean
+    fun insertRaceScheduleList(raceScheduleList: Array<RaceType>): Boolean
 }

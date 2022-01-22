@@ -14,6 +14,8 @@ import dev.mateusz1913.f1results.datasource.cache.race_results.RaceResultsCache
 import dev.mateusz1913.f1results.datasource.cache.race_results.RaceResultsCacheImpl
 import dev.mateusz1913.f1results.datasource.cache.race_schedule.RaceScheduleCache
 import dev.mateusz1913.f1results.datasource.cache.race_schedule.RaceScheduleCacheImpl
+import dev.mateusz1913.f1results.datasource.cache.requests_timestamps.RequestsTimestampsCache
+import dev.mateusz1913.f1results.datasource.cache.requests_timestamps.RequestsTimestampsCacheImpl
 import dev.mateusz1913.f1results.datasource.cache.season_list.SeasonCache
 import dev.mateusz1913.f1results.datasource.cache.season_list.SeasonCacheImpl
 import dev.mateusz1913.f1results.datasource.cache.standings.ConstructorStandingsCache
@@ -117,16 +119,17 @@ private val cacheModule = module {
             get<F1Database>().driverQueries
         )
     }
+    single<RequestsTimestampsCache> { RequestsTimestampsCacheImpl(get<F1Database>().requestsTimestampsQueries) }
 }
 
 private val networkModule = module {
     single { createKtorClient() }
     single<CircuitsApi> { CircuitsApiImpl(get()) }
-    single { CircuitRepository(get(), get()) }
+    single { CircuitRepository(get(), get(), get()) }
     single<ConstructorsApi> { ConstructorsApiImpl(get()) }
-    single { ConstructorRepository(get(), get()) }
+    single { ConstructorRepository(get(), get(), get()) }
     single<DriversApi> { DriversApiImpl(get()) }
-    single { DriverRepository(get(), get()) }
+    single { DriverRepository(get(), get(), get()) }
     single<FinishingStatusApi> { FinishingStatusApiImpl(get()) }
     single { FinishingStatusRepository(get()) }
     single<LapTimesApi> { LapTimesApiImpl(get()) }
@@ -134,16 +137,16 @@ private val networkModule = module {
     single<PitStopsApi> { PitStopsApiImpl(get()) }
     single { PitStopsRepository(get()) }
     single<QualifyingResultsApi> { QualifyingResultsApiImpl(get()) }
-    single { QualifyingResultsRepository(get(), get()) }
+    single { QualifyingResultsRepository(get(), get(), get()) }
     single<RaceResultsApi> { RaceResultsApiImpl(get()) }
-    single { RaceResultsRepository(get(), get()) }
+    single { RaceResultsRepository(get(), get(), get()) }
     single<RaceScheduleApi> { RaceScheduleApiImpl(get()) }
-    single { RaceScheduleRepository(get(), get()) }
+    single { RaceScheduleRepository(get(), get(), get()) }
     single<SeasonListApi> { SeasonListApiImpl(get()) }
-    single { SeasonListRepository(get(), get()) }
+    single { SeasonListRepository(get(), get(), get()) }
     single<StandingsApi> { StandingsApiImpl(get()) }
-    single { ConstructorStandingsRepository(get(), get()) }
-    single { DriverStandingsRepository(get(), get()) }
+    single { ConstructorStandingsRepository(get(), get(), get()) }
+    single { DriverStandingsRepository(get(), get(), get()) }
 }
 
 private val viewModelModule = module {

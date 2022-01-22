@@ -1,17 +1,18 @@
 CREATE TABLE IF NOT EXISTS driver_and_constructors_Entity (
-    id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    id TEXT NOT NULL PRIMARY KEY,
     driver_id TEXT NOT NULL,
     constructor_id TEXT NOT NULL,
     season INTEGER NOT NULL,
+    FOREIGN KEY (driver_id) REFERENCES driver_Entity(driver_id),
     FOREIGN KEY (constructor_id) REFERENCES constructor_Entity(constructor_id)
 );
 
 CREATE TABLE IF NOT EXISTS driver_standing_Entity (
-    id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    id TEXT NOT NULL PRIMARY KEY,
     driver_id TEXT NOT NULL,
     season INTEGER NOT NULL,
     round INTEGER NOT NULL,
-    position TEXT NOT NULL,
+    position INTEGER NOT NULL,
     position_text TEXT NOT NULL,
     points TEXT NOT NULL,
     wins TEXT NOT NULL,
@@ -22,7 +23,8 @@ getDriverStandingWithDriverIdAndSeason:
 SELECT season, d_standing.driver_id, round, position, position_text, points, wins,
 d_standing.timestamp AS timestamp
 FROM driver_standing_Entity d_standing
-WHERE d_standing.driver_id = :id AND d_standing.season = :season;
+WHERE d_standing.driver_id = :id AND d_standing.season = :season
+ORDER BY position ASC;
 
 getDriverConstructorsStandingWithDriverIdAndSeason:
 SELECT constructor.constructor_id, url, name, nationality FROM constructor_Entity constructor
@@ -33,7 +35,8 @@ getDriverStandingsWithSeasonAndRound:
 SELECT season, d_standing.driver_id, round, position, position_text, points, wins,
 d_standing.timestamp AS timestamp
 FROM driver_standing_Entity d_standing
-WHERE d_standing.season = :season AND d_standing.round = :round;
+WHERE d_standing.season = :season AND d_standing.round = :round
+ORDER BY position ASC;
 
 getLatestDriverStandings:
 SELECT season, d_standing.driver_id, round, position, position_text, points, wins, d_standing.timestamp AS timestamp
@@ -42,11 +45,13 @@ WHERE d_standing.round = (
     SELECT MAX(d_standing.round) FROM driver_standing_Entity d_standing WHERE d_standing.season = (
         SELECT MAX(d_standing.season) FROM driver_standing_Entity d_standing
     )
-) AND d_standing.season = (SELECT MAX(d_standing.season) FROM driver_standing_Entity d_standing);
+) AND d_standing.season = (SELECT MAX(d_standing.season) FROM driver_standing_Entity d_standing)
+ORDER BY position ASC;
 
 insertDriverStanding:
 INSERT OR REPLACE
 INTO driver_standing_Entity (
+    id,
     driver_id,
     season,
     round,
@@ -55,12 +60,13 @@ INTO driver_standing_Entity (
     points,
     wins,
     timestamp
-) VALUES (?, ?, ?, ?, ?, ?, ?, ?);
+) VALUES (?,?, ?, ?, ?, ?, ?, ?, ?);
 
 insertDriverConstructorsStanding:
 INSERT OR REPLACE
 INTO driver_and_constructors_Entity (
+    id,
     driver_id,
     constructor_id,
     season
-) VALUES (?, ?, ?);
+) VALUES (?, ?, ?, ?);

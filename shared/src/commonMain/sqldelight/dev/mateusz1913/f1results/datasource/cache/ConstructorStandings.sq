@@ -1,9 +1,9 @@
 CREATE TABLE IF NOT EXISTS constructor_standing_Entity (
-    id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    id TEXT NOT NULL PRIMARY KEY,
     constructor_id TEXT NOT NULL,
     season INTEGER NOT NULL,
     round INTEGER NOT NULL,
-    position TEXT NOT NULL,
+    position INTEGER NOT NULL,
     points TEXT NOT NULL,
     wins TEXT NOT NULL,
     timestamp REAL NOT NULL
@@ -16,7 +16,8 @@ constructor.name AS name, constructor.nationality AS nationality,
 constructor.timestamp AS constructor_timestamp
 FROM constructor_standing_Entity c_standing
 INNER JOIN constructor_Entity constructor ON c_standing.constructor_id = constructor.constructor_id
-WHERE c_standing.constructor_id = :id AND season = :season;
+WHERE c_standing.constructor_id = :id AND season = :season
+ORDER BY position ASC;
 
 getConstructorStandingsWithSeasonAndRound:
 SELECT season, round, position, points, wins, c_standing.timestamp AS timestamp,
@@ -25,7 +26,8 @@ constructor.name AS name, constructor.nationality AS nationality,
 constructor.timestamp AS constructor_timestamp
 FROM constructor_standing_Entity c_standing
 INNER JOIN constructor_Entity constructor ON c_standing.constructor_id = constructor.constructor_id
-WHERE season = :season AND round = :round;
+WHERE season = :season AND round = :round
+ORDER BY position ASC;
 
 getLatestConstructorStandings:
 SELECT season, round, position, points, wins, c_standing.timestamp AS timestamp,
@@ -38,11 +40,13 @@ WHERE round = (
     SELECT MAX(round) FROM constructor_standing_Entity c_standing WHERE season = (
         SELECT MAX(season) FROM constructor_standing_Entity c_standing
     )
-) AND season = (SELECT MAX(season) FROM constructor_standing_Entity c_standing);
+) AND season = (SELECT MAX(season) FROM constructor_standing_Entity c_standing)
+ORDER BY position ASC;
 
 insertConstructorStanding:
 INSERT OR REPLACE
 INTO constructor_standing_Entity (
+    id,
     constructor_id,
     season,
     round,
@@ -50,4 +54,4 @@ INTO constructor_standing_Entity (
     points,
     wins,
     timestamp
-) VALUES (?, ?, ?, ?, ?, ?, ?);
+) VALUES (?, ?, ?, ?, ?, ?, ?, ?);

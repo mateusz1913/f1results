@@ -5,6 +5,6 @@ import dev.mateusz1913.f1results.datasource.data.constructor.ConstructorType
 
 interface ConstructorCache {
     fun get(constructorId: String): Constructor_Entity
-    fun insert(constructor: ConstructorType)
-    fun insert(constructors: Array<ConstructorType>)
+    fun insert(constructor: ConstructorType): Boolean
+    fun insert(constructors: Array<ConstructorType>): Boolean
 }

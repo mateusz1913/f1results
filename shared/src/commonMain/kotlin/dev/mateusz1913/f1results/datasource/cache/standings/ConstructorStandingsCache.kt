@@ -18,5 +18,9 @@ interface ConstructorStandingsCache {
 
     fun getLatestConstructorStandings(): List<GetLatestConstructorStandings>
 
-    fun insertConstructorStanding(constructorStanding: ConstructorStandingType, season: String, round: String)
+    fun insertConstructorStanding(
+        constructorStanding: ConstructorStandingType,
+        season: String,
+        round: String
+    ): Boolean
 }

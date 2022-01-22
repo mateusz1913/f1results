@@ -24,21 +24,21 @@ data class DriverStandingsCachedData(
 @JvmName("getDriverStandingWithDriverIdAndSeasonToDriverStandingsCachedData")
 fun GetDriverStandingWithDriverIdAndSeason.toDriverStandingsCachedData(): DriverStandingsCachedData {
     return DriverStandingsCachedData(
-        season, driver_id, round, position, position_text, points, wins, timestamp
+        season, driver_id, round, "$position", position_text, points, wins, timestamp
     )
 }
 
 @JvmName("getDriverStandingsWithSeasonAndRoundToDriverStandingsCachedData")
 fun GetDriverStandingsWithSeasonAndRound.toDriverStandingsCachedData(): DriverStandingsCachedData {
     return DriverStandingsCachedData(
-        season, driver_id, round, position, position_text, points, wins, timestamp
+        season, driver_id, round, "$position", position_text, points, wins, timestamp
     )
 }
 
 @JvmName("getLatestDriverStandingsToDriverStandingsCachedData")
 fun GetLatestDriverStandings.toDriverStandingsCachedData(): DriverStandingsCachedData {
     return DriverStandingsCachedData(
-        season, driver_id, round, position, position_text, points, wins, timestamp
+        season, driver_id, round, "$position", position_text, points, wins, timestamp
     )
 }
 

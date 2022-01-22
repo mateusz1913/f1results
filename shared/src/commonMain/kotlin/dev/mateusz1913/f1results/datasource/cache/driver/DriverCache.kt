@@ -5,6 +5,6 @@ import dev.mateusz1913.f1results.datasource.data.driver.DriverType
 
 interface DriverCache {
     fun get(driverId: String): Driver_Entity
-    fun insert(driver: DriverType)
-    fun insert(drivers: Array<DriverType>)
+    fun insert(driver: DriverType): Boolean
+    fun insert(drivers: Array<DriverType>): Boolean
 }

@@ -25,7 +25,7 @@ data class ConstructorStandingsType(
     @SerialName("season")
     override val season: String,
     @SerialName("round")
-    override val round: String? = null,
+    override val round: String,
     @SerialName("ConstructorStandings")
     val constructorStandings: Array<ConstructorStandingType>
 ): BaseStandingsType {
