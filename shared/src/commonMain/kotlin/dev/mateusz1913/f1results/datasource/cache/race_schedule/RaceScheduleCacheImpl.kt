@@ -9,16 +9,26 @@ class RaceScheduleCacheImpl(
     private val raceScheduleQueries: RaceQueries,
     private val circuitQueries: CircuitQueries
 ) : RaceScheduleCache {
-    override fun getLastRaceSchedule(): GetLatestRace {
-        return raceScheduleQueries.getLatestRace().executeAsOne()
+    override fun getLastRaceSchedule(): RaceScheduleCachedData {
+        return raceScheduleQueries.getLatestRace().executeAsOne().toRaceScheduleCachedData()
     }
 
-    override fun getRaceScheduleWithSeason(season: String): List<GetRaceWithSeason> {
+    override fun getRaceScheduleFromCurrentSeason(): List<RaceScheduleCachedData> {
+        return raceScheduleQueries.getRacesFromCurrentSeason().executeAsList()
+            .map { it.toRaceScheduleCachedData() }
+    }
+
+    override fun getRaceScheduleWithSeason(season: String): List<RaceScheduleCachedData> {
         return raceScheduleQueries.getRaceWithSeason(season.toLong()).executeAsList()
+            .map { it.toRaceScheduleCachedData() }
     }
 
-    override fun getRaceScheduleWithSeasonAndRound(season: String, round: String): GetRaceWithRaceId {
+    override fun getRaceScheduleWithSeasonAndRound(
+        season: String,
+        round: String
+    ): RaceScheduleCachedData {
         return raceScheduleQueries.getRaceWithRaceId("$season/$round").executeAsOne()
+            .toRaceScheduleCachedData()
     }
 
     override fun insertRaceSchedule(raceSchedule: RaceType) {

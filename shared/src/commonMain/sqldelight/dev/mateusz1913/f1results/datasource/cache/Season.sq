@@ -15,17 +15,14 @@ CREATE TABLE IF NOT EXISTS driver_season_Entity (
 );
 
 getSeasonsWithConstructorId:
-SELECT season, constructor_season_Entity.url AS url,
-constructor_season_Entity.constructor_id AS constructor_id, constructor_season_Entity.timestamp AS timestamp
-FROM constructor_season_Entity
-INNER JOIN constructor_Entity ON constructor_Entity.constructor_id = constructor_season_Entity.constructor_id
-WHERE constructor_season_Entity.constructor_id = :id;
+SELECT season, c_season.url AS url, c_season.constructor_id AS constructor_id, c_season.timestamp AS timestamp
+FROM constructor_season_Entity c_season
+WHERE c_season.constructor_id = :id;
 
 getSeasonsWithDriverId:
-SELECT season, driver_season_Entity.url AS url, driver_season_Entity.driver_id AS driver_id,
-driver_season_Entity.timestamp AS timestamp FROM driver_season_Entity
-INNER JOIN driver_Entity ON driver_Entity.driver_id = driver_season_Entity.driver_id
-WHERE driver_season_Entity.driver_id = :id;
+SELECT season, d_season.url AS url, d_season.driver_id AS driver_id, d_season.timestamp AS timestamp
+FROM driver_season_Entity d_season
+WHERE d_season.driver_id = :id;
 
 insertConstructorSeason:
 INSERT OR REPLACE

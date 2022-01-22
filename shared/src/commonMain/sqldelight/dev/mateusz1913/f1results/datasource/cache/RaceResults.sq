@@ -1,4 +1,4 @@
-CREATE TABLE race_results_Entity (
+CREATE TABLE IF NOT EXISTS race_results_Entity (
     id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
     race_id TEXT NOT NULL,
     driver_id TEXT NOT NULL,

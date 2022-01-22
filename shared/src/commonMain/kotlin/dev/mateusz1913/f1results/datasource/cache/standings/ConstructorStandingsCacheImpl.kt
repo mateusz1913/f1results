@@ -1,8 +1,6 @@
 package dev.mateusz1913.f1results.datasource.cache.standings
 
-import dev.mateusz1913.f1results.datasource.cache.ConstructorQueries
-import dev.mateusz1913.f1results.datasource.cache.ConstructorStandingsQueries
-import dev.mateusz1913.f1results.datasource.cache.GetConstructorStandingWithConstructorIdAndSeason
+import dev.mateusz1913.f1results.datasource.cache.*
 import dev.mateusz1913.f1results.datasource.data.standings.ConstructorStandingType
 import dev.mateusz1913.f1results.domain.now
 import dev.mateusz1913.f1results.domain.toEpochMilliseconds
@@ -17,18 +15,34 @@ class ConstructorStandingsCacheImpl(
     ): GetConstructorStandingWithConstructorIdAndSeason {
         return constructorStandingsQueries.getConstructorStandingWithConstructorIdAndSeason(
             constructorId,
-            season
+            season.toLong()
         ).executeAsOne()
+    }
+
+    override fun getConstructorStandings(
+        season: String,
+        round: String
+    ): List<GetConstructorStandingsWithSeasonAndRound> {
+        return constructorStandingsQueries.getConstructorStandingsWithSeasonAndRound(
+            season.toLong(),
+            round.toLong()
+        ).executeAsList()
+    }
+
+    override fun getLatestConstructorStandings(): List<GetLatestConstructorStandings> {
+        return constructorStandingsQueries.getLatestConstructorStandings().executeAsList()
     }
 
     override fun insertConstructorStanding(
         constructorStanding: ConstructorStandingType,
-        season: String
+        season: String,
+        round: String
     ) {
         constructorStandingsQueries.transaction {
             constructorStandingsQueries.insertConstructorStanding(
                 constructor_id = constructorStanding.constructor.constructorId,
-                season = season,
+                season = season.toLong(),
+                round = round.toLong(),
                 points = constructorStanding.points,
                 position = constructorStanding.position,
                 wins = constructorStanding.wins,

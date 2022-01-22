@@ -12,7 +12,7 @@ class CurrentCalendarViewModel(
 ) : BaseViewModel() {
     private val _currentRaceScheduleState = MutableStateFlow(
         CurrentRaceScheduleState(
-            currentRaceScheduleList = raceScheduleRepository.getCachedRaceScheduleListWithSeason("current")
+            currentRaceScheduleList = raceScheduleRepository.getCachedRaceScheduleListFromCurrentSeason()
         )
     )
     val currentRaceScheduleState: StateFlow<CurrentRaceScheduleState>

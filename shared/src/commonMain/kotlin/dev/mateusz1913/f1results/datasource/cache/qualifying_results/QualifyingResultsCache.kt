@@ -4,14 +4,15 @@ import dev.mateusz1913.f1results.datasource.cache.GetLastQualifyingResults
 import dev.mateusz1913.f1results.datasource.cache.GetLatestRace
 import dev.mateusz1913.f1results.datasource.cache.GetQualifyingResultsWithRaceId
 import dev.mateusz1913.f1results.datasource.cache.GetRaceWithRaceId
+import dev.mateusz1913.f1results.datasource.cache.race_schedule.RaceScheduleCachedData
 import dev.mateusz1913.f1results.datasource.data.qualifying_results.RaceWithQualifyingResultsType
 
 interface QualifyingResultsCache {
-    fun getLatestQualifyingResults(): Pair<GetLatestRace, List<GetLastQualifyingResults>>
+    fun getLatestQualifyingResults(): Pair<RaceScheduleCachedData, List<QualifyingResultsCachedData>>
     fun getQualifyingResultsWithSeasonAndRound(
         season: String,
         round: String
-    ): Pair<GetRaceWithRaceId, List<GetQualifyingResultsWithRaceId>>
+    ): Pair<RaceScheduleCachedData, List<QualifyingResultsCachedData>>
 
     fun insertQualifyingResults(qualifyingResults: RaceWithQualifyingResultsType)
 }

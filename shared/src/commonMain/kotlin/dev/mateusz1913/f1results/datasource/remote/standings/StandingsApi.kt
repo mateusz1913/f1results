@@ -9,13 +9,13 @@ interface StandingsApi {
     suspend fun getSpecificDriverStandings(
         season: String,
         round: String,
-        position: Int?
+        position: Int? = null
     ): Array<DriverStandingsType>?
 
     suspend fun getSpecificConstructorStandings(
         season: String,
         round: String,
-        position: Int?
+        position: Int? = null
     ): Array<ConstructorStandingsType>?
 
     suspend fun getDriverStandings(

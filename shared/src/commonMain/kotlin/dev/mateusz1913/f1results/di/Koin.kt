@@ -53,7 +53,8 @@ import dev.mateusz1913.f1results.datasource.repository.qualifying_results.Qualif
 import dev.mateusz1913.f1results.datasource.repository.race_results.RaceResultsRepository
 import dev.mateusz1913.f1results.datasource.repository.race_schedule.RaceScheduleRepository
 import dev.mateusz1913.f1results.datasource.repository.season_list.SeasonListRepository
-import dev.mateusz1913.f1results.datasource.repository.standings.StandingsRepository
+import dev.mateusz1913.f1results.datasource.repository.standings.ConstructorStandingsRepository
+import dev.mateusz1913.f1results.datasource.repository.standings.DriverStandingsRepository
 import dev.mateusz1913.f1results.viewmodel.*
 import org.koin.core.KoinApplication
 import org.koin.core.context.startKoin
@@ -141,13 +142,14 @@ private val networkModule = module {
     single<SeasonListApi> { SeasonListApiImpl(get()) }
     single { SeasonListRepository(get(), get()) }
     single<StandingsApi> { StandingsApiImpl(get()) }
-    single { StandingsRepository(get(), get(), get()) }
+    single { ConstructorStandingsRepository(get(), get()) }
+    single { DriverStandingsRepository(get(), get()) }
 }
 
 private val viewModelModule = module {
     viewModelFactory { CurrentCalendarViewModel(get()) }
     viewModelFactory { CurrentRaceResultsViewModel(get(), get()) }
-    viewModelFactory { CurrentStandingsViewModel(get()) }
+    viewModelFactory { CurrentStandingsViewModel(get(), get()) }
     viewModelFactory { CircuitViewModel(get(), get()) }
     viewModelFactory { ConstructorViewModel(get(), get(), get(), get()) }
     viewModelFactory { DriverViewModel(get(), get(), get(), get()) }

@@ -57,11 +57,11 @@ class SeasonListRepository(private val seasonListApi: SeasonListApi, private val
     }
 
     fun getCachedConstructorSeasonList(constructorId: String): Array<SeasonType>? {
-        val cachedConstructorSeasonList = try {
+        return try {
             val cached = seasonCache.getSeasonsWithConstructorId(constructorId)
             val currentTimestamp = now().toEpochMilliseconds()
             if (currentTimestamp < cached[0].timestamp + TIMESTAMP_THRESHOLD) {
-                cached
+                cached.toArraySeasonType()
             } else {
                 null
             }
@@ -69,15 +69,14 @@ class SeasonListRepository(private val seasonListApi: SeasonListApi, private val
             Napier.d(e.message ?: "No cached constructor season list", tag = "SeasonListRepository")
             null
         }
-        return cachedConstructorSeasonList?.toArraySeasonType()
     }
 
     fun getCachedDriverSeasonList(driverId: String): Array<SeasonType>? {
-        val cachedDriverSeasonList = try {
+        return try {
             val cached = seasonCache.getSeasonsWithDriverId(driverId)
             val currentTimestamp = now().toEpochMilliseconds()
             if (currentTimestamp < cached[0].timestamp + TIMESTAMP_THRESHOLD) {
-                cached
+                cached.toArraySeasonType()
             } else {
                 null
             }
@@ -85,7 +84,6 @@ class SeasonListRepository(private val seasonListApi: SeasonListApi, private val
             Napier.d(e.message ?: "No cached driver season list", tag = "SeasonListRepository")
             null
         }
-        return cachedDriverSeasonList?.toArraySeasonType()
     }
 
     companion object {

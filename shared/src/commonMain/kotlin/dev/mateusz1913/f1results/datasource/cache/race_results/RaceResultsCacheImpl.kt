@@ -1,6 +1,8 @@
 package dev.mateusz1913.f1results.datasource.cache.race_results
 
 import dev.mateusz1913.f1results.datasource.cache.*
+import dev.mateusz1913.f1results.datasource.cache.race_schedule.RaceScheduleCachedData
+import dev.mateusz1913.f1results.datasource.cache.race_schedule.toRaceScheduleCachedData
 import dev.mateusz1913.f1results.datasource.data.race_results.RaceWithResultsType
 import dev.mateusz1913.f1results.domain.now
 import dev.mateusz1913.f1results.domain.toEpochMilliseconds
@@ -12,19 +14,23 @@ class RaceResultsCacheImpl(
     private val driverQueries: DriverQueries,
     private val constructorQueries: ConstructorQueries
 ) : RaceResultsCache {
-    override fun getLatestRaceResults(): Pair<GetLatestRace, List<GetLastRaceResults>> {
-        val raceSchedule = raceScheduleQueries.getLatestRace().executeAsOne()
+    override fun getLatestRaceResults(): Pair<RaceScheduleCachedData, List<RaceResultsCachedData>> {
+        val raceSchedule =
+            raceScheduleQueries.getLatestRace().executeAsOne().toRaceScheduleCachedData()
         val raceResults = raceResultsQueries.getLastRaceResults().executeAsList()
+            .map { it.toRaceResultsCachedData() }
         return Pair(raceSchedule, raceResults)
     }
 
     override fun getRaceResultsWithSeasonAndRound(
         season: String,
         round: String
-    ): Pair<GetRaceWithRaceId, List<GetRaceResultsWithRaceId>> {
+    ): Pair<RaceScheduleCachedData, List<RaceResultsCachedData>> {
         val raceSchedule = raceScheduleQueries.getRaceWithRaceId("$season/$round").executeAsOne()
+            .toRaceScheduleCachedData()
         val raceResults =
             raceResultsQueries.getRaceResultsWithRaceId("$season/$round").executeAsList()
+                .map { it.toRaceResultsCachedData() }
         return Pair(raceSchedule, raceResults)
     }
 

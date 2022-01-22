@@ -5,14 +5,14 @@ import dev.mateusz1913.f1results.datasource.data.season_list.SeasonType
 import dev.mateusz1913.f1results.datasource.data.standings.DriverStandingType
 import dev.mateusz1913.f1results.datasource.repository.driver.DriverRepository
 import dev.mateusz1913.f1results.datasource.repository.season_list.SeasonListRepository
-import dev.mateusz1913.f1results.datasource.repository.standings.StandingsRepository
+import dev.mateusz1913.f1results.datasource.repository.standings.DriverStandingsRepository
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 
 class DriverViewModel(
     private val driverRepository: DriverRepository,
     private val seasonListRepository: SeasonListRepository,
-    private val standingsRepository: StandingsRepository,
+    private val driverStandingsRepository: DriverStandingsRepository,
     private val driverId: String
 ) : BaseViewModel() {
     private val _driverState =
@@ -88,8 +88,8 @@ class DriverViewModel(
 
     fun fetchDriverStanding(season: String) {
         coroutineScope.launch {
-            val driverStanding = standingsRepository.getCachedSeasonDriverStanding(driverId, season)
-                ?: standingsRepository.fetchSeasonDriverStanding(driverId, season)
+            val driverStanding = driverStandingsRepository.getCachedSeasonDriverStanding(driverId, season)
+                ?: driverStandingsRepository.fetchSeasonDriverStanding(driverId, season)
             _driverStandingState.update { it.copy(driverStanding = driverStanding) }
             _selectedSeasonState.value = season
         }

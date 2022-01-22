@@ -13,10 +13,7 @@ class CurrentRaceResultsViewModel(
 ) : BaseViewModel() {
     private val _raceResultsState = MutableStateFlow(
         RaceResultsState(
-            raceResults = raceResultsRepository.getCachedRaceResult(
-                season = "current",
-                round = "last"
-            )
+            raceResults = raceResultsRepository.getCachedLatestRaceResult()
         )
     )
     val raceResultsState: StateFlow<RaceResultsState>
@@ -29,10 +26,7 @@ class CurrentRaceResultsViewModel(
 
     private val _qualifyingResultsState = MutableStateFlow(
         QualifyingResultsState(
-            qualifyingResults = qualifyingResultsRepository.getCachedQualifyingResult(
-                season = "current",
-                round = "last"
-            )
+            qualifyingResults = qualifyingResultsRepository.getCachedLatestQualifyingResults()
         )
     )
     val qualifyingResultsState: StateFlow<QualifyingResultsState>

@@ -8,6 +8,7 @@ import dev.mateusz1913.f1results.datasource.data.race_schedule.RaceType
 import dev.mateusz1913.f1results.datasource.remote.race_schedule.RaceScheduleApi
 import dev.mateusz1913.f1results.domain.now
 import dev.mateusz1913.f1results.domain.toEpochMilliseconds
+import io.github.aakira.napier.Napier
 
 class RaceScheduleRepository(
     private val raceScheduleApi: RaceScheduleApi,
@@ -58,52 +59,64 @@ class RaceScheduleRepository(
         )
     }
 
-    private fun getCachedLastRaceSchedule(currentTimestamp: Double): RaceType? {
-        val cached = raceScheduleCache.getLastRaceSchedule()
-        if (currentTimestamp < cached.timestamp + TIMESTAMP_THRESHOLD) {
-            return cached.toRaceType()
+    fun getCachedLatestRaceSchedule(): RaceType? {
+        return try {
+            val currentTimestamp = now().toEpochMilliseconds()
+            val cached = raceScheduleCache.getLastRaceSchedule()
+            if (currentTimestamp < cached.timestamp + TIMESTAMP_THRESHOLD) {
+                cached.toRaceType()
+            } else {
+                null
+            }
+        } catch (e: Exception) {
+            Napier.d(e.message ?: "No cached latest race schedule", tag = "RaceScheduleRepository")
+            null
         }
-        return null
-    }
-
-    private fun getCachedRaceScheduleWithSeasonAndRound(
-        season: String,
-        round: String,
-        currentTimestamp: Double
-    ): RaceType? {
-        val cached = raceScheduleCache.getRaceScheduleWithSeasonAndRound(season, round)
-        if (currentTimestamp < cached.timestamp + TIMESTAMP_THRESHOLD) {
-            return cached.toRaceType()
-        }
-        return null
     }
 
     fun getCachedRaceSchedule(season: String, round: String): RaceType? {
         return try {
             val currentTimestamp = now().toEpochMilliseconds()
-            if (season == "current" && round == "last") {
-                getCachedLastRaceSchedule(currentTimestamp)
+            val cached = raceScheduleCache.getRaceScheduleWithSeasonAndRound(season, round)
+            if (currentTimestamp < cached.timestamp + TIMESTAMP_THRESHOLD) {
+                cached.toRaceType()
             } else {
-                getCachedRaceScheduleWithSeasonAndRound(season, round, currentTimestamp)
+                null
             }
         } catch (e: Exception) {
+            Napier.d(e.message ?: "No cached race schedule", tag = "RaceScheduleRepository")
+            null
+        }
+    }
+
+    fun getCachedRaceScheduleListFromCurrentSeason(): Array<RaceType>? {
+        return try {
+            val cached = raceScheduleCache.getRaceScheduleFromCurrentSeason()
+            val currentTimestamp = now().toEpochMilliseconds()
+            if (currentTimestamp < cached[0].timestamp + TIMESTAMP_THRESHOLD) {
+                cached.toArrayRaceType()
+            } else {
+                null
+            }
+        } catch (e: Exception) {
+            Napier.d(e.message ?: "No cached current season race schedule", tag = "RaceScheduleRepository")
             null
         }
     }
 
     fun getCachedRaceScheduleListWithSeason(season: String): Array<RaceType>? {
-        val cachedRaceScheduleList = try {
+        return try {
             val cached = raceScheduleCache.getRaceScheduleWithSeason(season)
             val currentTimestamp = now().toEpochMilliseconds()
             if (currentTimestamp < cached[0].timestamp + TIMESTAMP_THRESHOLD) {
-                cached
+                cached.toArrayRaceType()
             } else {
                 null
             }
         } catch (e: Exception) {
+            Napier.d(e.message ?: "No cached season race schedule", tag = "RaceScheduleRepository")
             null
         }
-        return cachedRaceScheduleList?.toArrayRaceType()
     }
 
     companion object {

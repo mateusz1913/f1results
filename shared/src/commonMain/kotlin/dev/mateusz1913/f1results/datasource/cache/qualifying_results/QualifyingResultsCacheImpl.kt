@@ -1,6 +1,8 @@
 package dev.mateusz1913.f1results.datasource.cache.qualifying_results
 
 import dev.mateusz1913.f1results.datasource.cache.*
+import dev.mateusz1913.f1results.datasource.cache.race_schedule.RaceScheduleCachedData
+import dev.mateusz1913.f1results.datasource.cache.race_schedule.toRaceScheduleCachedData
 import dev.mateusz1913.f1results.datasource.data.qualifying_results.RaceWithQualifyingResultsType
 import dev.mateusz1913.f1results.domain.now
 import dev.mateusz1913.f1results.domain.toEpochMilliseconds
@@ -12,20 +14,20 @@ class QualifyingResultsCacheImpl(
     private val driverQueries: DriverQueries,
     private val constructorQueries: ConstructorQueries
 ) : QualifyingResultsCache {
-    override fun getLatestQualifyingResults(): Pair<GetLatestRace, List<GetLastQualifyingResults>> {
-        val raceSchedule = raceScheduleQueries.getLatestRace().executeAsOne()
-        val qualifyingResults = qualifyingResultsQueries.getLastQualifyingResults().executeAsList()
+    override fun getLatestQualifyingResults(): Pair<RaceScheduleCachedData, List<QualifyingResultsCachedData>> {
+        val raceSchedule = raceScheduleQueries.getLatestRace().executeAsOne().toRaceScheduleCachedData()
+        val qualifyingResults = qualifyingResultsQueries.getLastQualifyingResults().executeAsList().map { it.toQualifyingResultsCachedData() }
         return Pair(raceSchedule, qualifyingResults)
     }
 
     override fun getQualifyingResultsWithSeasonAndRound(
         season: String,
         round: String
-    ): Pair<GetRaceWithRaceId, List<GetQualifyingResultsWithRaceId>> {
-        val raceSchedule = raceScheduleQueries.getRaceWithRaceId("$season/$round").executeAsOne()
+    ): Pair<RaceScheduleCachedData, List<QualifyingResultsCachedData>> {
+        val raceSchedule = raceScheduleQueries.getRaceWithRaceId("$season/$round").executeAsOne().toRaceScheduleCachedData()
         val qualifyingResults =
             qualifyingResultsQueries.getQualifyingResultsWithRaceId("$season/$round")
-                .executeAsList()
+                .executeAsList().map { it.toQualifyingResultsCachedData() }
         return Pair(raceSchedule, qualifyingResults)
     }
 

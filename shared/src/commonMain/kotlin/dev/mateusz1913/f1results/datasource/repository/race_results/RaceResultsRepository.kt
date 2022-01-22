@@ -2,6 +2,8 @@ package dev.mateusz1913.f1results.datasource.repository.race_results
 
 import dev.mateusz1913.f1results.datasource.cache.race_results.RaceResultsCache
 import dev.mateusz1913.f1results.datasource.cache.race_results.toArrayResultType
+import dev.mateusz1913.f1results.datasource.cache.race_results.toRaceResultsCachedData
+import dev.mateusz1913.f1results.datasource.cache.race_results.toRaceWithResultsType
 import dev.mateusz1913.f1results.datasource.data.circuit.CircuitType
 import dev.mateusz1913.f1results.datasource.data.circuit.LocationType
 import dev.mateusz1913.f1results.datasource.data.race_results.RaceResultsData
@@ -9,6 +11,7 @@ import dev.mateusz1913.f1results.datasource.data.race_results.RaceWithResultsTyp
 import dev.mateusz1913.f1results.datasource.remote.race_results.RaceResultsApi
 import dev.mateusz1913.f1results.domain.now
 import dev.mateusz1913.f1results.domain.toEpochMilliseconds
+import io.github.aakira.napier.Napier
 
 class RaceResultsRepository(
     private val raceResultsApi: RaceResultsApi,
@@ -56,78 +59,37 @@ class RaceResultsRepository(
         )
     }
 
-    private fun getCachedLatestRaceResult(currentTimestamp: Double): RaceWithResultsType? {
-        val (raceSchedule, raceResults) = raceResultsCache.getLatestRaceResults()
-        if (currentTimestamp < raceResults[0].timestamp + TIMESTAMP_THRESHOLD) {
-            return RaceWithResultsType(
-                season = "${raceSchedule.season}",
-                round = "${raceSchedule.round}",
-                url = raceSchedule.url,
-                raceName = raceSchedule.race_name,
-                circuit = CircuitType(
-                    circuitId = raceSchedule.circuit_id,
-                    url = raceSchedule.circuit_url,
-                    circuitName = raceSchedule.circuit_name,
-                    location = LocationType(
-                        alt = raceSchedule.circuit_alt,
-                        lat = raceSchedule.circuit_lat,
-                        long = raceSchedule.circuit_long,
-                        locality = raceSchedule.circuit_locality,
-                        country = raceSchedule.circuit_country
-                    )
-                ),
-                date = raceSchedule.date,
-                time = raceSchedule.time,
-                results = raceResults.toArrayResultType()
-            )
+    fun getCachedLatestRaceResult(): RaceWithResultsType? {
+        return try {
+            val currentTimestamp = now().toEpochMilliseconds()
+            val cachedRaceResults = raceResultsCache.getLatestRaceResults()
+            val (_, raceResults) = cachedRaceResults
+            if (currentTimestamp < raceResults[0].timestamp + TIMESTAMP_THRESHOLD) {
+                cachedRaceResults.toRaceWithResultsType()
+            } else {
+                null
+            }
+        } catch (e: Exception) {
+            Napier.d(e.message ?: "No cached latest race results", tag = "RaceResultsRepository")
+            null
         }
-        return null
-    }
-
-    private fun getCachedRaceResultWithSeasonAndRound(
-        season: String,
-        round: String,
-        currentTimestamp: Double
-    ): RaceWithResultsType? {
-        val (raceSchedule, raceResults) = raceResultsCache.getRaceResultsWithSeasonAndRound(
-            season,
-            round
-        )
-        if (currentTimestamp < raceResults[0].timestamp + TIMESTAMP_THRESHOLD) {
-            return RaceWithResultsType(
-                season = "${raceSchedule.season}",
-                round = "${raceSchedule.round}",
-                url = raceSchedule.url,
-                raceName = raceSchedule.race_name,
-                circuit = CircuitType(
-                    circuitId = raceSchedule.circuit_id,
-                    url = raceSchedule.circuit_url,
-                    circuitName = raceSchedule.circuit_name,
-                    location = LocationType(
-                        alt = raceSchedule.circuit_alt,
-                        lat = raceSchedule.circuit_lat,
-                        long = raceSchedule.circuit_long,
-                        locality = raceSchedule.circuit_locality,
-                        country = raceSchedule.circuit_country
-                    )
-                ),
-                date = raceSchedule.date,
-                time = raceSchedule.time,
-                results = raceResults.toArrayResultType()
-            )
-        }
-        return null
     }
 
     fun getCachedRaceResult(season: String, round: String): RaceWithResultsType? {
         return try {
             val currentTimestamp = now().toEpochMilliseconds()
-            if (season == "current" && round == "last") {
-                getCachedLatestRaceResult(currentTimestamp)
+            val cachedRaceResults = raceResultsCache.getRaceResultsWithSeasonAndRound(
+                season,
+                round
+            )
+            val (_, raceResults) = cachedRaceResults
+            if (currentTimestamp < raceResults[0].timestamp + TIMESTAMP_THRESHOLD) {
+                cachedRaceResults.toRaceWithResultsType()
             } else {
-                getCachedRaceResultWithSeasonAndRound(season, round, currentTimestamp)
+                null
             }
         } catch (e: Exception) {
+            Napier.d(e.message ?: "No cached race results", tag = "RaceResultsRepository")
             null
         }
     }

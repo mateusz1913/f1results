@@ -1,4 +1,4 @@
-CREATE TABLE race_Entity (
+CREATE TABLE IF NOT EXISTS race_Entity (
     race_id TEXT NOT NULL PRIMARY KEY,
     season INTEGER NOT NULL,
     round INTEGER NOT NULL,
@@ -47,6 +47,17 @@ WHERE races.round = (
         SELECT MAX(races.season) FROM race_Entity races
     )
 ) AND races.season = (SELECT MAX(races.season) FROM race_Entity races);
+
+getRacesFromCurrentSeason:
+SELECT races.race_id AS race_id, races.season AS season, races.round AS round,
+races.url AS url, races.race_name AS race_name, races.date AS date,
+races.time AS time, races.timestamp AS timestamp, circuit.circuit_id AS circuit_id,
+circuit.url AS circuit_url, circuit.circuit_name AS circuit_name,
+circuit.country AS circuit_country, circuit.locality AS circuit_locality,
+circuit.alt AS circuit_alt, circuit.lat AS circuit_lat,
+circuit.long AS circuit_long, circuit.timestamp AS circuit_timestamp
+FROM race_Entity races INNER JOIN circuit_Entity circuit ON races.circuit_id = circuit.circuit_id
+WHERE races.season = (SELECT MAX(races.season) FROM race_Entity races);
 
 insertRace:
 INSERT OR REPLACE

@@ -5,7 +5,7 @@ import dev.mateusz1913.f1results.datasource.data.season_list.SeasonType
 import dev.mateusz1913.f1results.datasource.data.standings.ConstructorStandingType
 import dev.mateusz1913.f1results.datasource.repository.constructor.ConstructorRepository
 import dev.mateusz1913.f1results.datasource.repository.season_list.SeasonListRepository
-import dev.mateusz1913.f1results.datasource.repository.standings.StandingsRepository
+import dev.mateusz1913.f1results.datasource.repository.standings.ConstructorStandingsRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
@@ -14,7 +14,7 @@ import kotlinx.coroutines.launch
 class ConstructorViewModel(
     private val constructorRepository: ConstructorRepository,
     private val seasonListRepository: SeasonListRepository,
-    private val standingsRepository: StandingsRepository,
+    private val constructorStandingsRepository: ConstructorStandingsRepository,
     private val constructorId: String
 ) : BaseViewModel() {
     private val _constructorState = MutableStateFlow(
@@ -102,8 +102,8 @@ class ConstructorViewModel(
 
     private suspend fun internalFetchConstructorStanding(season: String) {
         val constructorStanding =
-            standingsRepository.getCachedSeasonConstructorStanding(constructorId, season)
-                ?: standingsRepository.fetchSeasonConstructorStanding(constructorId, season)
+            constructorStandingsRepository.getCachedSeasonConstructorStanding(constructorId, season)
+                ?: constructorStandingsRepository.fetchSeasonConstructorStanding(constructorId, season)
         _constructorStandingState.update { it.copy(constructorStanding = constructorStanding) }
         _selectedSeasonState.value = season
     }

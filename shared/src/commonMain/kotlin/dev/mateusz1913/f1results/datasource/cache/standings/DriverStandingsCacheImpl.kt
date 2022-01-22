@@ -15,28 +15,85 @@ class DriverStandingsCacheImpl(
     override fun getDriverStanding(
         driverId: String,
         season: String
-    ): Triple<GetDriverStandingWithDriverIdAndSeason, DriverType, List<GetDriverConstructorsStandingWithDriverIdAndSeason>> {
+    ): Triple<DriverStandingsCachedData, DriverType, List<GetDriverConstructorsStandingWithDriverIdAndSeason>> {
         val driverStanding =
-            queries.getDriverStandingWithDriverIdAndSeason(driverId, season).executeAsOne()
+            queries.getDriverStandingWithDriverIdAndSeason(driverId, season.toLong()).executeAsOne()
         val driver = driverQueries.getDriverById(driverId).executeAsOne().toDriverType()
         val driverConstructors =
-            queries.getDriverConstructorsStandingWithDriverIdAndSeason(driverId, season)
+            queries.getDriverConstructorsStandingWithDriverIdAndSeason(driverId, season.toLong())
                 .executeAsList()
-        return Triple(driverStanding, driver, driverConstructors)
+        return Triple(driverStanding.toDriverStandingsCachedData(), driver, driverConstructors)
+    }
+
+    override fun getDriverStandings(
+        season: String,
+        round: String
+    ): List<Triple<DriverStandingsCachedData, DriverType, List<GetDriverConstructorsStandingWithDriverIdAndSeason>>> {
+        val driverStandings =
+            queries.getDriverStandingsWithSeasonAndRound(season.toLong(), round.toLong())
+                .executeAsList()
+        return driverStandings.map { standing ->
+            val driver =
+                driverQueries.getDriverById(standing.driver_id).executeAsOne().toDriverType()
+            val driverConstructors =
+                queries.getDriverConstructorsStandingWithDriverIdAndSeason(
+                    standing.driver_id,
+                    standing.season
+                )
+                    .executeAsList()
+            Triple(
+                standing.toDriverStandingsCachedData(),
+                driver,
+                driverConstructors
+            )
+        }
+    }
+
+    override fun getLatestDriverStandings(): List<Triple<DriverStandingsCachedData, DriverType, List<GetDriverConstructorsStandingWithDriverIdAndSeason>>> {
+        val driverStandings = queries.getLatestDriverStandings().executeAsList()
+        return driverStandings.map { standing ->
+            val driver =
+                driverQueries.getDriverById(standing.driver_id).executeAsOne().toDriverType()
+            val driverConstructors =
+                queries.getDriverConstructorsStandingWithDriverIdAndSeason(
+                    standing.driver_id,
+                    standing.season
+                )
+                    .executeAsList()
+            Triple(
+                standing.toDriverStandingsCachedData(),
+                driver,
+                driverConstructors
+            )
+        }
     }
 
     override fun insertDriverStanding(
         driverStanding: DriverStandingType,
-        season: String
+        season: String,
+        round: String
     ) {
         queries.transaction {
             queries.insertDriverStanding(
                 driver_id = driverStanding.driver.driverId,
-                season = season,
+                season = season.toLong(),
+                round = round.toLong(),
                 position = driverStanding.position,
                 position_text = driverStanding.positionText,
                 points = driverStanding.points,
                 wins = driverStanding.wins,
+                timestamp = now().toEpochMilliseconds()
+            )
+
+            driverQueries.insertDriver(
+                driver_id = driverStanding.driver.driverId,
+                permanent_number = driverStanding.driver.permanentNumber,
+                code = driverStanding.driver.code,
+                url = driverStanding.driver.url,
+                given_name = driverStanding.driver.givenName,
+                family_name = driverStanding.driver.familyName,
+                date_of_birth = driverStanding.driver.dateOfBirth,
+                nationality = driverStanding.driver.nationality,
                 timestamp = now().toEpochMilliseconds()
             )
 
@@ -51,7 +108,7 @@ class DriverStandingsCacheImpl(
                 queries.insertDriverConstructorsStanding(
                     driver_id = driverStanding.driver.driverId,
                     constructor_id = it.constructorId,
-                    season = season
+                    season = season.toLong(),
                 )
             }
         }
