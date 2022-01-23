@@ -45,7 +45,11 @@ kotlin {
                 implementation("com.mapbox.maps:android:$mapboxVersion")
             }
         }
-        val jvmMain by getting
+        val jvmMain by getting {
+            dependencies {
+                implementation(project(":desktopComposables"))
+            }
+        }
     }
 }
 

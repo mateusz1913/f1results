@@ -27,6 +27,7 @@ kotlin {
         val jvmMain by getting {
             dependencies {
                 implementation(project(":shared"))
+                implementation(project(":desktopComposables"))
                 implementation(project(":sharedComposables"))
                 implementation(kotlin("stdlib-jdk8"))
                 implementation(compose.desktop.currentOs)

@@ -20,7 +20,7 @@ struct MapboxMapView: NSViewRepresentable {
     //MARK: Props
     func centerCoordinate(_ centerCoordinate: CLLocationCoordinate2D) -> MapboxMapView {
         mapView.centerCoordinate = centerCoordinate
-        mapView.zoomLevel = 14
+        mapView.zoomLevel = 13.5
         return self
     }
     
