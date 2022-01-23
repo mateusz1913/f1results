@@ -19,6 +19,4 @@ target 'f1results (macOS)' do
 
   # Pods for f1results (macOS)
   pod 'shared', :path => '../shared'
-  
-  pod 'Mapbox-macOS-SDK', '~> 0.16'
 end

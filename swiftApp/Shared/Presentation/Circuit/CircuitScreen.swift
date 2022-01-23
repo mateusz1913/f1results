@@ -11,7 +11,11 @@ struct CircuitScreen: View {
                 if let latString = circuit.location.lat, let longString = circuit.location.long_, let latitude = Double(latString), let longitude = Double(longString) {
                     MapboxMapView()
                         .centerCoordinate(CLLocationCoordinate2D(latitude: latitude, longitude: longitude))
+                    #if os(iOS)
                         .frame(maxWidth: .infinity, minHeight: 250)
+                    #elseif os(macOS)
+                        .frame(width: 500, height: 500)
+                    #endif
                 }
                 VStack {
                     Text(circuit.circuitName)

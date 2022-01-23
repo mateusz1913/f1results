@@ -13,9 +13,7 @@ struct MapboxMapView: UIViewRepresentable {
         return mapView
     }
     
-    func updateUIView(_ uiView: UIViewType, context: Context) {
-        //
-    }
+    func updateUIView(_ uiView: UIViewType, context: Context) {}
     
     func makeCoordinator() -> MapboxMapView.Coordinator {
         Coordinator(self)
