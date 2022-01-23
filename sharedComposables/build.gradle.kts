@@ -13,10 +13,11 @@ val accompanistVersion = "0.20.3"
 val cokoinVersion = "0.3.2"
 val composeVersion = "1.1.0-rc01"
 val lifecycleVersion = "2.4.0"
+val mapboxVersion = "10.2.0"
 
 kotlin {
     android()
-    jvm() {
+    jvm {
         compilations.all {
             kotlinOptions.jvmTarget = "11"
         }
@@ -41,6 +42,7 @@ kotlin {
                 implementation("dev.burnoo:cokoin-android-viewmodel:$cokoinVersion")
                 implementation("com.google.accompanist:accompanist-swiperefresh:$accompanistVersion")
                 implementation("com.google.accompanist:accompanist-pager:$accompanistVersion")
+                implementation("com.mapbox.maps:android:$mapboxVersion")
             }
         }
         val jvmMain by getting

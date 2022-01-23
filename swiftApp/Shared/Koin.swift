@@ -52,8 +52,12 @@ extension Koin_coreKoin {
         return koin.getDependency(objCClass: SeasonListRepository.self) as! SeasonListRepository
     }
     
-    func get() -> StandingsRepository {
-        return koin.getDependency(objCClass: StandingsRepository.self) as! StandingsRepository
+    func get() -> ConstructorStandingsRepository {
+        return koin.getDependency(objCClass: ConstructorStandingsRepository.self) as! ConstructorStandingsRepository
+    }
+    
+    func get() -> DriverStandingsRepository {
+        return koin.getDependency(objCClass: DriverStandingsRepository.self) as! DriverStandingsRepository
     }
     
     func get() -> CurrentCalendarViewModel {

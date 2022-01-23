@@ -1,16 +1,14 @@
 package dev.mateusz1913.f1results.composable.circuit
 
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material.CircularProgressIndicator
-import androidx.compose.material.MaterialTheme
+import androidx.compose.foundation.layout.*
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
+import dev.mateusz1913.f1results.composable.common.Loading
+import dev.mateusz1913.f1results.composable.common.MapboxMapView
 import dev.mateusz1913.f1results.composable.di.getViewModelInstance
 import dev.mateusz1913.f1results.viewmodel.CircuitViewModel
 import org.koin.core.parameter.parametersOf
@@ -21,6 +19,15 @@ fun CircuitScreen(
     circuitViewModel: CircuitViewModel = getViewModelInstance { parametersOf(circuitId) }
 ) {
     val circuitState = circuitViewModel.circuitState.collectAsState()
+    val circuit = circuitState.value.circuit
+    if (circuitState.value.isFetching) {
+        Loading()
+        return
+    }
+    if (circuit == null) {
+        Text("No circuit")
+        return
+    }
     Box(
         modifier = Modifier.fillMaxSize(),
     ) {
@@ -29,18 +36,18 @@ fun CircuitScreen(
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center,
         ) {
-            val circuit = circuitState.value.circuit
-            when {
-                circuit != null -> {
-                    Text(circuit.circuitName)
-                }
-                circuitState.value.isFetching -> {
-                    CircularProgressIndicator(color = MaterialTheme.colors.secondary)
-                }
-                else -> {
-                    Text("No circuit")
+            val latitude = circuit.location.lat?.toDouble()
+            val longitude = circuit.location.long?.toDouble()
+            if (latitude != null && longitude != null) {
+                Box(modifier = Modifier.weight(1f)) {
+                    MapboxMapView(
+                        modifier = Modifier.fillMaxWidth().defaultMinSize(minHeight = 250.dp),
+                        latitude = latitude,
+                        longitude = longitude
+                    )
                 }
             }
+            Text(circuit.circuitName, modifier = Modifier.padding(vertical = 10.dp))
         }
     }
 }

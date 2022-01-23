@@ -1,16 +1,44 @@
 PODS:
+  - Mapbox-macOS-SDK (0.16.0)
+  - MapboxCommon (21.0.1)
+  - MapboxCoreMaps (10.2.0):
+    - MapboxCommon (~> 21.0)
+  - MapboxMaps (10.2.0):
+    - MapboxCommon (= 21.0.1)
+    - MapboxCoreMaps (= 10.2.0)
+    - MapboxMobileEvents (= 1.0.6)
+    - Turf (~> 2.0)
+  - MapboxMobileEvents (1.0.6)
   - shared (1.0)
+  - Turf (2.2.0)
 
 DEPENDENCIES:
+  - Mapbox-macOS-SDK (~> 0.16)
+  - MapboxMaps (= 10.2.0)
   - shared (from `../shared`)
+
+SPEC REPOS:
+  trunk:
+    - Mapbox-macOS-SDK
+    - MapboxCommon
+    - MapboxCoreMaps
+    - MapboxMaps
+    - MapboxMobileEvents
+    - Turf
 
 EXTERNAL SOURCES:
   shared:
     :path: "../shared"
 
 SPEC CHECKSUMS:
+  Mapbox-macOS-SDK: f6540e7602636d9dda5f162ec2f6c6455340e496
+  MapboxCommon: fdfdbd4e87a225190913f2f4b4a73ec51ed77eaa
+  MapboxCoreMaps: bdd0115bfd8bf6df402468710cb23c926938b03d
+  MapboxMaps: 1ed477cbe573a9e740801dfc9c636ef33bbc3f54
+  MapboxMobileEvents: 14d7ac3ee95b4142c4fec2205dfd48ff453e8871
   shared: cb9c1595ec3b488f8e3746eb4e458cc4dacfa74f
+  Turf: 1a6bc2d0142f84610445159565c3c93d62b83897
 
-PODFILE CHECKSUM: 16f6e02d966d9b0f87498ca1a52e58b10259e283
+PODFILE CHECKSUM: bb1ba789180f0b312044118666ec99d225338481
 
 COCOAPODS: 1.11.2

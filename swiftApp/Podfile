@@ -8,6 +8,8 @@ target 'f1results (iOS)' do
 
   # Pods for f1results (iOS)
   pod 'shared', :path => '../shared'
+  
+  pod 'MapboxMaps', '10.2.0'
 end
 
 target 'f1results (macOS)' do
@@ -17,4 +19,6 @@ target 'f1results (macOS)' do
 
   # Pods for f1results (macOS)
   pod 'shared', :path => '../shared'
+  
+  pod 'Mapbox-macOS-SDK', '~> 0.16'
 end

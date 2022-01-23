@@ -25,6 +25,12 @@
 		8359F31D2790D29C00ADC9C3 /* KotlinExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8359F31B2790D29C00ADC9C3 /* KotlinExt.swift */; };
 		8359F31F2790E4D400ADC9C3 /* NavigationLazyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8359F31E2790E4D400ADC9C3 /* NavigationLazyView.swift */; };
 		8359F3202790E4D400ADC9C3 /* NavigationLazyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8359F31E2790E4D400ADC9C3 /* NavigationLazyView.swift */; };
+		835AE711279CB77B007679E5 /* MapboxMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 835AE710279CB77B007679E5 /* MapboxMapView.swift */; };
+		835AE715279CBCAC007679E5 /* CircuitScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 835AE714279CBCAC007679E5 /* CircuitScreen.swift */; };
+		835AE716279CBCAC007679E5 /* CircuitScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 835AE714279CBCAC007679E5 /* CircuitScreen.swift */; };
+		835AE718279CC035007679E5 /* CircuitState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 835AE717279CC035007679E5 /* CircuitState.swift */; };
+		835AE719279CC035007679E5 /* CircuitState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 835AE717279CC035007679E5 /* CircuitState.swift */; };
+		835AE71C279CC642007679E5 /* MapboxMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 835AE71B279CC642007679E5 /* MapboxMapView.swift */; };
 		83612CD327877F00002408B1 /* NetworkMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83612CD227877F00002408B1 /* NetworkMonitor.swift */; };
 		83612CD427877F00002408B1 /* NetworkMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83612CD227877F00002408B1 /* NetworkMonitor.swift */; };
 		83779C6B2788CAF200657DB8 /* Pods_f1results__macOS_.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 9D8D90E42D4BC4D3A1069FB3 /* Pods_f1results__macOS_.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -108,6 +114,11 @@
 		8359F3182790C84400ADC9C3 /* DriverState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DriverState.swift; sourceTree = "<group>"; };
 		8359F31B2790D29C00ADC9C3 /* KotlinExt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KotlinExt.swift; sourceTree = "<group>"; };
 		8359F31E2790E4D400ADC9C3 /* NavigationLazyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationLazyView.swift; sourceTree = "<group>"; };
+		835AE710279CB77B007679E5 /* MapboxMapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapboxMapView.swift; sourceTree = "<group>"; };
+		835AE714279CBCAC007679E5 /* CircuitScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircuitScreen.swift; sourceTree = "<group>"; };
+		835AE717279CC035007679E5 /* CircuitState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircuitState.swift; sourceTree = "<group>"; };
+		835AE71B279CC642007679E5 /* MapboxMapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapboxMapView.swift; sourceTree = "<group>"; };
+		835AE71D279CC7CF007679E5 /* f1results--macOS--Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "f1results--macOS--Info.plist"; sourceTree = "<group>"; };
 		83612CD227877F00002408B1 /* NetworkMonitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkMonitor.swift; sourceTree = "<group>"; };
 		838D7F892787440A001E8051 /* Koin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Koin.swift; sourceTree = "<group>"; };
 		838D7F8C27874EB1001E8051 /* Napier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Napier.swift; sourceTree = "<group>"; };
@@ -201,6 +212,31 @@
 			path = Driver;
 			sourceTree = "<group>";
 		};
+		835AE712279CB787007679E5 /* Maps */ = {
+			isa = PBXGroup;
+			children = (
+				835AE710279CB77B007679E5 /* MapboxMapView.swift */,
+			);
+			path = Maps;
+			sourceTree = "<group>";
+		};
+		835AE713279CBC9B007679E5 /* Circuit */ = {
+			isa = PBXGroup;
+			children = (
+				835AE714279CBCAC007679E5 /* CircuitScreen.swift */,
+				835AE717279CC035007679E5 /* CircuitState.swift */,
+			);
+			path = Circuit;
+			sourceTree = "<group>";
+		};
+		835AE71A279CC62E007679E5 /* Maps */ = {
+			isa = PBXGroup;
+			children = (
+				835AE71B279CC642007679E5 /* MapboxMapView.swift */,
+			);
+			path = Maps;
+			sourceTree = "<group>";
+		};
 		83612CD127877EEA002408B1 /* Utils */ = {
 			isa = PBXGroup;
 			children = (
@@ -214,6 +250,7 @@
 		838D7F8F27874F0C001E8051 /* Presentation */ = {
 			isa = PBXGroup;
 			children = (
+				835AE713279CBC9B007679E5 /* Circuit */,
 				839CA1F827944B900063DCCF /* Constructor */,
 				831883C027938ADB00553DD0 /* RaceSchedule */,
 				8359F3112790BE0200ADC9C3 /* Driver */,
@@ -292,6 +329,7 @@
 		839B4A49279A0289006D0DF6 /* iOS */ = {
 			isa = PBXGroup;
 			children = (
+				835AE712279CB787007679E5 /* Maps */,
 			);
 			path = iOS;
 			sourceTree = "<group>";
@@ -308,6 +346,7 @@
 		83D0B78927873BB50023AF07 = {
 			isa = PBXGroup;
 			children = (
+				835AE71D279CC7CF007679E5 /* f1results--macOS--Info.plist */,
 				839B4A4C279A0390006D0DF6 /* f1results--iOS--Info.plist */,
 				83D0B78E27873BB50023AF07 /* Shared */,
 				839B4A49279A0289006D0DF6 /* iOS */,
@@ -348,6 +387,7 @@
 		83D0B79D27873BB60023AF07 /* macOS */ = {
 			isa = PBXGroup;
 			children = (
+				835AE71A279CC62E007679E5 /* Maps */,
 				83D0B79E27873BB60023AF07 /* macOS.entitlements */,
 			);
 			path = macOS;
@@ -393,6 +433,7 @@
 				83D0B79227873BB60023AF07 /* Sources */,
 				83D0B79327873BB60023AF07 /* Frameworks */,
 				83D0B79427873BB60023AF07 /* Resources */,
+				577889A62FEDAE95AE768517 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -412,6 +453,7 @@
 				83D0B79927873BB60023AF07 /* Frameworks */,
 				83D0B79A27873BB60023AF07 /* Resources */,
 				83779C6C2788CAF200657DB8 /* Embed Frameworks */,
+				E270A2085D88D6FD942B223F /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -561,6 +603,23 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
+		577889A62FEDAE95AE768517 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-f1results (iOS)/Pods-f1results (iOS)-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-f1results (iOS)/Pods-f1results (iOS)-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-f1results (iOS)/Pods-f1results (iOS)-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 		C65EF3E946627DEE037B71A9 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -583,6 +642,23 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
+		E270A2085D88D6FD942B223F /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-f1results (macOS)/Pods-f1results (macOS)-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-f1results (macOS)/Pods-f1results (macOS)-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-f1results (macOS)/Pods-f1results (macOS)-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -602,12 +678,15 @@
 				8359F30C2790A52C00ADC9C3 /* CurrentStandingsState.swift in Sources */,
 				83612CD327877F00002408B1 /* NetworkMonitor.swift in Sources */,
 				83D0B7B927873BB60023AF07 /* ContentView.swift in Sources */,
+				835AE711279CB77B007679E5 /* MapboxMapView.swift in Sources */,
 				838D7F8D27874EB1001E8051 /* Napier.swift in Sources */,
 				8359F3132790BE1100ADC9C3 /* DriverScreen.swift in Sources */,
 				83D0B7B727873BB60023AF07 /* f1resultsApp.swift in Sources */,
 				839CA1FA27944BA10063DCCF /* ConstructorScreen.swift in Sources */,
+				835AE718279CC035007679E5 /* CircuitState.swift in Sources */,
 				831883BE279389BB00553DD0 /* CurrentCalendarState.swift in Sources */,
 				838D7FAD278751E9001E8051 /* CurrentStandingsScreen.swift in Sources */,
+				835AE715279CBCAC007679E5 /* CircuitScreen.swift in Sources */,
 				838D7FB327875223001E8051 /* DriverStandings.swift in Sources */,
 				8359F309279098FF00ADC9C3 /* CurrentRaceResultsState.swift in Sources */,
 				838D7F9827874FC8001E8051 /* TabBar.swift in Sources */,
@@ -626,12 +705,15 @@
 				838D7FA2278750A2001E8051 /* CurrentRaceResultsScreen.swift in Sources */,
 				838D7F9C27874FEB001E8051 /* CurrentCalendarScreen.swift in Sources */,
 				831883C327938AF700553DD0 /* RaceSchedule.swift in Sources */,
+				835AE719279CC035007679E5 /* CircuitState.swift in Sources */,
 				8359F31A2790C84400ADC9C3 /* DriverState.swift in Sources */,
 				838D7FA5278750CA001E8051 /* QualifyingResults.swift in Sources */,
 				8359F3202790E4D400ADC9C3 /* NavigationLazyView.swift in Sources */,
 				838D7FB12787520C001E8051 /* ConstructorStandings.swift in Sources */,
+				835AE71C279CC642007679E5 /* MapboxMapView.swift in Sources */,
 				8359F30D2790A52C00ADC9C3 /* CurrentStandingsState.swift in Sources */,
 				83612CD427877F00002408B1 /* NetworkMonitor.swift in Sources */,
+				835AE716279CBCAC007679E5 /* CircuitScreen.swift in Sources */,
 				83D0B7BA27873BB60023AF07 /* ContentView.swift in Sources */,
 				838D7F8E27874EB1001E8051 /* Napier.swift in Sources */,
 				8359F3142790BE1100ADC9C3 /* DriverScreen.swift in Sources */,
@@ -888,6 +970,7 @@
 				DEVELOPMENT_TEAM = ZS95ZW7KX6;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "f1results--macOS--Info.plist";
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -931,6 +1014,7 @@
 				DEVELOPMENT_TEAM = ZS95ZW7KX6;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "f1results--macOS--Info.plist";
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",

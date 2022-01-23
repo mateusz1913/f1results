@@ -12,10 +12,12 @@ struct RaceSchedule: View {
                         ForEach(0..<raceScheduleList.count, id: \.self) { i in
                             if let raceSchedule = raceScheduleList[i] {
                                 let text = "\(raceSchedule.round): \(raceSchedule.raceName) \(raceSchedule.date)"
-                                Text(text)
-                                    .padding(4)
-                                    .frame(maxWidth: .infinity, alignment: .leading)
-                                    .border(.orange, width: 1)
+                                NavigationLink(destination: NavigationLazyView(CircuitScreen(circuitState: CircuitState(circuitId: raceSchedule.circuit.circuitId)))) {
+                                    Text(text)
+                                        .padding(4)
+                                        .frame(maxWidth: .infinity, alignment: .leading)
+                                        .border(.orange, width: 1)
+                                }
                             }
                         }
                     }
