@@ -4,6 +4,8 @@ import shared
 struct ConstructorStandings: View {
     var constructorStandings: ConstructorStandingsType? = nil
     
+    @State private var selectedConstructor: String?
+    
     var body: some View {
         VStack {
             if let constructorStandings = constructorStandings {
@@ -13,7 +15,11 @@ struct ConstructorStandings: View {
                             if let standing = constructorStandings.constructorStandings.get(index: i) {
                                 let text = "\(standing.position): \(standing.constructor.name) - \(standing.points)"
                                 
-                                NavigationLink(destination: NavigationLazyView(ConstructorScreen(constructorState: ConstructorState(constructorId: standing.constructor.constructorId)))) {
+                                NavigationLink(
+                                    destination: NavigationLazyView(ConstructorScreen(constructorState: ConstructorState(constructorId: standing.constructor.constructorId))),
+                                    tag: standing.constructor.constructorId,
+                                    selection: $selectedConstructor
+                                ) {
                                     Text(text)
                                         .padding(4)
                                         .frame(maxWidth: .infinity, alignment: .leading)

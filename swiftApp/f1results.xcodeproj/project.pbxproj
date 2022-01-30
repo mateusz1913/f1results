@@ -33,6 +33,11 @@
 		835AE71C279CC642007679E5 /* MapboxMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 835AE71B279CC642007679E5 /* MapboxMapView.swift */; };
 		83612CD327877F00002408B1 /* NetworkMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83612CD227877F00002408B1 /* NetworkMonitor.swift */; };
 		83612CD427877F00002408B1 /* NetworkMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83612CD227877F00002408B1 /* NetworkMonitor.swift */; };
+		836AFB5627A6A50D009DB874 /* Navigation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 836AFB5527A6A50D009DB874 /* Navigation.swift */; };
+		836AFB5827A6A812009DB874 /* Sidebar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 836AFB5727A6A812009DB874 /* Sidebar.swift */; };
+		836AFB5B27A6B098009DB874 /* NavigationItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 836AFB5A27A6B098009DB874 /* NavigationItem.swift */; };
+		836AFB5C27A6B098009DB874 /* NavigationItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 836AFB5A27A6B098009DB874 /* NavigationItem.swift */; };
+		836AFB6027A6B18E009DB874 /* Navigation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 836AFB5F27A6B18E009DB874 /* Navigation.swift */; };
 		83779C6B2788CAF200657DB8 /* Pods_f1results__macOS_.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 9D8D90E42D4BC4D3A1069FB3 /* Pods_f1results__macOS_.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		83779C6E2788CB9B00657DB8 /* Pods_f1results__macOS_.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9D8D90E42D4BC4D3A1069FB3 /* Pods_f1results__macOS_.framework */; };
 		838D7F8A2787440A001E8051 /* Koin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 838D7F892787440A001E8051 /* Koin.swift */; };
@@ -120,6 +125,10 @@
 		835AE71B279CC642007679E5 /* MapboxMapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapboxMapView.swift; sourceTree = "<group>"; };
 		835AE71D279CC7CF007679E5 /* f1results--macOS--Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "f1results--macOS--Info.plist"; sourceTree = "<group>"; };
 		83612CD227877F00002408B1 /* NetworkMonitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkMonitor.swift; sourceTree = "<group>"; };
+		836AFB5527A6A50D009DB874 /* Navigation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Navigation.swift; sourceTree = "<group>"; };
+		836AFB5727A6A812009DB874 /* Sidebar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sidebar.swift; sourceTree = "<group>"; };
+		836AFB5A27A6B098009DB874 /* NavigationItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationItem.swift; sourceTree = "<group>"; };
+		836AFB5F27A6B18E009DB874 /* Navigation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Navigation.swift; sourceTree = "<group>"; };
 		838D7F892787440A001E8051 /* Koin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Koin.swift; sourceTree = "<group>"; };
 		838D7F8C27874EB1001E8051 /* Napier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Napier.swift; sourceTree = "<group>"; };
 		838D7F9727874FC8001E8051 /* TabBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBar.swift; sourceTree = "<group>"; };
@@ -247,9 +256,51 @@
 			path = Utils;
 			sourceTree = "<group>";
 		};
+		836AFB5327A6A4EC009DB874 /* Presentation */ = {
+			isa = PBXGroup;
+			children = (
+				836AFB5427A6A4F4009DB874 /* Navigation */,
+			);
+			path = Presentation;
+			sourceTree = "<group>";
+		};
+		836AFB5427A6A4F4009DB874 /* Navigation */ = {
+			isa = PBXGroup;
+			children = (
+				836AFB5527A6A50D009DB874 /* Navigation.swift */,
+				836AFB5727A6A812009DB874 /* Sidebar.swift */,
+			);
+			path = Navigation;
+			sourceTree = "<group>";
+		};
+		836AFB5927A6B085009DB874 /* Navigation */ = {
+			isa = PBXGroup;
+			children = (
+				836AFB5A27A6B098009DB874 /* NavigationItem.swift */,
+			);
+			path = Navigation;
+			sourceTree = "<group>";
+		};
+		836AFB5D27A6B174009DB874 /* Presentation */ = {
+			isa = PBXGroup;
+			children = (
+				836AFB5E27A6B17F009DB874 /* Navigation */,
+			);
+			path = Presentation;
+			sourceTree = "<group>";
+		};
+		836AFB5E27A6B17F009DB874 /* Navigation */ = {
+			isa = PBXGroup;
+			children = (
+				836AFB5F27A6B18E009DB874 /* Navigation.swift */,
+			);
+			path = Navigation;
+			sourceTree = "<group>";
+		};
 		838D7F8F27874F0C001E8051 /* Presentation */ = {
 			isa = PBXGroup;
 			children = (
+				836AFB5927A6B085009DB874 /* Navigation */,
 				835AE713279CBC9B007679E5 /* Circuit */,
 				839CA1F827944B900063DCCF /* Constructor */,
 				831883C027938ADB00553DD0 /* RaceSchedule */,
@@ -329,6 +380,7 @@
 		839B4A49279A0289006D0DF6 /* iOS */ = {
 			isa = PBXGroup;
 			children = (
+				836AFB5D27A6B174009DB874 /* Presentation */,
 				835AE712279CB787007679E5 /* Maps */,
 			);
 			path = iOS;
@@ -387,6 +439,7 @@
 		83D0B79D27873BB60023AF07 /* macOS */ = {
 			isa = PBXGroup;
 			children = (
+				836AFB5327A6A4EC009DB874 /* Presentation */,
 				835AE71A279CC62E007679E5 /* Maps */,
 				83D0B79E27873BB60023AF07 /* macOS.entitlements */,
 			);
@@ -674,7 +727,9 @@
 				838D7F9827874FC8001E8051 /* TabBar.swift in Sources */,
 				838D7FA72787511D001E8051 /* RaceResults.swift in Sources */,
 				8359F31C2790D29C00ADC9C3 /* KotlinExt.swift in Sources */,
+				836AFB5B27A6B098009DB874 /* NavigationItem.swift in Sources */,
 				8359F3162790BEBB00ADC9C3 /* Theme.swift in Sources */,
+				836AFB6027A6B18E009DB874 /* Navigation.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -688,6 +743,7 @@
 				838D7F9C27874FEB001E8051 /* CurrentCalendarScreen.swift in Sources */,
 				831883C327938AF700553DD0 /* RaceSchedule.swift in Sources */,
 				835AE719279CC035007679E5 /* CircuitState.swift in Sources */,
+				836AFB5C27A6B098009DB874 /* NavigationItem.swift in Sources */,
 				8359F31A2790C84400ADC9C3 /* DriverState.swift in Sources */,
 				838D7FA5278750CA001E8051 /* QualifyingResults.swift in Sources */,
 				8359F3202790E4D400ADC9C3 /* NavigationLazyView.swift in Sources */,
@@ -705,9 +761,11 @@
 				838D7FAE278751E9001E8051 /* CurrentStandingsScreen.swift in Sources */,
 				838D7FB427875223001E8051 /* DriverStandings.swift in Sources */,
 				8359F30A279098FF00ADC9C3 /* CurrentRaceResultsState.swift in Sources */,
+				836AFB5627A6A50D009DB874 /* Navigation.swift in Sources */,
 				838D7F9927874FC8001E8051 /* TabBar.swift in Sources */,
 				838D7FA82787511D001E8051 /* RaceResults.swift in Sources */,
 				8359F31D2790D29C00ADC9C3 /* KotlinExt.swift in Sources */,
+				836AFB5827A6A812009DB874 /* Sidebar.swift in Sources */,
 				8359F3172790BEBB00ADC9C3 /* Theme.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
