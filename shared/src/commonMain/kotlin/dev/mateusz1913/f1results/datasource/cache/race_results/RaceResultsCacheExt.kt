@@ -1,7 +1,6 @@
 package dev.mateusz1913.f1results.datasource.cache.race_results
 
-import dev.mateusz1913.f1results.datasource.cache.GetLastRaceResults
-import dev.mateusz1913.f1results.datasource.cache.GetRaceResultsWithRaceId
+import dev.mateusz1913.f1results.datasource.cache.*
 import dev.mateusz1913.f1results.datasource.cache.race_schedule.RaceScheduleCachedData
 import dev.mateusz1913.f1results.datasource.data.circuit.CircuitType
 import dev.mateusz1913.f1results.datasource.data.circuit.LocationType
@@ -43,6 +42,107 @@ data class RaceResultsCachedData(
     val fastest_lap_speed_units: String?,
     val timestamp: Double
 )
+
+@JvmName("getConstructorSeasonRaceResultsToRaceResultsCachedData")
+fun GetConstructorSeasonRaceResults.toRaceResultsCachedData(): RaceResultsCachedData {
+    return RaceResultsCachedData(
+        race_id,
+        driver_id,
+        driver_nationality,
+        driver_url,
+        driver_date_of_birth,
+        driver_family_name,
+        driver_given_name,
+        driver_permanent_number,
+        driver_code,
+        driver_timestamp,
+        constructor_id,
+        constructor_url,
+        constructor_nationality,
+        constructor_name,
+        constructor_timestamp,
+        number,
+        "$position",
+        position_text,
+        points,
+        grid,
+        laps,
+        status,
+        time,
+        milliseconds,
+        fastest_lap,
+        rank,
+        fastest_lap_time,
+        fastest_lap_milliseconds,
+        fastest_lap_speed,
+        fastest_lap_speed_units,
+        timestamp
+    )
+}
+
+fun List<GetConstructorSeasonRaceResults>.toRaceResultsArray(): Array<RaceWithResultsType> {
+    return groupBy { "${it.races_round}" }.map { entry ->
+        val race = entry.value[0]
+        RaceWithResultsType(
+            season = "${race.races_season}",
+            round = "${race.races_round}",
+            url = race.races_url,
+            raceName = race.races_race_name,
+            circuit = CircuitType(
+                circuitId = race.circuit_id,
+                url = race.circuit_url,
+                circuitName = race.circuit_name,
+                location = LocationType(
+                    alt = race.circuit_alt,
+                    lat = race.circuit_lat,
+                    long = race.circuit_long,
+                    locality = race.circuit_locality,
+                    country = race.circuit_country
+                )
+            ),
+            date = race.races_date,
+            time = race.races_time,
+            results = entry.value.map { it.toRaceResultsCachedData() }.toArrayResultType()
+        )
+    }.toTypedArray()
+}
+
+//@JvmName("getDriverSeasonRaceResultsToRaceResultsCachedData")
+//fun GetDriverSeasonResults.toRaceResultsCachedData(): RaceResultsCachedData {
+//    return RaceResultsCachedData(
+//        race_id,
+//        driver_id,
+//        driver_nationality,
+//        driver_url,
+//        driver_date_of_birth,
+//        driver_family_name,
+//        driver_given_name,
+//        driver_permanent_number,
+//        driver_code,
+//        driver_timestamp,
+//        constructor_id,
+//        constructor_url,
+//        constructor_nationality,
+//        constructor_name,
+//        constructor_timestamp,
+//        number,
+//        "$position",
+//        position_text,
+//        points,
+//        grid,
+//        laps,
+//        status,
+//        time,
+//        milliseconds,
+//        fastest_lap,
+//        rank,
+//        fastest_lap_time,
+//        fastest_lap_milliseconds,
+//        fastest_lap_speed,
+//        fastest_lap_speed_units,
+//        timestamp
+//    )
+//}
 
 @JvmName("getLastRaceResultsToRaceResultsCachedData")
 fun GetLastRaceResults.toRaceResultsCachedData(): RaceResultsCachedData {

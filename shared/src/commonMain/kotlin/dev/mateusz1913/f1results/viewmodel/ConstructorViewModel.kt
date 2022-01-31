@@ -1,9 +1,11 @@
 package dev.mateusz1913.f1results.viewmodel
 
 import dev.mateusz1913.f1results.datasource.data.constructor.ConstructorType
+import dev.mateusz1913.f1results.datasource.data.race_results.RaceWithResultsType
 import dev.mateusz1913.f1results.datasource.data.season_list.SeasonType
 import dev.mateusz1913.f1results.datasource.data.standings.ConstructorStandingType
 import dev.mateusz1913.f1results.datasource.repository.constructor.ConstructorRepository
+import dev.mateusz1913.f1results.datasource.repository.race_results.RaceResultsRepository
 import dev.mateusz1913.f1results.datasource.repository.season_list.SeasonListRepository
 import dev.mateusz1913.f1results.datasource.repository.standings.ConstructorStandingsRepository
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -15,6 +17,7 @@ class ConstructorViewModel(
     private val constructorRepository: ConstructorRepository,
     private val seasonListRepository: SeasonListRepository,
     private val constructorStandingsRepository: ConstructorStandingsRepository,
+    private val raceResultsRepository: RaceResultsRepository,
     private val constructorId: String
 ) : BaseViewModel() {
     private val _constructorState = MutableStateFlow(
@@ -63,6 +66,16 @@ class ConstructorViewModel(
         selectedSeasonState.observe(onChange)
     }
 
+    private val _constructorSeasonRaceResultsState =
+        MutableStateFlow(ConstructorSeasonRaceResultsState())
+    val constructorSeasonRaceResultsState: StateFlow<ConstructorSeasonRaceResultsState>
+        get() = _constructorSeasonRaceResultsState
+
+    @Suppress("unused")
+    fun observeConstructorSeasonRaceResults(onChange: (ConstructorSeasonRaceResultsState) -> Unit) {
+        constructorSeasonRaceResultsState.observe(onChange)
+    }
+
     init {
         if (constructorState.value.constructor == null) {
             fetchConstructor()
@@ -100,12 +113,34 @@ class ConstructorViewModel(
         }
     }
 
+    private suspend fun fetchConstructorSeasonRaceResults(season: String) {
+        val cached =
+            raceResultsRepository.getCachedConstructorSeasonRaceResult(season, constructorId)
+        if (cached != null) {
+            _constructorSeasonRaceResultsState.update { it.copy(raceResults = cached) }
+            return
+        }
+        _constructorSeasonRaceResultsState.update { it.copy(isFetching = true) }
+        val raceResults =
+            raceResultsRepository.fetchConstructorSeasonRaceResultList(season, constructorId)
+        _constructorSeasonRaceResultsState.update {
+            it.copy(
+                raceResults = raceResults,
+                isFetching = false
+            )
+        }
+    }
+
     private suspend fun internalFetchConstructorStanding(season: String) {
         val constructorStanding =
             constructorStandingsRepository.getCachedSeasonConstructorStanding(constructorId, season)
-                ?: constructorStandingsRepository.fetchSeasonConstructorStanding(constructorId, season)
+                ?: constructorStandingsRepository.fetchSeasonConstructorStanding(
+                    constructorId,
+                    season
+                )
         _constructorStandingState.update { it.copy(constructorStanding = constructorStanding) }
         _selectedSeasonState.value = season
+        fetchConstructorSeasonRaceResults(season)
     }
 
     data class ConstructorState(
@@ -142,4 +177,28 @@ class ConstructorViewModel(
     data class ConstructorStandingState(
         val constructorStanding: ConstructorStandingType? = null
     )
+
+    data class ConstructorSeasonRaceResultsState(
+        val raceResults: Array<RaceWithResultsType>? = null,
+        val isFetching: Boolean = false
+    ) {
+        override fun equals(other: Any?): Boolean {
+            if (this === other) return true
+            if (other == null || this::class != other::class) return false
+
+            other as ConstructorSeasonRaceResultsState
+
+            if (raceResults != null) {
+                if (other.raceResults == null) return false
+                if (!raceResults.contentEquals(other.raceResults)) return false
+            } else if (other.raceResults != null) return false
+            if (isFetching != other.isFetching) return false
+
+            return true
+        }
+
+        override fun hashCode(): Int {
+            return raceResults?.contentHashCode() ?: 0
+        }
+    }
 }

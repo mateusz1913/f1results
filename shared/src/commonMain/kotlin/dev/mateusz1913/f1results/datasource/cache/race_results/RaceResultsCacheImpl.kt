@@ -15,6 +15,16 @@ class RaceResultsCacheImpl(
     private val driverQueries: DriverQueries,
     private val constructorQueries: ConstructorQueries
 ) : RaceResultsCache {
+    override fun getConstructorSeasonResults(
+        season: String,
+        constructorId: String
+    ): Array<RaceWithResultsType> {
+        return raceResultsQueries.getConstructorSeasonRaceResults(
+            constructorId,
+            season.toLong()
+        ).executeAsList().toRaceResultsArray()
+    }
+
     override fun getLatestRaceResults(): Pair<RaceScheduleCachedData, List<RaceResultsCachedData>> {
         val raceSchedule =
             raceScheduleQueries.getLatestRace().executeAsOne().toRaceScheduleCachedData()

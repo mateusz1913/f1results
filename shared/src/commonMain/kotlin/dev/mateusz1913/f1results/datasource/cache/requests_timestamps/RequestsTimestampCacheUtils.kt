@@ -10,6 +10,12 @@ fun getQualifyingResultsRequest(season: String, round: String) = "qualifyingResu
 
 fun getRaceResultsRequest(season: String, round: String) = "raceResults/$season/$round"
 
+fun getConstructorSeasonRaceResultsRequest(season: String, constructorId: String) =
+    "constructorSeasonRaceResults/$season/$constructorId"
+
+fun getDriverSeasonRaceResultsRequest(season: String, driverId: String) =
+    "driverSeasonRaceResults/$season/$driverId"
+
 fun getRaceScheduleListRequest(season: String) = "raceSchedule/$season"
 
 fun getRaceScheduleRequest(season: String, round: String) = "raceSchedule/$season/$round"

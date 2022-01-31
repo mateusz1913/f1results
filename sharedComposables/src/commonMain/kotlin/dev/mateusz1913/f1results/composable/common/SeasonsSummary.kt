@@ -19,9 +19,9 @@ fun SeasonsSummary(
     onSelectedSeasonChange: (season: String) -> Unit,
     content: @Composable () -> Unit
 ) {
-    Column(modifier = Modifier.padding(start = 24.dp, top = 10.dp, end = 24.dp)) {
+    Column(modifier = Modifier.padding(top = 10.dp)) {
         Row(
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier.fillMaxWidth().padding(horizontal = 24.dp),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
@@ -45,12 +45,9 @@ fun ConstructorSeasonsSummary(
 ) {
     SeasonsSummary(seasons, selectedSeason, onSelectedSeasonChange) {
         if (constructorStanding != null) {
-            Column(modifier = Modifier.fillMaxWidth()) {
+            Column(modifier = Modifier.fillMaxWidth().padding(horizontal = 24.dp)) {
                 Text("Standings: ", fontSize = 18.sp, fontStyle = FontStyle.Italic)
-                ConstructorStandingRow(
-                    constructorStanding = constructorStanding,
-                    noConstructorInfo = true
-                )
+                ConstructorStandingRow(constructorStanding = constructorStanding)
             }
         }
     }
@@ -65,7 +62,7 @@ fun DriverSeasonsSummary(
 ) {
     SeasonsSummary(seasons, selectedSeason, onSelectedSeasonChange) {
         if (driverStanding != null) {
-            Column(modifier = Modifier.fillMaxWidth()) {
+            Column(modifier = Modifier.fillMaxWidth().padding(horizontal = 24.dp)) {
                 Text("Standings: ", fontSize = 18.sp, fontStyle = FontStyle.Italic)
                 DriverStandingRow(driverStanding = driverStanding, noDriverInfo = true)
             }

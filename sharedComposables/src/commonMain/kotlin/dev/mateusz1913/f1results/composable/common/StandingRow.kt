@@ -8,6 +8,7 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
@@ -24,7 +25,7 @@ fun StandingPosition(position: String) {
         Column(
             modifier = Modifier
                 .size(40.dp)
-                .border(0.dp, color = Color.Transparent, RoundedCornerShape(20.dp))
+                .clip(RoundedCornerShape(20.dp))
                 .background(
                     color = when (position) {
                         "1" -> F1ResultsColor.FirstPlace
@@ -68,15 +69,7 @@ fun StandingScore(points: String, wins: String) {
                 bottom = 2.dp
             )
         ) {
-            Column(
-                modifier = Modifier
-                    .size(30.dp)
-                    .border(0.dp, Color.Transparent, RoundedCornerShape(15.dp)),
-                horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.Center
-            ) {
-                Text(points, fontSize = 14.sp, fontWeight = FontWeight.Bold)
-            }
+            Text(points, fontSize = 14.sp, fontWeight = FontWeight.Bold)
         }
     }
 }

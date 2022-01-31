@@ -26,12 +26,30 @@ class RaceResultsRepository(
             position
         )
         if (raceResults != null) {
-            persistRaceResults(raceResults, season == "current" && round == "last")
+            persistRaceResults(
+                raceResults,
+                season == "current" && round == "last"
+            )
         }
         return raceResults
     }
 
-    suspend fun fetchRaceResultsList(
+    suspend fun fetchConstructorSeasonRaceResultList(
+        season: String,
+        constructorId: String,
+    ): Array<RaceWithResultsType>? {
+        val raceResultsData =
+            fetchRaceResultList(season = season, constructorId = constructorId, limit = 60)
+        if (raceResultsData != null) {
+            requestsTimestampsCache.insertRequestTimestamp(
+                getConstructorSeasonRaceResultsRequest(season, constructorId),
+                now().toEpochMilliseconds()
+            )
+        }
+        return raceResultsData?.raceTable?.races
+    }
+
+    private suspend fun fetchRaceResultList(
         limit: Int? = null,
         offset: Int? = null,
         season: String? = null,
@@ -111,6 +129,32 @@ class RaceResultsRepository(
         } catch (e: Exception) {
             Napier.w("No cached race results ${e.message}", e, "RaceResultsRepository")
             return null
+        }
+    }
+
+    fun getCachedConstructorSeasonRaceResult(
+        season: String,
+        constructorId: String
+    ): Array<RaceWithResultsType>? {
+        val currentTimestamp = now().toEpochMilliseconds()
+        val timestamp = requestsTimestampsCache.getRequestTimestamp(
+            getConstructorSeasonRaceResultsRequest(
+                season,
+                constructorId
+            )
+        )?.timestamp
+        if (timestamp == null || currentTimestamp > timestamp + TIMESTAMP_THRESHOLD) {
+            return null
+        }
+        return try {
+            raceResultsCache.getConstructorSeasonResults(season, constructorId)
+        } catch (e: Exception) {
+            Napier.w(
+                "No cached constructor season race results ${e.message}",
+                e,
+                "RaceResultsRepository"
+            )
+            null
         }
     }
 

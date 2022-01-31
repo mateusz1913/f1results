@@ -17,9 +17,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import dev.mateusz1913.f1results.composable.common.ConstructorSeasonsSummary
-import dev.mateusz1913.f1results.composable.common.InfoContainer
-import dev.mateusz1913.f1results.composable.common.Loading
+import dev.mateusz1913.f1results.composable.common.*
 import dev.mateusz1913.f1results.composable.di.getViewModelInstance
 import dev.mateusz1913.f1results.viewmodel.ConstructorViewModel
 import org.koin.core.parameter.parametersOf
@@ -37,9 +35,11 @@ fun ConstructorScreen(
     val seasonsState = constructorViewModel.seasonsState.collectAsState()
     val constructorStandingState = constructorViewModel.constructorStandingState.collectAsState()
     val selectedSeasonState = constructorViewModel.selectedSeasonState.collectAsState()
+    val raceResultsState = constructorViewModel.constructorSeasonRaceResultsState.collectAsState()
     val constructor = constructorState.value.constructor
     val seasons = seasonsState.value.seasons
     val selectedSeason = selectedSeasonState.value
+    val raceResults = raceResultsState.value.raceResults
     val isLoading = (constructorState.value.isFetching && constructor == null) || (seasonsState.value.isFetching && seasons == null)
     if (isLoading) {
         Loading()
@@ -53,14 +53,13 @@ fun ConstructorScreen(
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(color = MaterialTheme.colors.background),
+            .background(color = MaterialTheme.colors.background)
+            .verticalFadingEdge(scrollState = scrollState, length = 30.dp),
     ) {
         Column(
             modifier = Modifier
                 .fillMaxSize()
                 .verticalScroll(state = scrollState),
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center,
         ) {
             InfoContainer(modifier = Modifier.padding(top = 20.dp)) {
                 Text(constructor.name, fontSize = 30.sp, fontWeight = FontWeight.SemiBold)
@@ -86,6 +85,7 @@ fun ConstructorScreen(
                     constructorViewModel.fetchConstructorStanding(season)
                 }
             }
+            ConstructorSeasonResults(raceResults, raceResultsState.value.isFetching)
         }
     }
 }

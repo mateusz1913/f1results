@@ -51,14 +51,13 @@ fun DriverScreen(
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(color = MaterialTheme.colors.background),
+            .background(color = MaterialTheme.colors.background)
+            .verticalFadingEdge(scrollState = scrollState, length = 30.dp),
     ) {
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .verticalScroll(state = scrollState),
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center,
+                .verticalScroll(state = scrollState)
         ) {
             Row(
                 modifier = Modifier
