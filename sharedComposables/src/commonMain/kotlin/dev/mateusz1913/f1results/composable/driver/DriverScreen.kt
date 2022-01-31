@@ -34,9 +34,11 @@ fun DriverScreen(
     val seasonsState = driverViewModel.seasonsState.collectAsState()
     val driverStandingState = driverViewModel.driverStandingState.collectAsState()
     val selectedSeasonState = driverViewModel.selectedSeasonState.collectAsState()
+    val raceResultsState = driverViewModel.driverSeasonRaceResultsState.collectAsState()
     val driver = driverState.value.driver
     val seasons = seasonsState.value.seasons
     val selectedSeason = selectedSeasonState.value
+    val raceResults = raceResultsState.value.raceResults
     val isLoading =
         (driverState.value.isFetching && driver == null) || (seasonsState.value.isFetching && seasons == null)
     if (isLoading) {
@@ -134,6 +136,7 @@ fun DriverScreen(
                     driverViewModel.fetchDriverStanding(season)
                 }
             }
+            DriverSeasonResults(raceResults, raceResultsState.value.isFetching)
         }
     }
 }

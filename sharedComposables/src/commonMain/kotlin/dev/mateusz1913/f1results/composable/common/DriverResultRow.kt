@@ -28,7 +28,11 @@ fun DriverResultRow(
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically
     ) {
-        Row(modifier = Modifier.weight(1f)) {
+        Row(
+            modifier = Modifier.weight(1f),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
             StandingPosition(result.positionText)
             Column(modifier = Modifier.weight(1f)) {
                 Row(
@@ -86,7 +90,10 @@ fun DriverResultRow(
                 }
             }
         }
-        Row(verticalAlignment = Alignment.CenterVertically) {
+        Row(
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
             Icon(
                 Icons.Filled.LocalFireDepartment,
                 contentDescription = null,
@@ -95,7 +102,9 @@ fun DriverResultRow(
             Column(
                 modifier = Modifier.size(30.dp)
                     .clip(RoundedCornerShape(15.dp))
-                    .padding(start = 2.dp, end = 10.dp, top = 2.dp, bottom = 2.dp)
+                    .padding(start = 2.dp, end = 10.dp, top = 2.dp, bottom = 2.dp),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.Center
             ) {
                 Text(result.points ?: "-", fontSize = 14.sp, fontWeight = FontWeight.Bold)
             }

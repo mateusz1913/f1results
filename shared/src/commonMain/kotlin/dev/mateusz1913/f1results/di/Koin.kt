@@ -155,5 +155,5 @@ private val viewModelModule = module {
     viewModelFactory { CurrentStandingsViewModel(get(), get()) }
     viewModelFactory { CircuitViewModel(get(), get()) }
     viewModelFactory { ConstructorViewModel(get(), get(), get(), get(), get()) }
-    viewModelFactory { DriverViewModel(get(), get(), get(), get()) }
+    viewModelFactory { DriverViewModel(get(), get(), get(), get(), get()) }
 }

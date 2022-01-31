@@ -49,6 +49,20 @@ class RaceResultsRepository(
         return raceResultsData?.raceTable?.races
     }
 
+    suspend fun fetchDriverSeasonRaceResultList(
+        season: String,
+        driverId: String
+    ): Array<RaceWithResultsType>? {
+        val raceResultsData = fetchRaceResultList(season = season, driverId = driverId, limit = 30)
+        if (raceResultsData != null) {
+            requestsTimestampsCache.insertRequestTimestamp(
+                getDriverSeasonRaceResultsRequest(season, driverId),
+                now().toEpochMilliseconds()
+            )
+        }
+        return raceResultsData?.raceTable?.races
+    }
+
     private suspend fun fetchRaceResultList(
         limit: Int? = null,
         offset: Int? = null,
@@ -151,6 +165,32 @@ class RaceResultsRepository(
         } catch (e: Exception) {
             Napier.w(
                 "No cached constructor season race results ${e.message}",
+                e,
+                "RaceResultsRepository"
+            )
+            null
+        }
+    }
+
+    fun getCachedDriverSeasonRaceResult(
+        season: String,
+        driverId: String
+    ): Array<RaceWithResultsType>? {
+        val currentTimestamp = now().toEpochMilliseconds()
+        val timestamp = requestsTimestampsCache.getRequestTimestamp(
+            getDriverSeasonRaceResultsRequest(
+                season,
+                driverId
+            )
+        )?.timestamp
+        if (timestamp == null || currentTimestamp > timestamp + TIMESTAMP_THRESHOLD) {
+            return null
+        }
+        return try {
+            raceResultsCache.getDriverSeasonResults(season, driverId)
+        } catch (e: Exception) {
+            Napier.w(
+                "No cached driver season race results ${e.message}",
                 e,
                 "RaceResultsRepository"
             )

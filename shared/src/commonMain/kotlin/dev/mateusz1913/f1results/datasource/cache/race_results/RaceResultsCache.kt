@@ -9,10 +9,10 @@ interface RaceResultsCache {
         constructorId: String
     ): Array<RaceWithResultsType>
 
-//    fun getDriverSeasonResults(
-//        season: String,
-//        driverId: String
-//    ): Pair<RaceScheduleCachedData, List<RaceResultsCachedData>>
+    fun getDriverSeasonResults(
+        season: String,
+        driverId: String
+    ): Array<RaceWithResultsType>
 
     fun getLatestRaceResults(): Pair<RaceScheduleCachedData, List<RaceResultsCachedData>>
     fun getRaceResultsWithSeasonAndRound(

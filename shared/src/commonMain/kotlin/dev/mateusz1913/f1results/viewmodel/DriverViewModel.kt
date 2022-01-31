@@ -1,9 +1,11 @@
 package dev.mateusz1913.f1results.viewmodel
 
 import dev.mateusz1913.f1results.datasource.data.driver.DriverType
+import dev.mateusz1913.f1results.datasource.data.race_results.RaceWithResultsType
 import dev.mateusz1913.f1results.datasource.data.season_list.SeasonType
 import dev.mateusz1913.f1results.datasource.data.standings.DriverStandingType
 import dev.mateusz1913.f1results.datasource.repository.driver.DriverRepository
+import dev.mateusz1913.f1results.datasource.repository.race_results.RaceResultsRepository
 import dev.mateusz1913.f1results.datasource.repository.season_list.SeasonListRepository
 import dev.mateusz1913.f1results.datasource.repository.standings.DriverStandingsRepository
 import kotlinx.coroutines.flow.*
@@ -13,6 +15,7 @@ class DriverViewModel(
     private val driverRepository: DriverRepository,
     private val seasonListRepository: SeasonListRepository,
     private val driverStandingsRepository: DriverStandingsRepository,
+    private val raceResultsRepository: RaceResultsRepository,
     private val driverId: String
 ) : BaseViewModel() {
     private val _driverState =
@@ -55,6 +58,15 @@ class DriverViewModel(
         selectedSeasonState.observe(onChange)
     }
 
+    private val _driverSeasonRaceResultsState = MutableStateFlow(DriverSeasonRaceResultsState())
+    val driverSeasonRaceResultsState: StateFlow<DriverSeasonRaceResultsState>
+        get() = _driverSeasonRaceResultsState
+
+    @Suppress("unused")
+    fun observeDriverSeasonRaceResults(onChange: (DriverSeasonRaceResultsState) -> Unit) {
+        driverSeasonRaceResultsState.observe(onChange)
+    }
+
     init {
         if (driverState.value.driver == null) {
             fetchDriver()
@@ -88,11 +100,33 @@ class DriverViewModel(
 
     fun fetchDriverStanding(season: String) {
         coroutineScope.launch {
-            val driverStanding = driverStandingsRepository.getCachedSeasonDriverStanding(driverId, season)
-                ?: driverStandingsRepository.fetchSeasonDriverStanding(driverId, season)
-            _driverStandingState.update { it.copy(driverStanding = driverStanding) }
-            _selectedSeasonState.value = season
+            internalFetchDriverStanding(season)
         }
+    }
+
+    private suspend fun fetchDriverSeasonResults(season: String) {
+        val cached = raceResultsRepository.getCachedDriverSeasonRaceResult(season, driverId)
+        if (cached != null) {
+            _driverSeasonRaceResultsState.update { it.copy(raceResults = cached) }
+            return
+        }
+        _driverSeasonRaceResultsState.update { it.copy(isFetching = true) }
+        val raceResults = raceResultsRepository.fetchDriverSeasonRaceResultList(season, driverId)
+        _driverSeasonRaceResultsState.update {
+            it.copy(
+                raceResults = raceResults,
+                isFetching = false
+            )
+        }
+    }
+
+    private suspend fun internalFetchDriverStanding(season: String) {
+        val driverStanding =
+            driverStandingsRepository.getCachedSeasonDriverStanding(driverId, season)
+                ?: driverStandingsRepository.fetchSeasonDriverStanding(driverId, season)
+        _driverStandingState.update { it.copy(driverStanding = driverStanding) }
+        _selectedSeasonState.value = season
+        fetchDriverSeasonResults(season)
     }
 
     data class DriverState(
@@ -129,4 +163,30 @@ class DriverViewModel(
     data class DriverStandingState(
         val driverStanding: DriverStandingType? = null,
     )
+
+    data class DriverSeasonRaceResultsState(
+        val raceResults: Array<RaceWithResultsType>? = null,
+        val isFetching: Boolean = false
+    ) {
+        override fun equals(other: Any?): Boolean {
+            if (this === other) return true
+            if (other == null || this::class != other::class) return false
+
+            other as DriverSeasonRaceResultsState
+
+            if (raceResults != null) {
+                if (other.raceResults == null) return false
+                if (!raceResults.contentEquals(other.raceResults)) return false
+            } else if (other.raceResults != null) return false
+            if (isFetching != other.isFetching) return false
+
+            return true
+        }
+
+        override fun hashCode(): Int {
+            var result = raceResults?.contentHashCode() ?: 0
+            result = 31 * result + isFetching.hashCode()
+            return result
+        }
+    }
 }
