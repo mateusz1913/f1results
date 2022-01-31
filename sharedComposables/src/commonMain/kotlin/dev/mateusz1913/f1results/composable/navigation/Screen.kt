@@ -7,4 +7,5 @@ interface Screen {
     val icon: ImageVector?
     val iconContentDescription: String?
     val label: String?
+    val topBarTitle: String?
 }

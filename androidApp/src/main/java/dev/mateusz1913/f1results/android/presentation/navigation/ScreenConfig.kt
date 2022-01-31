@@ -11,27 +11,32 @@ sealed class ScreenConfig(
     override val route: String,
     override val icon: ImageVector? = null,
     override val iconContentDescription: String? = null,
-    override val label: String? = null
-): Screen {
-    object CurrentRaceResults: ScreenConfig(
+    override val label: String? = null,
+    override val topBarTitle: String? = null
+) : Screen {
+    object CurrentRaceResults : ScreenConfig(
         route = "currentRaceResults",
         icon = Icons.Rounded.SportsScore,
         iconContentDescription = "Checkered flag icon",
         label = "Last Results"
     )
-    object CurrentStandings: ScreenConfig(
+
+    object CurrentStandings : ScreenConfig(
         route = "currentStandings",
         icon = Icons.Rounded.EmojiEvents,
         iconContentDescription = "Trophy icon",
         label = "Standings"
     )
-    object CurrentCalendar: ScreenConfig(
+
+    object CurrentCalendar : ScreenConfig(
         route = "currentCalendar",
         icon = Icons.Rounded.Event,
         iconContentDescription = "Calendar icon",
         label = "Calendar"
     )
-    object DriverScreen: ScreenConfig(route = "driverScreen")
-    object CircuitScreen: ScreenConfig(route = "circuitScreen")
-    object ConstructorScreen: ScreenConfig(route = "constructorScreen")
+
+    object DriverScreen : ScreenConfig(route = "driverScreen", topBarTitle = "Driver screen")
+    object CircuitScreen : ScreenConfig(route = "circuitScreen", topBarTitle = "Circuit screen")
+    object ConstructorScreen :
+        ScreenConfig(route = "constructorScreen", topBarTitle = "Constructor screen")
 }

@@ -62,7 +62,7 @@ fun Navigation() {
         topBar = {
             NavigationTopBar(
                 topBarVisibleState = topBarVisibleState,
-                title = (activeChildInstance as ScreenConfig).route,
+                title = (activeChildInstance as ScreenConfig).topBarTitle ?: "",
                 shouldDisplayBackButton = hasPreviousScreen,
                 onBackButtonPress = { router.pop() }
             )

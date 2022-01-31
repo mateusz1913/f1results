@@ -14,9 +14,10 @@ sealed class ScreenConfig(
     override val icon: ImageVector? = null,
     override val iconContentDescription: String? = null,
     override val label: String? = null,
-): Screen, Parcelable {
+    override val topBarTitle: String? = null
+) : Screen, Parcelable {
     @Parcelize
-    object CurrentRaceResults: ScreenConfig(
+    object CurrentRaceResults : ScreenConfig(
         route = "currentRaceResults",
         icon = Icons.Rounded.SportsScore,
         iconContentDescription = "Checkered flag icon",
@@ -24,7 +25,7 @@ sealed class ScreenConfig(
     )
 
     @Parcelize
-    object CurrentStandings: ScreenConfig(
+    object CurrentStandings : ScreenConfig(
         route = "currentStandings",
         icon = Icons.Rounded.EmojiEvents,
         iconContentDescription = "Trophy icon",
@@ -32,19 +33,22 @@ sealed class ScreenConfig(
     )
 
     @Parcelize
-    object CurrentCalendar: ScreenConfig(
-        route ="currentCalendar",
+    object CurrentCalendar : ScreenConfig(
+        route = "currentCalendar",
         icon = Icons.Rounded.Event,
         iconContentDescription = "Calendar icon",
         label = "Calendar"
     )
 
     @Parcelize
-    data class DriverScreen(val driverId: String): ScreenConfig(route = "driverScreen")
+    data class DriverScreen(val driverId: String) :
+        ScreenConfig(route = "driverScreen", topBarTitle = "Driver screen")
 
     @Parcelize
-    data class CircuitScreen(val circuitId: String): ScreenConfig(route = "circuitScreen")
+    data class CircuitScreen(val circuitId: String) :
+        ScreenConfig(route = "circuitScreen", topBarTitle = "Circuit screen")
 
     @Parcelize
-    data class ConstructorScreen(val constructorId: String): ScreenConfig(route = "constructorScreen")
+    data class ConstructorScreen(val constructorId: String) :
+        ScreenConfig(route = "constructorScreen", topBarTitle = "Constructor screen")
 }

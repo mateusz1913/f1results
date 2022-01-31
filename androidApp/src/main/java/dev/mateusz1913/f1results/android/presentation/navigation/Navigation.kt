@@ -62,10 +62,23 @@ fun Navigation() {
         topBar = {
             val navBackStackEntry by navController.currentBackStackEntryAsState()
             val currentDestination = navBackStackEntry?.destination
-            val currentRoute = currentDestination?.route
+            val title = when {
+                currentDestination?.route?.contains(ScreenConfig.CircuitScreen.route) == true -> {
+                    "Circuit screen"
+                }
+                currentDestination?.route?.contains(ScreenConfig.ConstructorScreen.route) == true -> {
+                    "Constructor screen"
+                }
+                currentDestination?.route?.contains(ScreenConfig.DriverScreen.route) == true -> {
+                    "Driver screen"
+                }
+                else -> {
+                    ""
+                }
+            }
             NavigationTopBar(
                 topBarVisibleState = topBarVisibleState,
-                title = currentRoute ?: "",
+                title = title,
                 shouldDisplayBackButton = navController.previousBackStackEntry != null,
                 onBackButtonPress = { navController.navigateUp() }
             )
