@@ -6,9 +6,31 @@ struct ConstructorScreen: View {
     @ObservedObject var constructorState: ConstructorState
     
     var body: some View {
+        if (constructorState.constructorIsFetching && constructorState.constructor == nil) || (constructorState.seasonsIsFetching && constructorState.seasons == nil) {
+            loadingBody
+        }
         if constructorState.constructor == nil {
             emptyBody
+        } else {
+            resultBody
         }
+    }
+    
+    private var emptyBody: some View {
+        VStack {
+            Text("No constructor")
+        }
+        .fillMaxSize()
+    }
+    
+    private var loadingBody: some View {
+        VStack {
+            Loading()
+        }
+        .fillMaxSize()
+    }
+    
+    private var resultBody: some View {
         constructorState.constructor.map { constructor in
             VStack {
                 ScrollView {
@@ -34,18 +56,11 @@ struct ConstructorScreen: View {
                         })
                         ConstructorSeasonsSummary(seasons: seasons, constructorStanding: constructorState.constructorStanding, selectedSeason: selectedSeasonBinding)
                     }
-                    ConstructorSeasonResults(raceResultsList: constructorState.raceResults)
+                    ConstructorSeasonResults(raceResultsList: constructorState.raceResults, raceResultsIsFetching: constructorState.raceResultsIsFetching)
                 }
                 .fillMaxSize()
             }
             .fillMaxSize()
         }
-    }
-    
-    private var emptyBody: some View {
-        VStack {
-            Text("No constructor")
-        }
-        .fillMaxSize()
     }
 }

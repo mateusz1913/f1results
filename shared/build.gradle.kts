@@ -47,6 +47,7 @@ kotlin {
         osx.deploymentTarget = "10.14"
         framework {
             baseName = "shared"
+            isStatic = false
         }
     }
     

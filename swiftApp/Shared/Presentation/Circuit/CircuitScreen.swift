@@ -6,9 +6,30 @@ struct CircuitScreen: View {
     @ObservedObject var circuitState: CircuitState
     
     var body: some View {
-        if circuitState.circuit == nil {
+        if circuitState.circuitIsFetching && circuitState.circuit == nil {
+            loadingBody
+        } else if circuitState.circuit == nil {
             emptyBody
+        } else {
+            resultBody
         }
+    }
+    
+    private var emptyBody: some View {
+        VStack {
+            Text("No circuit")
+        }
+        .fillMaxSize()
+    }
+    
+    private var loadingBody: some View {
+        VStack {
+            Loading()
+        }
+        .fillMaxSize()
+    }
+    
+    private var resultBody: some View {
         circuitState.circuit.map { circuit in
             VStack {
                 if let latString = circuit.location.lat, let longString = circuit.location.long_, let latitude = Double(latString), let longitude = Double(longString) {
@@ -37,12 +58,5 @@ struct CircuitScreen: View {
             }
             .fillMaxSize()
         }
-    }
-    
-    private var emptyBody: some View {
-        VStack {
-            Text("No circuit")
-        }
-        .fillMaxSize()
     }
 }

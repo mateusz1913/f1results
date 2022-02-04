@@ -7,12 +7,14 @@ class CircuitState: ObservableObject {
     let viewModel: CircuitViewModel
     
     @Published private(set) var circuit: CircuitType? = nil
+    @Published private(set) var circuitIsFetching: Bool = false
     
     init(circuitId: String) {
         self.circuitId = circuitId
         viewModel = koin.get(with: circuitId)
         viewModel.observeCircuit { circuitState in
             self.circuit = circuitState.circuit
+            self.circuitIsFetching = circuitState.isFetching
         }
     }
     

@@ -6,9 +6,30 @@ struct DriverScreen: View {
     @ObservedObject var driverState: DriverState
     
     var body: some View {
-        if driverState.driver == nil {
+        if (driverState.driverIsFetching && driverState.driver == nil) || (driverState.seasonsIsFetching && driverState.seasons == nil) {
+            Loading()
+        } else if driverState.driver == nil {
             emptyBody
+        } else {
+            resultBody
         }
+    }
+    
+    private var emptyBody: some View {
+        VStack {
+            Text("No driver")
+        }
+        .fillMaxSize()
+    }
+    
+    private var loadingBody: some View {
+        VStack {
+            Loading()
+        }
+        .fillMaxSize()
+    }
+    
+    private var resultBody: some View {
         driverState.driver.map { driver in
             VStack {
                 ScrollView {
@@ -65,18 +86,11 @@ struct DriverScreen: View {
                         })
                         DriverSeasonsSummary(seasons: seasons, driverStanding: driverState.driverStanding, selectedSeason: selectedSeasonBinding)
                     }
-                    DriverSeasonResults(raceResultsList: driverState.raceResults)
+                    DriverSeasonResults(raceResultsList: driverState.raceResults, raceResultsIsFetching: driverState.raceResultsIsFetching)
                 }
                 .fillMaxSize()
             }
             .fillMaxSize()
         }
-    }
-    
-    private var emptyBody: some View {
-        VStack {
-            Text("No driver")
-        }
-        .fillMaxSize()
     }
 }

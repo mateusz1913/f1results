@@ -4,9 +4,26 @@ import shared
 struct DriverSeasonResults: View {
     var raceResultsList: Array<RaceWithResultsType>? = nil
     
+    var raceResultsIsFetching: Bool = false
+    
     @Environment(\.colorScheme) var colorScheme
     
     var body: some View {
+        if raceResultsIsFetching {
+            loadingBody
+        } else {
+            resultBody
+        }
+    }
+    
+    private var loadingBody: some View {
+        VStack {
+            Loading()
+        }
+        .fillMaxSize()
+    }
+    
+    private var resultBody: some View {
         VStack {
             raceResultsList.map { results in
                 ForEach(results, id: \.self) { result in
