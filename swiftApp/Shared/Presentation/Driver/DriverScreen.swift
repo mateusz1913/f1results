@@ -6,97 +6,77 @@ struct DriverScreen: View {
     @ObservedObject var driverState: DriverState
     
     var body: some View {
-        if let driver = driverState.driver {
+        if driverState.driver == nil {
+            emptyBody
+        }
+        driverState.driver.map { driver in
             VStack {
                 ScrollView {
-                    HStack {
-                        VStack {
-                            VStack {
-                                Text(driver.permanentNumber ?? "")
-                                    .font(.system(size: 24))
-                                    .fontWeight(.semibold)
-                                    .frame(alignment: .center)
+                    VStack(alignment: .leading) {
+                        HStack {
+                            VStack(alignment: .leading) {
+                                VStack {
+                                    Text(driver.permanentNumber ?? "")
+                                        .font(.system(size: 24))
+                                        .fontWeight(.semibold)
+                                }
+                                .size(50)
+                                .overlay(RoundedRectangle(cornerRadius: 25).stroke(.primary, lineWidth: 1))
                             }
-                            .frame(width: 50, height: 50)
-                            .overlay(RoundedRectangle(cornerRadius: 25).stroke(.primary, lineWidth: 1))
-                            
+                            .padding(.vertical, 2)
+                            .padding(.trailing, 10)
                             Text(driver.code)
                                 .font(.system(size: 36))
                                 .fontWeight(.bold)
                                 .foregroundColor(.secondary)
+                            Spacer()
                         }
-                        .padding(.vertical, 2)
-                        .padding(.trailing, 10)
+                        .fillMaxWidth()
+                        .padding(.horizontal, 24)
+                        .padding(.top, 20)
+                        
+                        InfoContainer {
+                            HStack {
+                                Text("\(driver.givenName) \(driver.familyName)")
+                                    .font(.system(size: 30))
+                                    .fontWeight(.semibold)
+                                Spacer()
+                            }
+                        }
+                        InfoContainer {
+                            HStack {
+                                InfoRow(fontSize: 18, fontWeight: .medium, label: "Nationality: ", value: driver.nationality ?? "")
+                                Spacer()
+                            }
+                        }
+                        InfoContainer {
+                            HStack {
+                                InfoRow(label: "Date of birth: ", value: driver.dateOfBirth ?? "")
+                                Spacer()
+                            }
+                        }
                     }
-                    .frame(maxWidth: .infinity)
-                    .padding(.horizontal, 24)
-                    .padding(.top, 20)
-                    
-                    InfoContainer {
-                        Text("\(driver.givenName) \(driver.familyName)")
-                            .font(.system(size: 30))
-                            .fontWeight(.semibold)
-                    }
-                    InfoContainer {
-                        (Text("Nationality: ").italic() + Text(driver.nationality ?? ""))
-                            .font(.system(size: 18))
-                            .fontWeight(.medium)
-                    }
-                    InfoContainer {
-                        (Text("Date of birth: ").italic() + Text(driver.dateOfBirth ?? ""))
-                    }
+                    .fillMaxWidth()
                     if let seasons = driverState.seasons, let selectedSeason = driverState.selectedSeason {
                         let selectedSeasonBinding = Binding<String>(get: {
                             return selectedSeason
                         }, set: {
                             driverState.viewModel.fetchDriverStanding(season: $0)
                         })
-                        SeasonsSummary(seasons: seasons, driverStanding: driverState.driverStanding, selectedSeason: selectedSeasonBinding)
+                        DriverSeasonsSummary(seasons: seasons, driverStanding: driverState.driverStanding, selectedSeason: selectedSeasonBinding)
                     }
-                }.frame(maxWidth: .infinity, maxHeight: .infinity)
-            }.frame(maxWidth: .infinity, maxHeight: .infinity)
-        } else {
+                    DriverSeasonResults(raceResultsList: driverState.raceResults)
+                }
+                .fillMaxSize()
+            }
+            .fillMaxSize()
+        }
+    }
+    
+    private var emptyBody: some View {
+        VStack {
             Text("No driver")
         }
-    }
-}
-
-struct InfoContainer<C: View>: View {
-    let childView: C
-    
-    init (_ childView: () -> (C)) {
-        self.childView = childView()
-    }
-    
-    var body: some View {
-        VStack {
-            childView
-        }
-        .frame(maxWidth: .infinity)
-        .padding(.horizontal, 24)
-    }
-}
-
-struct SeasonsSummary: View {
-    var seasons: Array<SeasonType>
-    var driverStanding: DriverStandingType?
-    @Binding var selectedSeason: String
-    
-    var body: some View {
-        VStack {
-            HStack {
-                Text("Selected season: ")
-                Spacer()
-                Picker(selectedSeason, selection: $selectedSeason) {
-                    ForEach(seasons, id: \.self) {
-                        Text($0.season).tag($0.season)
-                    }
-                }
-                .pickerStyle(.menu)
-            }
-            .frame(maxWidth: .infinity)
-        }
-        .padding(.horizontal, 24)
-        .padding(.top, 10)
+        .fillMaxSize()
     }
 }

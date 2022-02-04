@@ -10,6 +10,7 @@ target 'f1results (iOS)' do
   pod 'shared', :path => '../shared'
   
   pod 'MapboxMaps', '10.2.0'
+  pod 'BottomSheetSwiftUI'
 end
 
 target 'f1results (macOS)' do

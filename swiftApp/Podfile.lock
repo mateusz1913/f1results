@@ -1,4 +1,5 @@
 PODS:
+  - BottomSheetSwiftUI (2.4.0)
   - MapboxCommon (21.0.1)
   - MapboxCoreMaps (10.2.0):
     - MapboxCommon (~> 21.0)
@@ -12,11 +13,13 @@ PODS:
   - Turf (2.2.0)
 
 DEPENDENCIES:
+  - BottomSheetSwiftUI
   - MapboxMaps (= 10.2.0)
   - shared (from `../shared`)
 
 SPEC REPOS:
   trunk:
+    - BottomSheetSwiftUI
     - MapboxCommon
     - MapboxCoreMaps
     - MapboxMaps
@@ -28,6 +31,7 @@ EXTERNAL SOURCES:
     :path: "../shared"
 
 SPEC CHECKSUMS:
+  BottomSheetSwiftUI: c176c3022969d6383deaa388dd011199cc50f5bd
   MapboxCommon: fdfdbd4e87a225190913f2f4b4a73ec51ed77eaa
   MapboxCoreMaps: bdd0115bfd8bf6df402468710cb23c926938b03d
   MapboxMaps: 1ed477cbe573a9e740801dfc9c636ef33bbc3f54
@@ -35,6 +39,6 @@ SPEC CHECKSUMS:
   shared: cb9c1595ec3b488f8e3746eb4e458cc4dacfa74f
   Turf: 1a6bc2d0142f84610445159565c3c93d62b83897
 
-PODFILE CHECKSUM: 10c416c7b34f11626a2e534aead8271c57598361
+PODFILE CHECKSUM: e2c7de3baec4d695d17980065d3c4b6e892e35cc
 
 COCOAPODS: 1.11.2

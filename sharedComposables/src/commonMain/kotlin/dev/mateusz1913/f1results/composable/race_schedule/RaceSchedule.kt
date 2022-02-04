@@ -1,12 +1,13 @@
 package dev.mateusz1913.f1results.composable.race_schedule
 
-import androidx.compose.foundation.*
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -21,6 +22,7 @@ import dev.mateusz1913.f1results.datasource.data.race_schedule.RaceType
 @Composable
 fun RaceSchedule(raceScheduleList: Array<RaceType>?, isRefreshing: Boolean, onRefresh: () -> Unit) {
     if (raceScheduleList != null) {
+        val navigationController = LocalNavController.current
         MaybeSwipeRefresh(isRefreshing, onRefresh) {
             val scrollState = rememberScrollState()
             Box(
@@ -35,7 +37,15 @@ fun RaceSchedule(raceScheduleList: Array<RaceType>?, isRefreshing: Boolean, onRe
                         .verticalScroll(state = scrollState),
                 ) {
                     raceScheduleList.map {
-                        RaceScheduleRow(it)
+                        Box(
+                            modifier = Modifier
+                                .padding(horizontal = 24.dp)
+                                .clickable {
+                                    navigationController.navigateToCircuitScreen(it.circuit.circuitId)
+                                }
+                        ) {
+                            RaceScheduleRow(it)
+                        }
                     }
                 }
             }

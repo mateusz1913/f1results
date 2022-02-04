@@ -6,6 +6,8 @@ struct RaceResults: View {
     
     @State private var selectedDriver: String?
     
+    @Environment(\.colorScheme) var colorScheme
+    
     var body: some View {
         VStack {
             if let results = raceResults {
@@ -13,23 +15,35 @@ struct RaceResults: View {
                     LazyVStack {
                         ForEach(0..<results.results.size, id: \.self) { i in
                             if let result = results.results.get(index: i) {
-                                let text = "\(result.positionText): \(result.driver.givenName) \(result.driver.familyName) - \(result.constructor.name)"
+                                Button {
+                                    selectedDriver = result.driver.driverId
+                                } label: {
+                                    DriverResultRow(result: result)
+                                }
+                                .buttonStyle(RowButtonStyle(isDarkMode: colorScheme == .dark))
                                 NavigationLink(
                                     destination: NavigationLazyView(DriverScreen(driverState: DriverState(driverId: result.driver.driverId))),
                                     tag: result.driver.driverId,
                                     selection: $selectedDriver
                                 ) {
-                                    Text(text)
-                                        .padding(4)
-                                        .frame(maxWidth: .infinity, alignment: .leading)
-                                        .border(.orange, width: 1)
+                                    EmptyView()
                                 }
+                                .makeInvisibleOnMacOS()
                             }
                         }
                     }
                 }
-                .frame(maxWidth: .infinity, maxHeight: .infinity)
+                .fillMaxSize()
+            } else {
+                emptyBody
             }
         }
+    }
+    
+    private var emptyBody: some View {
+        VStack {
+            Text("TBD")
+        }
+        .fillMaxSize()
     }
 }

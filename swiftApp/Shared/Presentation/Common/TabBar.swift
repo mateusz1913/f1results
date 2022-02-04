@@ -10,10 +10,12 @@ struct TabBar: View {
                     items[i].onPress()
                 } label: {
                     Text(items[i].label)
-                        .frame(maxWidth: .infinity)
+                        .font(.system(size: 18))
+                        .fillMaxWidth()
                         .padding(20)
                 }
-                .border(.orange, width: 1)
+                .buttonStyle(PlainButtonStyle())
+                .fillMaxHeight()
             }
         }
         .frame(height: 60)

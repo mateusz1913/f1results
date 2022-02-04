@@ -13,22 +13,45 @@ struct RaceSchedule: View {
                     LazyVStack {
                         ForEach(0..<raceScheduleList.count, id: \.self) { i in
                             if let raceSchedule = raceScheduleList[i] {
-                                let text = "\(raceSchedule.round): \(raceSchedule.raceName) \(raceSchedule.date)"
+                                Button {
+                                    selectedCircuit = raceSchedule.circuit.circuitId
+                                } label: {
+                                    RaceScheduleRow(race: raceSchedule)
+                                }
+                                .buttonStyle(RaceScheduleRowButton())
                                 NavigationLink(
                                     destination: NavigationLazyView(CircuitScreen(circuitState: CircuitState(circuitId: raceSchedule.circuit.circuitId))),
                                     tag: raceSchedule.circuit.circuitId,
                                     selection: $selectedCircuit
                                 ) {
-                                    Text(text)
-                                        .padding(4)
-                                        .frame(maxWidth: .infinity, alignment: .leading)
-                                        .border(.orange, width: 1)
+                                    EmptyView()
                                 }
+                                .makeInvisibleOnMacOS()
                             }
                         }
                     }
-                }.frame(maxWidth: .infinity, maxHeight: .infinity)
+                }
+                .fillMaxSize()
+            } else {
+                emptyBody
             }
         }
+    }
+    
+    private var emptyBody: some View {
+        VStack {
+            Text("TBD")
+        }
+        .fillMaxSize()
+    }
+}
+
+fileprivate struct RaceScheduleRowButton: ButtonStyle {
+    func makeBody(configuration: Configuration) -> some View {
+        configuration
+            .label
+            .opacity(configuration.isPressed ? 0.4 : 1)
+            .padding(.horizontal, 24)
+            .padding(.vertical, 4)
     }
 }

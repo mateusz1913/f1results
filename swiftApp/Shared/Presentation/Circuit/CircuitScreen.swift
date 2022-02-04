@@ -6,28 +6,43 @@ struct CircuitScreen: View {
     @ObservedObject var circuitState: CircuitState
     
     var body: some View {
-        if let circuit = circuitState.circuit {
+        if circuitState.circuit == nil {
+            emptyBody
+        }
+        circuitState.circuit.map { circuit in
             VStack {
                 if let latString = circuit.location.lat, let longString = circuit.location.long_, let latitude = Double(latString), let longitude = Double(longString) {
-                    MapboxMapView()
-                        .centerCoordinate(CLLocationCoordinate2D(latitude: latitude, longitude: longitude))
-                    #if os(iOS)
-                        .frame(maxWidth: .infinity, minHeight: 250)
-                    #elseif os(macOS)
-                        .frame(width: 500, height: 500)
-                    #endif
+                    CircuitLayoutWithMap(latitude: latitude, longitude: longitude) {
+                        VStack {
+                            VStack {
+                                InfoRow(fontSize: 20, fontWeight: .bold, label: "Circuit: ", value: circuit.circuitName)
+                            }
+                            .padding(.init(top: 24, leading: 20, bottom: 0, trailing: 20))
+                            HStack {
+                                VStack {
+                                    InfoRow(fontSize: 16, fontWeight: .semibold, label: "Locality: ", value: circuit.location.locality)
+                                }
+                                .fillMaxWidth()
+                                .padding(.vertical, 10)
+                                VStack {
+                                    InfoRow(fontSize: 16, fontWeight: .semibold, label: "Country: ", value: circuit.location.country)
+                                }
+                                .fillMaxWidth()
+                                .padding(.vertical, 10)
+                            }
+                        }
+                        .fillMaxWidth()
+                    }
                 }
-                VStack {
-                    Text(circuit.circuitName)
-                        .font(.system(size: 30))
-                        .fontWeight(.semibold)
-                }
-                .frame(maxWidth: .infinity)
-                .padding(.horizontal, 24)
-                .padding(.vertical, 10)
-            }.frame(maxWidth: .infinity, maxHeight: .infinity)
-        } else {
+            }
+            .fillMaxSize()
+        }
+    }
+    
+    private var emptyBody: some View {
+        VStack {
             Text("No circuit")
         }
+        .fillMaxSize()
     }
 }

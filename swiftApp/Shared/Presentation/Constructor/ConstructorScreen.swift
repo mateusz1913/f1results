@@ -6,23 +6,26 @@ struct ConstructorScreen: View {
     @ObservedObject var constructorState: ConstructorState
     
     var body: some View {
-        if let constructor = constructorState.constructor {
+        if constructorState.constructor == nil {
+            emptyBody
+        }
+        constructorState.constructor.map { constructor in
             VStack {
                 ScrollView {
-                    VStack {
-                        Text(constructor.name)
-                            .font(.system(size: 30))
-                            .fontWeight(.semibold)
+                    InfoContainer {
+                        HStack {
+                            Text(constructor.name)
+                                .font(.system(size: 30))
+                                .fontWeight(.semibold)
+                            Spacer()
+                        }
                     }
-                    .frame(maxWidth: .infinity)
-                    .padding(.horizontal, 24)
-                    VStack {
-                        (Text("Nationality: ").italic() + Text(constructor.nationality))
-                            .font(.system(size: 18))
-                            .fontWeight(.medium)
+                    InfoContainer {
+                        HStack {
+                            InfoRow(fontSize: 18, fontWeight: .medium, label: "Nationality: ", value: constructor.nationality)
+                            Spacer()
+                        }
                     }
-                    .frame(maxWidth: .infinity)
-                    .padding(.horizontal, 24)
                     if let seasons = constructorState.seasons, let selectedSeason = constructorState.selectedSeason {
                         let selectedSeasonBinding = Binding<String>(get: {
                             return selectedSeason
@@ -31,34 +34,18 @@ struct ConstructorScreen: View {
                         })
                         ConstructorSeasonsSummary(seasons: seasons, constructorStanding: constructorState.constructorStanding, selectedSeason: selectedSeasonBinding)
                     }
-                }.frame(maxWidth: .infinity, maxHeight: .infinity)
-            }.frame(maxWidth: .infinity, maxHeight: .infinity)
-        } else {
-            Text("No constructor")
+                    ConstructorSeasonResults(raceResultsList: constructorState.raceResults)
+                }
+                .fillMaxSize()
+            }
+            .fillMaxSize()
         }
     }
-}
-
-struct ConstructorSeasonsSummary: View {
-    var seasons: Array<SeasonType>
-    var constructorStanding: ConstructorStandingType?
-    @Binding var selectedSeason: String
     
-    var body: some View {
+    private var emptyBody: some View {
         VStack {
-            HStack {
-                Text("Selected season: ")
-                Spacer()
-                Picker(selectedSeason, selection: $selectedSeason) {
-                    ForEach(seasons, id: \.self) {
-                        Text($0.season).tag($0.season)
-                    }
-                }
-                .pickerStyle(.menu)
-            }
-            .frame(maxWidth: .infinity)
+            Text("No constructor")
         }
-        .padding(.horizontal, 24)
-        .padding(.top, 10)
+        .fillMaxSize()
     }
 }

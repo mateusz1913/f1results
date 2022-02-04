@@ -1,7 +1,6 @@
 package dev.mateusz1913.f1results.composable.common
 
 import androidx.compose.foundation.border
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.MaterialTheme
@@ -13,16 +12,12 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import dev.mateusz1913.f1results.composable.navigation.LocalNavController
 import dev.mateusz1913.f1results.datasource.data.qualifying_results.QualifyingResultType
 
 @Composable
 fun DriverQualifyingRow(result: QualifyingResultType, noDriverInfo: Boolean = false) {
-    val navigationController = LocalNavController.current
     Row(
-        modifier = Modifier.fillMaxWidth().clickable(enabled = !noDriverInfo) {
-            navigationController.navigateToDriverScreen(result.driver.driverId)
-        },
+        modifier = Modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically
     ) {

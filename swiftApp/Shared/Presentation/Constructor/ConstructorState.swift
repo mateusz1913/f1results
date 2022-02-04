@@ -10,6 +10,7 @@ class ConstructorState: ObservableObject {
     @Published private(set) var seasons: Array<SeasonType>? = nil
     @Published private(set) var constructorStanding: ConstructorStandingType? = nil
     @Published private(set) var selectedSeason: String? = nil
+    @Published private(set) var raceResults: Array<RaceWithResultsType>? = nil
     
     init(constructorId: String) {
         self.constructorId = constructorId
@@ -27,6 +28,11 @@ class ConstructorState: ObservableObject {
         }
         viewModel.observeSelectedSeason { selectedSeason in
             self.selectedSeason = selectedSeason
+        }
+        viewModel.observeConstructorSeasonRaceResults { constructorSeasonRaceResultsState in
+            if let kotlinArr = constructorSeasonRaceResultsState.raceResults {
+                self.raceResults = Array(kotlinArr)
+            }
         }
     }
     

@@ -1,6 +1,5 @@
 package dev.mateusz1913.f1results.composable.common
 
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -9,16 +8,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import dev.mateusz1913.f1results.composable.navigation.LocalNavController
 import dev.mateusz1913.f1results.datasource.data.race_schedule.RaceType
 
 @Composable
 fun RaceScheduleRow(race: RaceType) {
-    val navigationController = LocalNavController.current
     Row(
-        modifier = Modifier.padding(horizontal = 24.dp).clickable {
-            navigationController.navigateToCircuitScreen(race.circuit.circuitId)
-        },
         verticalAlignment = Alignment.CenterVertically
     ) {
         Box(modifier = Modifier.padding(start = 2.dp, end = 4.dp, top = 4.dp, bottom = 4.dp)) {
