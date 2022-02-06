@@ -11,6 +11,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
+data class TabBarItem(
+    val label: String,
+    val onPress: () -> Unit
+)
+
 @Composable
 fun TabBar(items: Array<TabBarItem>) {
     Row(modifier = Modifier
@@ -28,8 +33,3 @@ fun TabBar(items: Array<TabBarItem>) {
         }
     }
 }
-
-data class TabBarItem(
-    val label: String,
-    val onPress: () -> Unit
-)

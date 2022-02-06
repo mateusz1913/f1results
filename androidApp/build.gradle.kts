@@ -41,8 +41,9 @@ val napierVersion = "2.3.0"
 dependencies {
     implementation(project(":shared"))
     implementation(project(":sharedComposables"))
-    implementation("com.google.android.material:material:1.4.0")
-    implementation("androidx.appcompat:appcompat:1.4.0")
+    debugImplementation(project(":mocks"))
+    implementation("com.google.android.material:material:1.5.0")
+    implementation("androidx.appcompat:appcompat:1.4.1")
     implementation("androidx.core:core-splashscreen:1.0.0-beta01")
     // Compose
     implementation("androidx.compose.runtime:runtime:$composeVersion")
@@ -52,10 +53,11 @@ dependencies {
     implementation("androidx.compose.material:material:$composeVersion")
     implementation("androidx.compose.material:material-icons-extended:$composeVersion")
     implementation("androidx.compose.animation:animation:$composeVersion")
-    implementation("androidx.compose.ui:ui-tooling:$composeVersion")
+    debugImplementation("androidx.compose.ui:ui-tooling:$composeVersion")
+    implementation("androidx.compose.ui:ui-tooling-preview:$composeVersion")
     implementation("androidx.activity:activity-compose:1.4.0")
     implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.4.0")
-    implementation("androidx.navigation:navigation-compose:2.4.0-rc01")
+    implementation("androidx.navigation:navigation-compose:2.4.0")
     // Cokoin
     implementation("dev.burnoo:cokoin:$cokoinVersion")
     implementation("dev.burnoo:cokoin-android-viewmodel:$cokoinVersion")

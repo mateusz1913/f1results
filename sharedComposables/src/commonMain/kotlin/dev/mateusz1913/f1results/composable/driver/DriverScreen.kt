@@ -12,12 +12,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.SpanStyle
-import androidx.compose.ui.text.buildAnnotatedString
-import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import dev.mateusz1913.f1results.composable.common.*
@@ -106,25 +102,17 @@ fun DriverScreen(
                 )
             }
             InfoContainer {
-                Text(
-                    buildAnnotatedString {
-                        withStyle(style = SpanStyle(fontStyle = FontStyle.Italic)) {
-                            append("Nationality: ")
-                        }
-                        append("${driver.nationality}")
-                    },
+                InfoRow(
+                    label = "Nationality: ",
+                    value = driver.nationality ?: "",
                     fontSize = 18.sp,
                     fontWeight = FontWeight.Medium
                 )
             }
             InfoContainer {
-                Text(
-                    buildAnnotatedString {
-                        withStyle(style = SpanStyle(fontStyle = FontStyle.Italic)) {
-                            append("Date of birth: ")
-                        }
-                        append("${driver.dateOfBirth}")
-                    }
+                InfoRow(
+                    label = "Date of birth: ",
+                    value = driver.dateOfBirth ?: ""
                 )
             }
             if (seasons != null && selectedSeason != null) {

@@ -382,11 +382,11 @@
 			children = (
 				8333BD9527AC8AB50069094C /* ConstructorSeasonResults.swift */,
 				83B3F78627B0014800AD9023 /* DriverRow.swift */,
-				8333BD9227AC81130069094C /* DriverSeasonResults.swift */,
 				8375C26D27ADA551008A67E5 /* DriverSeasonResultRow.swift */,
-				8375C27327ADC485008A67E5 /* Loading.swift */,
+				8333BD9227AC81130069094C /* DriverSeasonResults.swift */,
 				8374EB8127A99A4C007A74E9 /* InfoContainer.swift */,
 				8374EB9327A9B5D0007A74E9 /* InfoRow.swift */,
+				8375C27327ADC485008A67E5 /* Loading.swift */,
 				8333BD8F27AC57CE0069094C /* RaceScheduleRow.swift */,
 				8374EB8427A99E04007A74E9 /* SeasonsSummary.swift */,
 				8374EB8D27A9A568007A74E9 /* StandingRow.swift */,
