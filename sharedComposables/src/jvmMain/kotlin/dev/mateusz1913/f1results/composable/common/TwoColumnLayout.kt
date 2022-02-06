@@ -1,10 +1,20 @@
 package dev.mateusz1913.f1results.composable.common
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.SolidColor
+import androidx.compose.ui.unit.dp
+import dev.mateusz1913.f1results.desktop.composable.cursorForHorizontalResize
+import org.jetbrains.compose.splitpane.ExperimentalSplitPaneApi
+import org.jetbrains.compose.splitpane.HorizontalSplitPane
+import org.jetbrains.compose.splitpane.rememberSplitPaneState
 
+@OptIn(ExperimentalSplitPaneApi::class)
 @Composable
 actual fun TwoColumnLayout(firstItem: TwoColumnLayoutItem, secondItem: TwoColumnLayoutItem) {
     BoxWithConstraints {
@@ -31,16 +41,33 @@ actual fun TwoColumnLayout(firstItem: TwoColumnLayoutItem, secondItem: TwoColumn
                 }
             }
         } else {
-            Row(
-                modifier = Modifier.fillMaxSize(),
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.Center
-            ) {
-                Column(modifier = Modifier.weight(1f)) {
+            val splitterState = rememberSplitPaneState(initialPositionPercentage = 1f)
+            HorizontalSplitPane(splitPaneState = splitterState) {
+                first(350.dp) {
                     firstItem.item()
                 }
-                Column(modifier = Modifier.weight(1f)) {
+                second(350.dp) {
                     secondItem.item()
+                }
+                splitter {
+                    visiblePart {
+                        Box(
+                            Modifier
+                                .width(1.dp)
+                                .fillMaxHeight()
+                                .background(MaterialTheme.colors.background)
+                        )
+                    }
+                    handle {
+                        Box(
+                            Modifier
+                                .markAsHandle()
+                                .cursorForHorizontalResize()
+                                .background(SolidColor(Color.Gray), alpha = 0.50f)
+                                .width(9.dp)
+                                .fillMaxHeight()
+                        )
+                    }
                 }
             }
         }

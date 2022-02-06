@@ -37,7 +37,7 @@ allprojects {
             freeCompilerArgs = freeCompilerArgs + listOf(
                 "-Xopt-in=kotlin.RequiresOptIn",
                 "-Xopt-in=com.google.accompanist.pager.ExperimentalPagerApi",
-                "-Xopt-in=com.arkivanov.decompose.ExperimentalDecomposeApi",
+                "-Xopt-in=com.arkivanov.decompose.ExperimentalDecomposeApi"
             )
         }
     }

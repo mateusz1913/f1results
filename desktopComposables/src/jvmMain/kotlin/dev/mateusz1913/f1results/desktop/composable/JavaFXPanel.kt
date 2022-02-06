@@ -14,7 +14,6 @@ import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.round
 import javafx.application.Platform
-import javafx.embed.swing.JFXPanel
 import java.awt.BorderLayout
 import java.awt.Component
 import java.awt.Container

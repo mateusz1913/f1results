@@ -32,7 +32,6 @@ kotlin {
                 implementation(compose.material)
                 implementation(compose.materialIconsExtended)
                 implementation(compose.animation)
-                implementation(compose("org.jetbrains.compose.ui:ui-tooling"))
                 implementation("dev.burnoo:cokoin:$cokoinVersion")
             }
         }
@@ -46,8 +45,11 @@ kotlin {
             }
         }
         val jvmMain by getting {
+            @OptIn(org.jetbrains.compose.ExperimentalComposeLibrary::class)
             dependencies {
                 implementation(project(":desktopComposables"))
+                implementation(compose.desktop.currentOs)
+                implementation(compose.desktop.components.splitPane)
             }
         }
     }
