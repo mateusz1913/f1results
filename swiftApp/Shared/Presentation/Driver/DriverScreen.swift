@@ -49,7 +49,7 @@ struct DriverScreen: View {
                             Text(driver.code)
                                 .font(.system(size: 36))
                                 .fontWeight(.bold)
-                                .foregroundColor(.secondary)
+                                .foregroundColor(.secondaryColor)
                             Spacer()
                         }
                         .fillMaxWidth()

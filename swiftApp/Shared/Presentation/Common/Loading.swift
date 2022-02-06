@@ -12,5 +12,6 @@ struct Loading: View {
 struct Loading_Preview: PreviewProvider {
     static var previews: some View {
         Loading()
+            .previewLayout(PreviewLayout.fixed(width: 50, height: 50))
     }
 }

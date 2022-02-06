@@ -13,3 +13,13 @@ struct InfoRow: View {
             .padding(.vertical, 2)
     }
 }
+
+struct InfoRow_Preview: PreviewProvider {
+    static var previews: some View {
+        VStack {
+            InfoRow(label: "First label: ", value: "First value")
+            InfoRow(fontSize: 24, fontWeight: .bold, label: "Second label: ", value: "Second value")
+        }
+        .previewLayout(PreviewLayout.sizeThatFits)
+    }
+}

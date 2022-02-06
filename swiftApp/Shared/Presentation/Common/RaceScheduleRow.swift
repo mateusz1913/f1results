@@ -43,3 +43,10 @@ struct RaceScheduleRow: View {
         }
     }
 }
+
+struct RaceScheduleRow_Preview: PreviewProvider {
+    static var previews: some View {
+        RaceScheduleRow(race: RaceType(season: "2021", round: "1", url: "", raceName: "Bahrain Grand Prix", circuit: CircuitType(circuitId: "bahrain", url: "", circuitName: "Sakhir", location: LocationType(alt: nil, lat: nil, long: nil, locality: "Sakhir", country: "Bahrain")), date: "05-03-2021", time: "18:00"))
+            .previewLayout(PreviewLayout.fixed(width: 400, height: 100))
+    }
+}

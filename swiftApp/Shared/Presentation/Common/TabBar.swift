@@ -26,3 +26,13 @@ struct TabBarItem {
     let label: String
     let onPress: () -> Void
 }
+
+struct TabBar_Provider: PreviewProvider {
+    static var previews: some View {
+        TabBar(items: [
+            TabBarItem(label: "First label", onPress: {}),
+            TabBarItem(label: "Second label", onPress: {}),
+        ])
+            .previewLayout(PreviewLayout.sizeThatFits)
+    }
+}

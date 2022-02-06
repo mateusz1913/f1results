@@ -70,3 +70,29 @@ struct SeasonsSummary<Content: View>: View {
         .padding(.top, 10)
     }
 }
+
+struct ConstructorSeasonsSummary_Preview: PreviewProvider {
+    static var previews: some View {
+        VStack {
+            ConstructorSeasonsSummary(seasons: [
+                SeasonType(season: "2022", url: ""),
+                SeasonType(season: "2021", url: "")
+            ], constructorStanding: ConstructorStandingType(position: "4", points: "234", wins: "5", constructor: ConstructorType(constructorId: "ferrari", url: nil, name: "Ferrari", nationality: "Italy")), selectedSeason: Binding.constant("2022"))
+        }
+        .previewLayout(PreviewLayout.fixed(width: 400, height: 200))
+    }
+}
+
+struct DriverSeasonsSummary_Preview: PreviewProvider {
+    static var previews: some View {
+        VStack {
+            DriverSeasonsSummary(seasons: [
+                SeasonType(season: "2022", url: ""),
+                SeasonType(season: "2021", url: "")
+            ], driverStanding: DriverStandingType(position: "5", positionText: "5", points: "123", wins: "0", driver: DriverType(driverId: "ricciardo", permanentNumber: "3", code: "RIC", url: nil, givenName: "Daniel", familyName: "Ricciardo", dateOfBirth: "01-07-1989", nationality: "Australia"), constructors: KotlinArrayFromArray([
+                ConstructorType(constructorId: "mclaren", url: nil, name: "McLaren", nationality: "United Kingdom")
+            ])), selectedSeason: Binding.constant("2022"))
+        }
+        .previewLayout(PreviewLayout.fixed(width: 400, height: 200))
+    }
+}

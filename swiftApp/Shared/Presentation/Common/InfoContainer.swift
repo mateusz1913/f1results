@@ -11,3 +11,12 @@ struct InfoContainer<Content: View>: View {
         .padding(.horizontal, 24)
     }
 }
+
+struct InfoContainer_Preview: PreviewProvider {
+    static var previews: some View {
+        InfoContainer {
+            Text("Children content")
+        }
+        .previewLayout(PreviewLayout.sizeThatFits)
+    }
+}
