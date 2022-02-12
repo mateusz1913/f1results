@@ -88,6 +88,8 @@
 		839CA1FB27944BA10063DCCF /* ConstructorScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 839CA1F927944BA10063DCCF /* ConstructorScreen.swift */; };
 		839CA1FD27944BE00063DCCF /* ConstructorState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 839CA1FC27944BE00063DCCF /* ConstructorState.swift */; };
 		839CA1FE27944BE00063DCCF /* ConstructorState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 839CA1FC27944BE00063DCCF /* ConstructorState.swift */; };
+		83B0BC3127B854D7001CC689 /* ExploreScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83B0BC3027B854D7001CC689 /* ExploreScreen.swift */; };
+		83B0BC3227B854D7001CC689 /* ExploreScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83B0BC3027B854D7001CC689 /* ExploreScreen.swift */; };
 		83B3F78727B0014800AD9023 /* DriverRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83B3F78627B0014800AD9023 /* DriverRow.swift */; };
 		83B3F78827B0014800AD9023 /* DriverRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83B3F78627B0014800AD9023 /* DriverRow.swift */; };
 		83D0B7A827873BB60023AF07 /* Tests_iOS.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83D0B7A727873BB60023AF07 /* Tests_iOS.swift */; };
@@ -181,6 +183,7 @@
 		839B4A4C279A0390006D0DF6 /* f1results--iOS--Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "f1results--iOS--Info.plist"; sourceTree = "<group>"; };
 		839CA1F927944BA10063DCCF /* ConstructorScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConstructorScreen.swift; sourceTree = "<group>"; };
 		839CA1FC27944BE00063DCCF /* ConstructorState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConstructorState.swift; sourceTree = "<group>"; };
+		83B0BC3027B854D7001CC689 /* ExploreScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExploreScreen.swift; sourceTree = "<group>"; };
 		83B3F78627B0014800AD9023 /* DriverRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DriverRow.swift; sourceTree = "<group>"; };
 		83D0B78F27873BB50023AF07 /* f1resultsApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = f1resultsApp.swift; sourceTree = "<group>"; };
 		83D0B79027873BB50023AF07 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -366,6 +369,7 @@
 				838D7F9227874F36001E8051 /* CurrentRaceResults */,
 				838D7F9327874F40001E8051 /* CurrentStandings */,
 				8359F3112790BE0200ADC9C3 /* Driver */,
+				83B0BC2F27B854BE001CC689 /* Explore */,
 				836AFB5927A6B085009DB874 /* Navigation */,
 				838D7F9427874F49001E8051 /* QualifyingResults */,
 				838D7F9527874F56001E8051 /* RaceResults */,
@@ -464,6 +468,14 @@
 				839CA1FC27944BE00063DCCF /* ConstructorState.swift */,
 			);
 			path = Constructor;
+			sourceTree = "<group>";
+		};
+		83B0BC2F27B854BE001CC689 /* Explore */ = {
+			isa = PBXGroup;
+			children = (
+				83B0BC3027B854D7001CC689 /* ExploreScreen.swift */,
+			);
+			path = Explore;
 			sourceTree = "<group>";
 		};
 		83D0B78927873BB50023AF07 = {
@@ -817,6 +829,7 @@
 				835AE718279CC035007679E5 /* CircuitState.swift in Sources */,
 				8374EB8B27A9A410007A74E9 /* ViewExt.swift in Sources */,
 				831883BE279389BB00553DD0 /* CurrentCalendarState.swift in Sources */,
+				83B0BC3127B854D7001CC689 /* ExploreScreen.swift in Sources */,
 				838D7FAD278751E9001E8051 /* CurrentStandingsScreen.swift in Sources */,
 				835AE715279CBCAC007679E5 /* CircuitScreen.swift in Sources */,
 				838D7FB327875223001E8051 /* DriverStandings.swift in Sources */,
@@ -839,6 +852,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				839CA1FE27944BE00063DCCF /* ConstructorState.swift in Sources */,
+				83B0BC3227B854D7001CC689 /* ExploreScreen.swift in Sources */,
 				838D7F8B2787440A001E8051 /* Koin.swift in Sources */,
 				838D7FA2278750A2001E8051 /* CurrentRaceResultsScreen.swift in Sources */,
 				838D7F9C27874FEB001E8051 /* CurrentCalendarScreen.swift in Sources */,

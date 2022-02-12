@@ -19,6 +19,7 @@ import dev.mateusz1913.f1results.composable.current_calendar.CurrentCalendarScre
 import dev.mateusz1913.f1results.composable.current_race_results.CurrentRaceResultsScreen
 import dev.mateusz1913.f1results.composable.current_standings.CurrentStandingsScreen
 import dev.mateusz1913.f1results.composable.driver.DriverScreen
+import dev.mateusz1913.f1results.composable.explore.ExploreScreen
 import dev.mateusz1913.f1results.composable.navigation.LocalNavController
 import dev.mateusz1913.f1results.composable.navigation.NavigationBottomBar
 import dev.mateusz1913.f1results.composable.navigation.NavigationController
@@ -27,7 +28,8 @@ import dev.mateusz1913.f1results.composable.navigation.NavigationTopBar
 val items = listOf(
     ScreenConfig.CurrentRaceResults,
     ScreenConfig.CurrentStandings,
-    ScreenConfig.CurrentCalendar
+    ScreenConfig.CurrentCalendar,
+    ScreenConfig.Explore
 )
 
 @Composable
@@ -78,6 +80,7 @@ fun Navigation() {
                     ScreenConfig.CurrentCalendar.route -> ScreenConfig.CurrentCalendar
                     ScreenConfig.CurrentRaceResults.route -> ScreenConfig.CurrentRaceResults
                     ScreenConfig.CurrentStandings.route -> ScreenConfig.CurrentStandings
+                    ScreenConfig.Explore.route -> ScreenConfig.Explore
                     else -> null
                 }
                 configuration?.let { router.push(it) }
@@ -102,17 +105,18 @@ fun Navigation() {
                     animation = crossfadeScale()
                 ) { screen ->
                     bottomBarVisibleState.value = when (screen.configuration) {
-                        is ScreenConfig.CurrentCalendar, is ScreenConfig.CurrentRaceResults, is ScreenConfig.CurrentStandings -> true
+                        is ScreenConfig.CurrentCalendar, is ScreenConfig.CurrentRaceResults, is ScreenConfig.CurrentStandings, is ScreenConfig.Explore -> true
                         else -> false
                     }
                     topBarVisibleState.value = when (screen.configuration) {
-                        is ScreenConfig.CurrentCalendar, is ScreenConfig.CurrentRaceResults, is ScreenConfig.CurrentStandings -> false
+                        is ScreenConfig.CurrentCalendar, is ScreenConfig.CurrentRaceResults, is ScreenConfig.CurrentStandings, is ScreenConfig.Explore -> false
                         else -> true
                     }
                     when (val configuration = screen.configuration) {
                         is ScreenConfig.CurrentRaceResults -> CurrentRaceResultsScreen()
                         is ScreenConfig.CurrentStandings -> CurrentStandingsScreen()
                         is ScreenConfig.CurrentCalendar -> CurrentCalendarScreen()
+                        is ScreenConfig.Explore -> ExploreScreen()
                         is ScreenConfig.CircuitScreen -> CircuitScreen(configuration.circuitId)
                         is ScreenConfig.ConstructorScreen -> ConstructorScreen(configuration.constructorId)
                         is ScreenConfig.DriverScreen -> DriverScreen(configuration.driverId)

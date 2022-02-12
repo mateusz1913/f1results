@@ -22,6 +22,7 @@ import dev.mateusz1913.f1results.composable.current_calendar.CurrentCalendarScre
 import dev.mateusz1913.f1results.composable.current_race_results.CurrentRaceResultsScreen
 import dev.mateusz1913.f1results.composable.current_standings.CurrentStandingsScreen
 import dev.mateusz1913.f1results.composable.driver.DriverScreen
+import dev.mateusz1913.f1results.composable.explore.ExploreScreen
 import dev.mateusz1913.f1results.composable.navigation.LocalNavController
 import dev.mateusz1913.f1results.composable.navigation.NavigationBottomBar
 import dev.mateusz1913.f1results.composable.navigation.NavigationController
@@ -31,6 +32,7 @@ val items = listOf(
     ScreenConfig.CurrentRaceResults,
     ScreenConfig.CurrentStandings,
     ScreenConfig.CurrentCalendar,
+    ScreenConfig.Explore,
 )
 
 @Composable
@@ -125,6 +127,11 @@ fun Navigation() {
                     bottomBarVisibleState.value = true
                     topBarVisibleState.value = false
                     CurrentCalendarScreen()
+                }
+                composable(route = ScreenConfig.Explore.route) {
+                    bottomBarVisibleState.value = true
+                    topBarVisibleState.value = false
+                    ExploreScreen()
                 }
                 composable(
                     route = ScreenConfig.CircuitScreen.route + "/{circuitId}",

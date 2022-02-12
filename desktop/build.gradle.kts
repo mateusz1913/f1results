@@ -60,6 +60,10 @@ compose.desktop {
             targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb)
             packageName = "desktop"
             packageVersion = "1.0.0"
+            macOS {
+                dockName = "F1Results"
+                setDockNameSameAsPackageName = false
+            }
         }
     }
 }

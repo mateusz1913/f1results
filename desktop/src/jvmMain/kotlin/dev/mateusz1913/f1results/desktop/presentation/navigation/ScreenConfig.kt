@@ -3,6 +3,7 @@ package dev.mateusz1913.f1results.desktop.presentation.navigation
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.EmojiEvents
 import androidx.compose.material.icons.rounded.Event
+import androidx.compose.material.icons.rounded.MoreHoriz
 import androidx.compose.material.icons.rounded.SportsScore
 import androidx.compose.ui.graphics.vector.ImageVector
 import com.arkivanov.essenty.parcelable.Parcelable
@@ -38,6 +39,14 @@ sealed class ScreenConfig(
         icon = Icons.Rounded.Event,
         iconContentDescription = "Calendar icon",
         label = "Calendar"
+    )
+
+    @Parcelize
+    object Explore : ScreenConfig(
+        route = "explore",
+        icon = Icons.Rounded.MoreHoriz,
+        iconContentDescription = "More icon",
+        label = "Explore"
     )
 
     @Parcelize
