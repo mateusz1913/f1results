@@ -2,13 +2,13 @@ import SwiftUI
 import shared
 
 struct RaceSchedule: View {
-    var raceScheduleList: Array<RaceType>? = nil
+    @EnvironmentObject var currentCalendarState: CurrentCalendarState
     
     @State private var selectedCircuit: String?
     
     var body: some View {
         VStack {
-            if let raceScheduleList = raceScheduleList {
+            if let raceScheduleList = currentCalendarState.currentRaceScheduleList {
                 ScrollView {
                     LazyVStack {
                         ForEach(0..<raceScheduleList.count, id: \.self) { i in

@@ -11,13 +11,13 @@ struct ContentView: View {
     func prepareNavigationItems() -> [NavigationItem] {
         var items: [NavigationItem] = [
             NavigationItem(labelImageName: "round_sports_score_black_24pt", labelImageText: "Current results", content: {
-                AnyView(CurrentRaceResultsScreen(currentRaceResultsState: currentRaceResultsState))
+                AnyView(CurrentRaceResultsScreen().environmentObject(currentRaceResultsState))
             }),
             NavigationItem(labelImageName: "round_emoji_events_black_24pt", labelImageText: "Current standings", content: {
-                AnyView(CurrentStandingsScreen(currentStandingsState: currentStandingsState))
+                AnyView(CurrentStandingsScreen().environmentObject(currentStandingsState))
             }),
             NavigationItem(labelImageName: "round_event_black_24pt", labelImageText: "Current calendar", content: {
-                AnyView(CurrentCalendarScreen(currentCalendarState: currentCalendarState))
+                AnyView(CurrentCalendarScreen().environmentObject(currentCalendarState))
             })
         ]
         #if os(iOS)

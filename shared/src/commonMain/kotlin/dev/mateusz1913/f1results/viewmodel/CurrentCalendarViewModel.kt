@@ -28,7 +28,7 @@ class CurrentCalendarViewModel(
         }
     }
 
-    fun fetchCurrentRaceSchedule() {
+    fun fetchCurrentRaceSchedule(onFetched: ((Array<RaceType>?) -> Unit)? = null) {
         _currentRaceScheduleState.update { it.copy(isFetching = true) }
         coroutineScope.launch {
             val raceScheduleList = raceScheduleRepository.fetchRaceScheduleListWithSeason("current")
@@ -38,6 +38,7 @@ class CurrentCalendarViewModel(
                     isFetching = false
                 )
             }
+            onFetched?.invoke(raceScheduleList)
         }
     }
 

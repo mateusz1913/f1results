@@ -46,16 +46,17 @@ class CurrentRaceResultsViewModel(
         }
     }
 
-    fun fetchCurrentRaceResults() {
+    fun fetchCurrentRaceResults(onFetched: ((RaceWithResultsType?) -> Unit)? = null) {
         _raceResultsState.update { it.copy(isFetching = true) }
         coroutineScope.launch {
             val raceResults =
                 raceResultsRepository.fetchRaceResult(season = "current", round = "last")
             _raceResultsState.update { it.copy(raceResults = raceResults, isFetching = false) }
+            onFetched?.invoke(raceResults)
         }
     }
 
-    fun fetchCurrentQualifyingResults() {
+    fun fetchCurrentQualifyingResults(onFetched: ((RaceWithQualifyingResultsType?) -> Unit)? = null) {
         _qualifyingResultsState.update { it.copy(isFetching = true) }
         coroutineScope.launch {
             val qualifyingResults = qualifyingResultsRepository.fetchQualifyingResult(
@@ -68,6 +69,7 @@ class CurrentRaceResultsViewModel(
                     isFetching = false
                 )
             }
+            onFetched?.invoke(qualifyingResults)
         }
     }
 

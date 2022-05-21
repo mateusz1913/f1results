@@ -46,7 +46,7 @@ class CurrentStandingsViewModel(
         }
     }
 
-    fun fetchDriverStandings() {
+    fun fetchDriverStandings(onFetched: ((DriverStandingsType?) -> Unit)? = null) {
         _driverStandingsState.update { it.copy(isFetching = true) }
         coroutineScope.launch {
             val driverStandings =
@@ -57,10 +57,11 @@ class CurrentStandingsViewModel(
                     isFetching = false
                 )
             }
+            onFetched?.invoke(driverStandings)
         }
     }
 
-    fun fetchConstructorStandings() {
+    fun fetchConstructorStandings(onFetched: ((ConstructorStandingsType?) -> Unit)? = null) {
         _constructorStandingsState.update { it.copy(isFetching = true) }
         coroutineScope.launch {
             val constructorStandings =
@@ -71,6 +72,7 @@ class CurrentStandingsViewModel(
                     isFetching = false
                 )
             }
+            onFetched?.invoke(constructorStandings)
         }
     }
 

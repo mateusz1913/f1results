@@ -17,6 +17,22 @@ class CurrentStandingsState: ObservableObject {
         }
     }
     
+    func fetchCurrentDriverStandings() async {
+        await withCheckedContinuation({ continuation in
+            viewModel.fetchDriverStandings { driverStandings in
+                continuation.resume()
+            }
+        })
+    }
+    
+    func fetchCurrentConstructorStandings() async {
+        await withCheckedContinuation({ continuation in
+            viewModel.fetchConstructorStandings { constructorStandings in
+                continuation.resume()
+            }
+        })
+    }
+    
     deinit {
         viewModel.dispose()
     }

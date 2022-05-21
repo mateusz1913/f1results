@@ -6,7 +6,7 @@ private enum RaceResultsTabBarItems: Int {
 }
 
 struct CurrentRaceResultsScreen: View {
-    @ObservedObject var currentRaceResultsState: CurrentRaceResultsState
+    @EnvironmentObject var currentRaceResultsState: CurrentRaceResultsState
 
     @State var selectedTab = RaceResultsTabBarItems.race.rawValue
     
@@ -25,9 +25,9 @@ struct CurrentRaceResultsScreen: View {
                 })
             ])
             TabView(selection: $selectedTab) {
-                RaceResults(raceResults: currentRaceResultsState.raceResults)
+                RaceResults()
                     .tag(RaceResultsTabBarItems.race.rawValue)
-                QualifyingResults(qualifyingResults: currentRaceResultsState.qualifyingResults)
+                QualifyingResults()
                     .tag(RaceResultsTabBarItems.qualification.rawValue)
             }
             #if os(iOS)

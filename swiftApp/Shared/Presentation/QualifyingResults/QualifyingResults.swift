@@ -2,7 +2,7 @@ import SwiftUI
 import shared
 
 struct QualifyingResults: View {
-    var qualifyingResults: RaceWithQualifyingResultsType? = nil
+    @EnvironmentObject var currentRaceResultsState: CurrentRaceResultsState
     
     @State private var selectedDriver: String?
     
@@ -10,7 +10,7 @@ struct QualifyingResults: View {
     
     var body: some View {
         VStack {
-            if let results = qualifyingResults {
+            if let results = currentRaceResultsState.qualifyingResults {
                 ScrollView {
                     LazyVStack {
                         ForEach(0..<results.qualifyingResults.size, id: \.self) { i in

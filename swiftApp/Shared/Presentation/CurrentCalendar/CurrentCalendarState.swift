@@ -15,6 +15,14 @@ class CurrentCalendarState: ObservableObject {
         }
     }
     
+    func fetchCurrentRaceSchedule() async {
+        await withCheckedContinuation({ continuation in
+            viewModel.fetchCurrentRaceSchedule { currentRaceScheduleList in
+                continuation.resume()
+            }
+        })
+    }
+    
     deinit {
         viewModel.dispose()
     }

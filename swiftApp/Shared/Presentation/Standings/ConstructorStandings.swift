@@ -2,17 +2,17 @@ import SwiftUI
 import shared
 
 struct ConstructorStandings: View {
-    var constructorStandings: ConstructorStandingsType? = nil
+    @EnvironmentObject var currentStandingsState: CurrentStandingsState
     
     @State private var selectedConstructor: String?
     
     @Environment(\.colorScheme) var colorScheme
     
     var body: some View {
-        if constructorStandings == nil {
+        if currentStandingsState.constructorStandings == nil {
             emptyBody
         }
-        constructorStandings.map { standings in
+        currentStandingsState.constructorStandings.map { standings in
             ScrollView {
                 LazyVStack {
                     ForEach(0..<standings.constructorStandings.size, id: \.self) { i in

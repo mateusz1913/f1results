@@ -2,17 +2,17 @@ import SwiftUI
 import shared
 
 struct DriverStandings: View {
-    var driverStandings: DriverStandingsType? = nil
+    @EnvironmentObject var currentStandingsState: CurrentStandingsState
     
     @State private var selectedDriver: String?
     
     @Environment(\.colorScheme) var colorScheme
     
     var body: some View {
-        if driverStandings == nil {
+        if currentStandingsState.driverStandings == nil {
             emptyBody
         }
-        driverStandings.map { standings in
+        currentStandingsState.driverStandings.map { standings in
             ScrollView {
                 LazyVStack {
                     ForEach(0..<standings.driverStandings.size, id: \.self) { i in

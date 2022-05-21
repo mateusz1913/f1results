@@ -17,6 +17,22 @@ class CurrentRaceResultsState: ObservableObject {
         }
     }
     
+    func fetchCurrentRaceResults() async {
+        await withCheckedContinuation({ continuation in
+            viewModel.fetchCurrentRaceResults { raceResults in
+                continuation.resume()
+            }
+        })
+    }
+    
+    func fetchCurrentQualifyingResults() async {
+        await withCheckedContinuation({ continuation in
+            viewModel.fetchCurrentQualifyingResults { qualifyingResults in
+                continuation.resume()
+            }
+        })
+    }
+    
     deinit {
         viewModel.dispose()
     }
